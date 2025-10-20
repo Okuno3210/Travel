@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>地図から観光地を探す</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+		
+		    /* 地図コンテナの高さ指定は必須 */
+		    #map { 
+		        height: 600px; /* ★ここが重要。適切な高さを指定 */
+		        width: 100%;  
+		    }
+		    body { font-family: sans-serif; text-align: center; }
+		    h1 { margin-bottom: 5px; }
+		</style>
+   
+</head>
+
+
+
+<body>
+    <h1>🌍 地図から観光地を探す</h1>
+    <p>ピンをクリックして観光地情報をチェック！</p>
+    
+    <div id="map"></div>
+
+	<script>
+	    // ----------------------------------------------------
+	    // ★ 修正点1: 地図オブジェクトの初期化 (必須)
+	    // ID 'map' を参照し、地図の中心と初期ズームレベルを設定
+	    var map = L.map('map').setView([15, 0], 2); 
+	    // ----------------------------------------------------
+
+	    // ----------------------------------------------------
+	    // ★ 修正点2: タイルレイヤー（背景地図）の追加 (必須)
+	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	        maxZoom: 4
+	    }).addTo(map);
+	    // ----------------------------------------------------
+
+	    // Spring Boot APIから観光地データを取得し、マーカーを配置するプロセス
+	    fetch('/api/locations') // ★ ここでControllerの静的リストにアクセス
+	        .then(response => response.json())
+	        .then(data => {
+	            data.forEach(location => {
+	                // Leafletは [緯度, 経度] の順序で座標を受け取ります
+	                L.marker([location.latitude, location.longitude])
+	                    .addTo(map)
+	                    .bindPopup(
+	                        `<b>${location.name}</b><br>` +
+	                        `緯度: ${location.latitude}<br>` +
+	                        `経度: ${location.longitude}<br>`+
+							`テスト`
+	                    );
+	            });
+	        })
+	        .catch(error => console.error('観光地データの取得エラー:', error));
+	</script>
+</body>
+</html>
