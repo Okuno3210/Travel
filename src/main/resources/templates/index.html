@@ -1,10 +1,120 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+<!DOCTYPE html>							
+<html lang="ja">							
+<head>							
+<meta charset="UTF-8">							
+<title>海外旅行先 フィルタリング</title>							
+<style>							
+body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }							
+h1 { color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px; }							
+h2 { color: #555; margin-top: 30px; }							
+.filters, .country-list { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }							
+label { display: block; margin-top: 10px; font-weight: bold; }							
+select { padding: 8px; margin-right: 20px; border-radius: 4px; border: 1px solid #ccc; }							
+#results { list-style-type: none; padding: 0; }							
+#results li { background: #e9ecef; margin-bottom: 5px; padding: 10px; border-radius: 4px; border-left: 5px solid #007bff; }							
+</style>							
+</head>							
+<body>							
+<h1>国のサイト（海外） フィルタリングシステム</h1>							
+							
+<div class="filters">							
+<h2>条件を選択</h2>							
+							
+<label for="budget">予算:</label>							
+<select id="budget" onchange="filterCountries()">							
+<option value="">全て</option>							
+<option value="low">格安</option>							
+<option value="medium">普通</option>							
+<option value="high">豪華</option>							
+</select>							
+							
+<label for="time">行く時間:</label>							
+<select id="time" onchange="filterCountries()">							
+<option value="">全て</option>							
+<option value="short">短期(〜4日)</option>							
+<option value="long">長期(5日〜)</option>							
+</select>							
+							
+</div>							
+							
+<div class="country-list">							
+<h2>該当する国</h2>							
+<ul id="results">							
+</ul>							
+</div>							
+							
+<script>							
+// JavaScriptコードをここに記述します							
+							
+		// フィルタリング対象となる国とその属性データ					
+		const countryData = [					
+		{ name: "アメリカ", budget: "high", time: "long" },					
+		{ name: "イタリア", budget: "medium", time: "short" },					
+		{ name: "フランス", budget: "medium", time: "short" },					
+		{ name: "ベトナム", budget: "low", time: "long" },					
+		{ name: "スイス", budget: "high", time: "short" },					
+		{ name: "オーストラリア", budget: "medium", time: "long" },					
+		{ name: "タイ", budget: "low", time: "short" },					
+		{ name: "エジプト", budget: "low", time: "long" },					
+		{ name: "イラン", budget: "medium", time: "long" },					
+		{ name: "インド", budget: "low", time: "long" },					
+		{ name: "中国", budget: "medium", time: "short" },					
+		{ name: "ロシア", budget: "high", time: "long" },					
+		{ name: "韓国", budget: "low", time: "short" }					
+		// 画像右側の「実装する国」のリスト全てを追加					
+		];					
+							
+		/**					
+		* フィルタリング条件を取得し、該当する国を絞り込み、表示を更新する関数					
+		*/					
+		function filterCountries() {					
+		// 1. 選択されたフィルタリング条件を取得					
+		const selectedBudget = document.getElementById('budget').value;					
+		const selectedTime = document.getElementById('time').value;					
+							
+		// 2. データをフィルタリング					
+		const filteredCountries = countryData.filter(country => {					
+		// 予算フィルタ: 選択肢が「全て」("")でなく、かつ国データと一致しない場合はfalse					
+		const budgetMatch = (selectedBudget === "" || country.budget === selectedBudget);					
+							
+		// 行く時間フィルタ: 選択肢が「全て」("")でなく、かつ国データと一致しない場合はfalse					
+		const timeMatch = (selectedTime === "" || country.time === selectedTime);					
+							
+		// 全ての条件に一致した場合にtrueを返す					
+		return budgetMatch && timeMatch;					
+		});					
+							
+		// 3. 結果をHTMLに表示					
+		displayResults(filteredCountries);					
+		}					
+							
+							
+		/**					
+		* フィルタリング結果を画面のリストに出力する関数					
+		*/					
+		function displayResults(countries) {					
+		const resultsList = document.getElementById('results');					
+		// 現在のリストをクリア					
+		resultsList.innerHTML = '';					
+							
+		if (countries.length === 0) {					
+		// 該当する国がない場合					
+		const listItem = document.createElement('li');					
+		listItem.textContent = "該当する国はありません。条件を変更してください。";					
+		resultsList.appendChild(listItem);					
+		return;					
+		}					
+							
+		// 該当する国をリストとして追加					
+		countries.forEach(country => {					
+		const listItem = document.createElement('li');					
+		listItem.textContent = country.name;					
+		resultsList.appendChild(listItem);					
+		});					
+		}					
+							
+		// ページが完全に読み込まれた後に一度実行し、初期表示として全ての国を表示する					
+		document.addEventListener('DOMContentLoaded', filterCountries);					
+</script>							
+</body>							
+</html>							
