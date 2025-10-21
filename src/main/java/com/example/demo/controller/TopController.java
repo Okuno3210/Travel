@@ -26,9 +26,9 @@ public class TopController {
 		return "select";
 	}
 	
-	@GetMapping("/map")
+	@GetMapping("/maplink")
 	public String mapView() {
-		return "map";
+		return "maplink";
 	}
 	
 }
