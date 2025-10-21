@@ -17,6 +17,7 @@ select { padding: 8px; margin-right: 20px; border-radius: 4px; border: 1px solid
 <body>							
 <h1>国のサイト（海外） フィルタリングシステム</h1>							
 							
+<a th:href="@{/}" class="btn-map">top</a>							
 <div class="filters">							
 <h2>条件を選択</h2>							
 							
@@ -115,6 +116,6 @@ select { padding: 8px; margin-right: 20px; border-radius: 4px; border: 1px solid
 							
 		// ページが完全に読み込まれた後に一度実行し、初期表示として全ての国を表示する					
 		document.addEventListener('DOMContentLoaded', filterCountries);					
-</script>							
+</script>
 </body>							
 </html>							

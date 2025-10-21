@@ -84,12 +84,12 @@
        th:href="@{/login}" class="login">login</a>
 
     <!-- ログイン時 -->
-    <a th:if="${#authorization.expression('isAuthenticated()')}"
-       th:href="@{/mypage}" class="mypage">mypage</a>
+	<div th:if="${#authorization.expression('isAuthenticated()')}">
+	    <a th:href="@{/mypage}" class="mypage">mypage</a>
   </header>
 
   <main>
-    <h1>タイトル</h1>
+    <h1>観光地検索サイト</h1>
   </main>
 
   <footer>
