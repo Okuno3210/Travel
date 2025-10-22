@@ -12,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/map", "/maplink", "/select", "/css/**", "/js/**", "/images/**").permitAll()
+            .requestMatchers("/", "/map", "/maplink", "/select", "/css/**", "/js/**", "/images/**","/h2-console/**").permitAll()
             .anyRequest().authenticated()
         )
         .formLogin(login -> login
@@ -24,7 +24,11 @@ public class SecurityConfig {
             .logoutUrl("/logout")
             .logoutSuccessUrl("/")
             .permitAll()
-        );
+        )
+        .csrf(csrf -> csrf
+        		.ignoringRequestMatchers("/h2-console/**")
+        )
+        .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
 
         return http.build();
