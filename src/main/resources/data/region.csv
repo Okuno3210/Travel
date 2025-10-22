@@ -1,0 +1,5 @@
+﻿id,country_id,name,budget,flight_time,timezone,climate,risk_level,description
+1,1,カリフォルニア,30,10,-9,温,1,ラスベガス
+2,1,ニューヨーク,50,13,-15,寒,2,ウォール街
+3,1,ハワイ,20,8,-8,暑,0,アロハオエ
+4,2,フィレンツェ,50,10,7,温,0,ダ・ヴィンチ
