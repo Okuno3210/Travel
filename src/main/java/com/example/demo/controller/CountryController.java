@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CountryController {
 	
-	@GetMapping("/USA")
-	public String UsaView() {	
-		return "usa";
-	}
-	
 	@GetMapping("/EGY")
 	public String EgyptView() {	
 		return "egy";
@@ -19,6 +14,11 @@ public class CountryController {
 	@GetMapping("/AUS")
 	public String AustrariaView() {	
 		return "aus";
+	}
+	
+	@GetMapping("/USA")
+	public String UsaView() {	
+		return "usa";
 	}
 	
 	@GetMapping("/IRN")
