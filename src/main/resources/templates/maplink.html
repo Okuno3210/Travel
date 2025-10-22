@@ -5,6 +5,7 @@
 <title>世界地図</title>
 
 <style>
+
 	.right-bottom-link-list {
 	  position: fixed;
 	  bottom: 20px;   /* 下からの距離 */
@@ -39,10 +40,25 @@
 	  text-decoration: underline;
 	}
 	
+	@keyframes bounce {
+	  0%, 100% {
+	    transform: translate(-50%, -100%) translateY(0);
+	  }
+	  50% {
+	    transform: translate(-50%, -100%) translateY(-10px);
+	  }
+	}
+	
+	.map-pin.hover > a > img,
+	.map-pin:hover > a > img {
+	  animation: bounce 0.5s ease infinite;
+	  z-index: 9999;
+	}
 	.map-pin.hover,
 	.map-pin:hover {
 	  z-index: 9999;
-	  transform: translate(-50%, -110%) scale(1.5);
+	  transform: scale(1.5);
+	 
 	}
 	
 	
@@ -60,6 +76,7 @@
     background-color: rgb(109, 151, 201);
     margin: 0 auto; /* 中央寄せ */
     overflow: visible;
+	
   }
 
   .world-map {
@@ -79,6 +96,7 @@
     transform: translate(-50%, -100%);
     transition: z-index 0.3s;
     z-index: 10;
+	display: block;
   }
 
   .map-pin img {
@@ -91,7 +109,7 @@
     display: none;
     position: absolute;
     top: -50px;
-    left: 100px;
+    left: 50px;
     width: 200px;
     max-height: 300px;
     overflow-y: auto;
@@ -101,6 +119,18 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 10000;
     line-height: normal;
+  }
+  
+  /* アメリカのポップアップ位置を調整 */
+  .map-pin.country-usa .popup-box {
+    top: -70px;   /* 例: 上方向に少しずらす */
+    left: -220px;   /* 例: 左方向に調整 */
+  }
+
+  /* オーストラリアのポップアップ位置を調整 */
+  .map-pin.country-Aust .popup-box {
+    top: -120px;   /* 例: 少し上げる */
+    left: 50px;  /* 例: 右方向にずらす */
   }
 
   .map-pin:hover .popup-box,
@@ -112,6 +142,7 @@
     width: 100%;
     height: auto;
     margin-bottom: 0;
+	
   }
 
   .popup-box p {
@@ -148,12 +179,69 @@
   .left-link a:hover, .right-link a:hover {
     text-decoration: underline;
   }
+  
+  .cloud {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 100px;
+    opacity: 0.8;
+    animation: floatCloud 30s linear infinite;
+    pointer-events: none; /* クリックを邪魔しない */
+  }
+
+  @keyframes floatCloud {
+    0% {
+      transform: translateX(-150px);
+    }
+    100% {
+      transform: translateX(1300px);
+    }
+  }
+
+  .airplane {
+    position: absolute;
+    top: 40%;
+    left: -100px;
+    width: 60px;
+    opacity: 0.8;
+    animation: flyAirplane 30s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes flyAirplane {
+	0% {
+	   transform: translateX(0) rotate(10deg) scaleX(-1);
+	 }
+	 49.9% {
+	   transform: translateX(1300px) rotate(-10deg) scaleX(-1);
+	 }
+	 50% {
+	   /* 反転する瞬間：位置は同じ、向きだけ変える */
+	   transform: translateX(1300px) rotate(-10deg) scaleX(1);
+	 }
+	 100% {
+	   transform: translateX(0) rotate(10deg) scaleX(1);
+    }
+  }
 </style>
 </head>
 <body>
 
 <div class="map-container">
+	<!--
   <img src="/images/worldmap.png" alt="世界地図" class="world-map" />
+    -->
+	<iframe src="https://www.google.com/maps/d/embed?mid=1dg5zD90LoupT3LdWZGdaqqyEwVBRzms&ehbc=2E312F&noprof=1" width="1200" height="750"></iframe>
+
+  <!-- 雲のイラスト -->
+    <img src="/images/cloud.png" alt="cloud" class="cloud" />
+
+    <!-- 飛行機のイラスト -->
+    <img src="/images/airplane.png" alt="airplane" class="airplane" 
+	style="position: absolute; top: 50px; left: 0;
+	           animation: flyAirplane 8s linear infinite;
+	           width: 80px;">
   <!-- ポインタ1：エジプト -->
   <div class="map-pin country-egypt" style="top: 60%; left: 15%;">
     <a th:href="@{/EGY}" target="_blank" title="エジプト">
@@ -161,7 +249,7 @@
     </a>
     <div class="popup-box">
       <img src="/images/egypticon.jpg" alt="説明画像" />
-      <p>【エジプト】<br>世界最古の文明のひとつ「古代エジプト文明」が栄えた国。国土の3分の2を砂漠が占め、スフィンクス、ピラミッドなどが有名。首都はカイロ。</p>
+      <p>【エジプト】<br>ピラミッドやスフィンクスなど古代文明の神秘が残る砂漠の国。</p>
     </div>
   </div>
   <!-- ポインタ2：オーストラリア -->
@@ -180,7 +268,7 @@
   			<img src="/images/map_pin.png" alt="アメリカ"></a>
   			<div class="popup-box">
   					<img src="/images/americaicon.png" alt="説明画像">
-  					 <p>【アメリカ】<br>多様な文化と絶景、NYやグランドキャニオン</p>
+  					 <p>【アメリカ】<br>多様な文化と大自然が共存。NYやグランドキャニオンなど魅力満載。</p>
   						 </div></div> 
   			
   		  <!-- ポインタ4：イラン-->
@@ -276,12 +364,12 @@
   		
  
 </div>
-
+	<!--固定リンク-->
 <div class="left-link">
   <a href="/">←トップページへ戻る</a>
 </div>
 <div class="right-link">
-	<!-- 未ログイン時 -->
+					<!-- 未ログイン時 -->
 				    <a th:if="${!#authorization.expression('isAuthenticated()')}"
 				       th:href="@{/login}" class="login">login→</a>
 
@@ -289,24 +377,26 @@
 				    <a th:if="${#authorization.expression('isAuthenticated()')}"
 				       th:href="@{/mypage}" class="mypage">mypage→</a>
 					   
-					   <div class="right-bottom-link-list">
-					     <ul>
-					       <li><a th:href="@{/EGY}" target="_blank" class="country-link" data-country="egypt">エジプト</a></li>
-					       <li><a th:href="@{/AUS}" target="_blank" class="country-link" data-country="Aust">オーストラリア</a></li>
-					       <li><a th:href="@{/USA}" target="_blank" class="country-link" data-country="usa">アメリカ</a></li>						   
-						   <li><a th:href="@{/IRN}" target="_blank" class="country-link" data-country="Iran">イラン</a></li>
-						   <li><a th:href="@{/ITA}" target="_blank" class="country-link" data-country="italy">イタリア</a></li>
-						   <li><a th:href="@{/FRA}" target="_blank" class="country-link" data-country="France">フランス</a></li>
-						   <li><a th:href="@{/VNM}" target="_blank" class="country-link" data-country="Vietnam">ベトナム</a></li>
-						   <li><a th:href="@{/CHE}" target="_blank" class="country-link" data-country="Switz">スイス</a></li>
-						   <li><a th:href="@{/THA}" target="_blank" class="country-link" data-country="Thai">タイ</a></li>
-						   <li><a th:href="@{/IND}" target="_blank" class="country-link" data-country="india">インド</a></li>
-						   <li><a th:href="@{/CHN}" target="_blank" class="country-link" data-country="china">中国</a></li>
-						   <li><a th:href="@{/RUS}" target="_blank" class="country-link" data-country="Russia">ロシア</a></li>
-						   <li><a th:href="@{/KOR}" target="_blank" class="country-link" data-country="korea">韓国</a></li>
+	<!--リンクリストとマップ上のホバーの連動-->			   		
+	<div class="right-bottom-link-list">
+	 <ul>
+		<li>●国名で選択●</li>
+    <li><a th:href="@{/EGY}" target="_blank" class="country-link" data-country="egypt">エジプト</a></li>
+    <li><a th:href="@{/AUS}" target="_blank" class="country-link" data-country="Aust">オーストラリア</a></li>
+	<li><a th:href="@{/USA}" target="_blank" class="country-link" data-country="usa">アメリカ</a></li>						   
+	<li><a th:href="@{/IRN}" target="_blank" class="country-link" data-country="Iran">イラン</a></li>
+	<li><a th:href="@{/ITA}" target="_blank" class="country-link" data-country="italy">イタリア</a></li>
+	<li><a th:href="@{/FRA}" target="_blank" class="country-link" data-country="France">フランス</a></li>
+	<li><a th:href="@{/VNM}" target="_blank" class="country-link" data-country="Vietnam">ベトナム</a></li>
+	<li><a th:href="@{/CHE}" target="_blank" class="country-link" data-country="Switz">スイス</a></li>
+	<li><a th:href="@{/THA}" target="_blank" class="country-link" data-country="Thai">タイ</a></li>
+	<li><a th:href="@{/IND}" target="_blank" class="country-link" data-country="india">インド</a></li>
+	<li><a th:href="@{/CHN}" target="_blank" class="country-link" data-country="china">中国</a></li>
+	<li><a th:href="@{/RUS}" target="_blank" class="country-link" data-country="Russia">ロシア</a></li>
+	<li><a th:href="@{/KOR}" target="_blank" class="country-link" data-country="korea">韓国</a></li>
 						   					       
-					     </ul>
-					   </div>
+		 </ul>
+		</div>
 			
 </div>
 <script>
