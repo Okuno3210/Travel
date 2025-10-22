@@ -4,6 +4,34 @@
 <meta charset="UTF-8">
 <title>世界地図</title>
 	 <style>
+		
+		.right-link,.left-link {
+		  position: absolute;
+		  top: 5%;
+		  
+		  transform: translateY(-50%);
+		  background-color: #003366;
+		  color: white;
+		  padding: 10px;
+		  border-radius: 8px;
+		  z-index: 10001;
+		}
+		.left-link {
+		left: 10px;
+		}
+		.right-link {
+		right: 10px;
+		}
+		
+		.right-link a , .left-link a{
+		  color: white;
+		  text-decoration: none;
+		  font-weight: bold;
+		}
+
+		.right-link a:hover , .left-link a:hover {
+		  text-decoration: underline;
+		}
 		.map-pin:hover .popup-box {
 		  display: block;
 		  
@@ -12,7 +40,7 @@
 		  position:relative ;
 		  width: 1200px; /* 画像サイズに合わせて調整 */
 		   height: auto;
-		   background-color: darkblue; /* ここが追加 */  
+		   background-color: rgb(109, 151, 201);  
 
 		}
 
@@ -25,11 +53,11 @@
 		}
 
 		.map-pin {
-		  position: absolute;
+		  position: relative;
 		  transform: translate(-50%, -100%);		 
 		  cursor: pointer;
-		  z-index: 10; /* ピンは低め */ 
-				
+		  z-index: 10; 
+		  transition: z-index 0.3s;	
 		  }
 		  
 		  .map-pin img {
@@ -38,7 +66,10 @@
 			z-index: 1;
 			position: relative;
 		  
-		}
+		  }
+		  .map-pin:hover {
+		    z-index: 9999;
+		  }
 		
 		    /* ポップアップ */
 		    .popup-box {
@@ -53,7 +84,7 @@
 		      border: 1px solid #ccc;
 		      padding: 10px;
 		      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-		      z-index: 9999;
+		      z-index: 10000;
 			  line-height: normal;
 		    }
 
@@ -72,128 +103,165 @@
 		    }
 
 	 </style>
-	</head>
-	
-	
-	
+	</head>	
 	<body>
-		<div class="map-container">
-		  <img src="/images/worldmap.png" alt="世界地図" class="world-map"><!--3739*2342px-->
-	
-	
+		
+		
+		<div class="map-container" style="position: relative; width: 1200px; height: auto;">
+		  <img src="/images/worldmap.png" alt="世界地図" class="world-map" style="width: 100%";><!--3739*2342px-->
+		  
+		  <div class="left-link">
+			<a th:href="@{/}">←トップページへ戻る</a></div>
+			<br>
+			<div class="right-link">
+		    <a th:href="@{/login.html}">ログイン画面へ→</a>
+		  </div>
+		</div>
+		<!--各国のコメントはAIなので書き直してOK-->
 		  <!-- ポインタ1：エジプト -->
-		  <div class="map-pin" style="top: 60%; left: 15%;">
+
+		  <div class="map-pin" style="position: absolute; top: 62%; left: 12%;">
 		  <a href="https://example.com/egypt"  target="_blank" title="エジプト">		
 		    <img src="/images/map_pin.png" alt="エジプト"></a>
+
 			<div class="popup-box">
+
 				    <img src="/images/egypticon.jpg" alt="説明画像">
 				    <p>【エジプト】<br>世界最古の文明のひとつ「古代エジプト文明」が栄えた国。国土の3分の2を砂漠が占め、スフィンクス、ピラミッドなどが有名。首都はカイロ。</p>
 				  </div></div>
 				  
 		  <!-- ポインタ2：オーストラリア -->
-		  <div class="map-pin" style="top: 82%; left: 42%;">
+
+		  <div class="map-pin" style="position: absolute; top: 88%; left:35%;">
 		  <a href="https://example.com/australia" target="_blank" title="オーストラリア">
 		    <img src="/images/map_pin.png" alt="オーストラリア"></a>
 				<div class="popup-box">
+
 					<img src="/images/Austicon.png" alt="説明画像">
 					<p>【オーストラリア】<br>大自然と都市の融合、グレートバリアリーフ</p>
 					</div> </div>
-			
+
 		  <!-- ポインタ3：アメリカ-->
-		  <div class="map-pin" style="top: 53%; left: 75%;">
+
+		  <div class="map-pin" style="position: absolute; top: 55%; left: 60%;">
 		  <a href="https://example.com/unitedstats" target="_blank" title="アメリカ">
 			<img src="/images/map_pin.png" alt="アメリカ"></a>
+
 			<div class="popup-box">
 					<img src="/images/americaicon.png" alt="説明画像">
 					 <p>【アメリカ】<br>多様な文化と絶景、NYやグランドキャニオン</p>
 						 </div></div> 
-			
 		  <!-- ポインタ4：イラン-->
-		  <div class="map-pin" style="top: 57%; left: 21%;">
+
+		  <div class="map-pin" style="position: absolute; top: 59%; left: 18%;">
 		  <a href="https://example.com/" target="_blank" title="イラン">
 		    <img src="/images/map_pin.png" alt="イラン"></a>
+
 			<div class="popup-box">
+
 				<img src="/images/Iranicon.png" alt="説明画像">
 					<p>【イラン】<br>歴史ある建築美、イスファハンやペルセポリス</p>
 						</div></div> 
-				
-			
+
 		<!-- ポインタ5：イタリア-->
-		<div class="map-pin" style="top: 51.5%; left: 10%;">
+
+		<div class="map-pin" style="position: absolute; top: 53.5%; left: 8%;">
 		  <a href="https://example.com/" target="_blank" title="イタリア">
 		    <img src="/images/map_pin.png" alt="イタリア"></a>
+
 			<div class="popup-box">
+
 					<img src="/images/italyicon.png" alt="説明画像">
 					 <p>【イタリア】<br>歴史的遺産と美食の国、ローマやベネチア</p>
 							</div></div> 
-			
+
 		<!-- ポインタ6：フランス-->
-		<div class="map-pin" style="top: 49%; left: 7.5%;">
+		<div class="map-pin" style="position: absolute; top: 51%; left: 6.5%;">
 		  <a href="https://example.com/"  target="_blank" title="フランス">
 		    <img src="/images/map_pin.png" alt="フランス"></a>
+
 			<div class="popup-box">
+
 					<img src="/images/Franceicon.png" alt="説明画像">
 					<p>【フランス】<br>芸術と美食の都、パリとモンサンミッシェル</p>
 				</div></div>
-			
+
 		<!-- ポインタ7：ベトナム-->
-		<div class="map-pin" style="top: 67%; left: 35.5%;">
+
+		<div class="map-pin" style="position: absolute; top: 69%; left: 33%;">
 		  <a href="https://example.com/"  target="_blank" title="ベトナム">
 		    <img src="/images/map_pin.png" alt="ベトナム"></a>	
+
 			<div class="popup-box">
+
 								<img src="/images/Vietnamicon.png" alt="説明画像">
 								 <p>【ベトナム】<br>古都と自然美、ホイアンやハロン湾が人気</p>
 									 </div></div>	
-			
+
 		<!-- ポインタ8：スイス-->
-		<div class="map-pin" style="top: 49.5%; left: 9%;">
+
+		<div class="map-pin" style="position: absolute; top: 51.5%; left: 8%;">
 		  <a href="https://example.com/" target="_blank" title="スイス">
 		    <img src="/images/map_pin.png" alt="スイス"></a>
+
 			<div class="popup-box">
+
 								<img src="/images/Switzerlandicon.png" alt="説明画像">
 								 <p>【スイス】<br>アルプスの絶景、鉄道旅とチョコレート</p>
 									 </div></div> 		
-			
+
 		<!-- ポインタ9：タイ-->
-		<div class="map-pin" style="top: 65.5%; left: 34%;">
+
+		<div class="map-pin" style="position: absolute; top: 69%; left: 27%;">
 		  <a href="https://example.com/" target="_blank" title="タイ">
 			<img src="/images/map_pin.png" alt="タイ" ></a>
+
 			<div class="popup-box">
+
 								<img src="/images/Thaiicon.png" alt="説明画像">
 								 <p>【タイ】<br>寺院と南国リゾート、バンコクやプーケット</p>
 									 </div></div>
-			
+
 		<!-- ポインタ10：インド-->
-		<div class="map-pin" style="top: 62%; left: 28%;">
+
+		<div class="map-pin" style="position: absolute; top: 64%; left: 22%;">
 		  <a href="https://example.com/" target="_blank" title="インド">
 			<img src="/images/map_pin.png" alt="インド"></a>
+
 			<div class="popup-box">
+
 								<img src="/images/indiaicon.png" alt="説明画像">
 								 <p>【インド】<br>多様な文化と宗教、タージ・マハルが象徴的</p>
 									 </div></div> 
-			
+
 		<!-- ポインタ11：中国-->
-		<div class="map-pin" style="top: 56%; left: 33%;">
+
+		<div class="map-pin" style="position: absolute; top: 65%; left: 28%;">
 		  <a href="https://example.com/" target="_blank" title="中国">
 			<img src="/images/map_pin.png" alt="中国"></a>
+
 			<div class="popup-box">
+
 								<img src="/images/chinaicon.jpg" alt="説明画像">
 								 <p>【中国】<br>万里の長城や故宮など広大な歴史遺産</p>
 									 </div></div> 
 			
 		<!-- ポインタ12：ロシア-->
-		<div class="map-pin" style="top: 38%; left: 33%;">
+		<div class="map-pin" style="position: absolute; top: 40%; left: 30%;">
 			  <a href="https://example.com/" target="_blank" title="ロシア">
 				<img src="/images/map_pin.png" alt="ロシア"></a>
+
 				<div class="popup-box">
+
 									<img src="/images/Russiaicon.png" alt="説明画像">
 									 <p>【ロシア】<br>荘厳な建築と芸術、モスクワやサンクトペテルブルク</p>
-										 </div></div> 
-				
+										 </div></div> 				
 		<!-- ポインタ13：韓国-->
-		<div class="map-pin" style="top: 56%; left: 41%;">
+
+		<div class="map-pin" style="position: absolute; top: 58%; left: 33%;">
 			<a href="https://example.com/" target="_blank" title="韓国">
 				<img src="/images/map_pin.png" alt="韓国"></a>
+
 				<div class="popup-box">
 									<img src="/images/koreaicon.png" alt="説明画像">
 									 <p>【韓国】<br>K-カルチャーと美食、ソウルや済州島が人気</p>
