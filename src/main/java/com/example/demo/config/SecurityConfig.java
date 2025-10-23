@@ -14,7 +14,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/map", "/maplink", "/select", "/css/**", "/js/**", "/images/**","/h2-console/**","/USA","/EGY","/IND","/FRA","/ITA","/RUS","/AUS","/KOR","/CHN","/VNM","/CHE","/THA","/IRN","/signup").permitAll()
+            .requestMatchers("/", "/maplink", "/select", "/css/**", "/js/**", "/images/**","/h2-console/**","/USA","/EGY","/IND","/FRA","/ITA","/RUS","/AUS","/KOR","/CHN","/VNM","/CHE","/THA","/IRN","/signup").permitAll()
             .anyRequest().authenticated()
         )
         .formLogin(login -> login
@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .permitAll()
             )
         .logout(logout -> logout
-            //.logoutUrl("/logout")
+            .logoutUrl("/logout")
             .logoutSuccessUrl("/")
             .permitAll()
         )
