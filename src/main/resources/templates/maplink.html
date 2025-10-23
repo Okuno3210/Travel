@@ -5,122 +5,95 @@
 <title>世界地図</title>
 
 <style>
-	.right-bottom-link-list {
-	  position: fixed;
-	  bottom: 20px;   /* 下からの距離 */
-	  right: 20px;    /* 右からの距離 */
-	  background-color: rgba(0, 0, 0, 0.7); /* 半透明の背景（お好みで） */
-	  color: white;
-	  padding: 10px 15px;
-	  border-radius: 8px;
-	  max-width: 220px;
-	  font-size: 14px;
-	  z-index: 10002;  /* 他より前面に */
-	  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-	}
-
-	/* リストのスタイル例 */
-	.right-bottom-link-list ul {
-	  list-style: none;
-	  margin: 0;
-	  padding: 0;
-	}
-
-	.right-bottom-link-list li {
-	  margin-bottom: 8px;
-	}
-
-	.right-bottom-link-list a {
-	  color: white;
-	  text-decoration: none;
-	}
-
-	.right-bottom-link-list a:hover {
-	  text-decoration: underline;
-	}
-	
-	.map-pin.hover,
-	.map-pin:hover {
-	  z-index: 9999;
-	  transform: translate(-50%, -110%) scale(1.5);
-	}
-	
-	
   body {
-    margin: 0; padding: 20px;
+    margin: 0;
+    padding: 20px;
     background-color: #f0f0f0;
   }
 
   .map-container {
     position: relative;
-	width: 1200px;           /* 固定幅 */
-	height: 750px;          /* 固定高さ（幅×高さ比で調整） */
-    /* padding-top = (height/width)*100% */
-    padding-top:0;
+    width: 1200px;
+    height: 750px;
     background-color: rgb(109, 151, 201);
-    margin: 0 auto; /* 中央寄せ */
+    margin: 0 auto;
     overflow: visible;
   }
 
-  .world-map {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    user-select: none;
-    pointer-events: none; /* 画像にマウスイベントを通さない */
+  iframe {
+    border: none;
   }
 
-  .map-pin {
-    position: absolute;
-    cursor: pointer;
-	transition: transform 0.3s, z-index 0.3s;
-    transform: translate(-50%, -100%);
-    transition: z-index 0.3s;
-    z-index: 10;
-  }
-
-  .map-pin img {
-    width: 20px;
-    height: 20px;
-    display: block;
-  }
-
-  .popup-box {
-    display: none;
-    position: absolute;
-    top: -50px;
-    left: 100px;
-    width: 200px;
-    max-height: 300px;
-    overflow-y: auto;
-    background-color: #fff;
+  /* 左下の固定ポップアップ */
+  .fixed-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    background: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 10000;
-    line-height: normal;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: none;
+    overflow: hidden;
+    z-index: 10003;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .map-pin:hover .popup-box,
-  .map-pin.hover .popup-box {
+  .fixed-popup.show {
+    opacity: 1;
+  }
+
+  .fixed-popup img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
     display: block;
   }
 
-  .popup-box img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 0;
+  .fixed-popup p {
+    font-size: 18px;
+    padding: 10px;
+    margin: 0;
+    line-height: 1.5;
   }
 
-  .popup-box p {
-    margin-top: 0;
-    font-size: 15px;
-    line-height: 1.2;
+  /* 右下の国リスト */
+  .right-bottom-link-list {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 220px;
+    font-size: 18px;
+    z-index: 10002;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   }
 
-  /* 左右リンク（必要なら） */
+  .right-bottom-link-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .right-bottom-link-list li {
+    margin-bottom: 8px;
+  }
+
+  .right-bottom-link-list a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .right-bottom-link-list a:hover {
+    text-decoration: underline;
+  }
+
+  /* トップ・マイページリンク */
   .left-link, .right-link {
     position: fixed;
     top: 5%;
@@ -134,10 +107,12 @@
 
   .left-link {
     left: 10px;
+    font-size: 18px;
   }
 
   .right-link {
     right: 10px;
+    font-size: 18px;
   }
 
   .left-link a, .right-link a {
@@ -148,194 +123,170 @@
   .left-link a:hover, .right-link a:hover {
     text-decoration: underline;
   }
+
+  /* 雲・飛行機（オプション演出） */
+  .cloud {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 100px;
+    opacity: 0.8;
+    animation: floatCloud 30s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes floatCloud {
+    0% { transform: translateX(-150px); }
+    100% { transform: translateX(1300px); }
+  }
+
+  .airplane {
+    position: absolute;
+    top: 40%;
+    left: -100px;
+    width: 60px;
+    opacity: 0.8;
+    animation: flyAirplane 30s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes flyAirplane {
+    0% { transform: translateX(0) rotate(10deg) scaleX(-1); }
+    49.9% { transform: translateX(1300px) rotate(-10deg) scaleX(-1); }
+    50% { transform: translateX(1300px) rotate(-10deg) scaleX(1); }
+    100% { transform: translateX(0) rotate(10deg) scaleX(1); }
+  }
+
 </style>
 </head>
 <body>
 
 <div class="map-container">
-  <img src="/images/worldmap.png" alt="世界地図" class="world-map" />
-  <!-- ポインタ1：エジプト -->
-  <div class="map-pin country-egypt" style="top: 60%; left: 15%;">
-    <a th:href="@{/EGY}" target="_blank" title="エジプト">
-      <img src="/images/map_pin.png" alt="エジプト" />
-    </a>
-    <div class="popup-box">
-      <img src="/images/egypticon.jpg" alt="説明画像" />
-      <p>【エジプト】<br>世界最古の文明のひとつ「古代エジプト文明」が栄えた国。国土の3分の2を砂漠が占め、スフィンクス、ピラミッドなどが有名。首都はカイロ。</p>
-    </div>
-  </div>
-  <!-- ポインタ2：オーストラリア -->
-  <div class="map-pin country-Aust" style="top: 80%; left: 43%;">
-    <a th:href="@{/AUS}" target="_blank" title="オーストラリア">
-      <img src="/images/map_pin.png" alt="オーストラリア" />
-    </a>
-    <div class="popup-box">
-      <img src="/images/Austicon.png" alt="説明画像" />
-      <p>【オーストラリア】<br>大自然と都市の融合、グレートバリアリーフ</p>
-    </div>
-  </div>
-  <!-- ポインタ3：アメリカ-->
-  		  <div class="map-pin country-usa" style="top: 53%; left: 75%;">
-  		  <a th:href="@{/USA}" target="_blank" title="アメリカ">
-  			<img src="/images/map_pin.png" alt="アメリカ"></a>
-  			<div class="popup-box">
-  					<img src="/images/americaicon.png" alt="説明画像">
-  					 <p>【アメリカ】<br>多様な文化と絶景、NYやグランドキャニオン</p>
-  						 </div></div> 
-  			
-  		  <!-- ポインタ4：イラン-->
-  		  <div class="map-pin country-Iran" style="top: 57%; left: 21%;">
-  		  <a th:href="@{/IRN}" target="_blank" title="イラン">
-  		    <img src="/images/map_pin.png" alt="イラン"></a>
-  			<div class="popup-box">
-  				<img src="/images/Iranicon.png" alt="説明画像">
-  					<p>【イラン】<br>歴史ある建築美、イスファハンやペルセポリス</p>
-  						</div></div> 
-  				
-  			
-  		<!-- ポインタ5：イタリア-->
-  		<div class="map-pin country-italy" style="top: 51.5%; left: 11%;">
-  		  <a th:href="@{/ITA}" target="_blank" title="イタリア">
-  		    <img src="/images/map_pin.png" alt="イタリア"></a>
-  			<div class="popup-box">
-  					<img src="/images/italyicon.png" alt="説明画像">
-  					 <p>【イタリア】<br>歴史的遺産と美食の国、ローマやベネチア</p>
-  							</div></div> 
-  			
-  		<!-- ポインタ6：フランス-->
-  		<div class="map-pin country-France" style="top: 49%; left: 7.5%;">
-  		  <a th:href="@{/FRA}"  target="_blank" title="フランス">
-  		    <img src="/images/map_pin.png" alt="フランス"></a>
-  			<div class="popup-box">
-  					<img src="/images/Franceicon.png" alt="説明画像">
-  					<p>【フランス】<br>芸術と美食の都、パリとモンサンミッシェル</p>
-  				</div></div>
-  			
-  		<!-- ポインタ7：ベトナム-->
-  		<div class="map-pin country-Vietnam" style="top: 64%; left: 35.5%;">
-  		  <a th:href="@{/VNM}"  target="_blank" title="ベトナム">
-  		    <img src="/images/map_pin.png" alt="ベトナム"></a>	
-  			<div class="popup-box">
-  								<img src="/images/Vietnamicon.png" alt="説明画像">
-  								 <p>【ベトナム】<br>古都と自然美、ホイアンやハロン湾が人気</p>
-  									 </div></div>	
-  			
-  		<!-- ポインタ8：スイス-->
-  		<div class="map-pin country-Switz" style="top: 49%; left: 9%;">
-  		  <a th:href="@{/CHE}" target="_blank" title="スイス">
-  		    <img src="/images/map_pin.png" alt="スイス"></a>
-  			<div class="popup-box">
-  								<img src="/images/Switzerlandicon.png" alt="説明画像">
-  								 <p>【スイス】<br>アルプスの絶景、鉄道旅とチョコレート</p>
-  									 </div></div> 		
-  			
-  		<!-- ポインタ9：タイ-->
-  		<div class="map-pin country-Thai" style="top: 63.5%; left: 33.5%;">
-  		  <a th:href="@{/THA}" target="_blank" title="タイ">
-  			<img src="/images/map_pin.png" alt="タイ" ></a>
-  			<div class="popup-box">
-  								<img src="/images/Thaiicon.png" alt="説明画像">
-  								 <p>【タイ】<br>寺院と南国リゾート、バンコクやプーケット</p>
-  									 </div></div>
-  			
-  		<!-- ポインタ10：インド-->
-  		<div class="map-pin country-india" style="top: 62%; left: 28%;">
-  		  <a th:href="@{/IND}" target="_blank" title="インド">
-  			<img src="/images/map_pin.png" alt="インド"></a>
-  			<div class="popup-box">
-  								<img src="/images/indiaicon.png" alt="説明画像">
-  								 <p>【インド】<br>多様な文化と宗教、タージ・マハルが象徴的</p>
-  									 </div></div> 
-  			
-  		<!-- ポインタ11：中国-->
-  		<div class="map-pin country-china" style="top: 56%; left: 33%;">
-  		  <a th:href="@{/CHN}" target="_blank" title="中国">
-  			<img src="/images/map_pin.png" alt="中国"></a>
-  			<div class="popup-box">
-  								<img src="/images/chinaicon.jpg" alt="説明画像">
-  								 <p>【中国】<br>万里の長城や故宮など広大な歴史遺産</p>
-  									 </div></div> 
-  			
-  		<!-- ポインタ12：ロシア-->
-  		<div class="map-pin country-Russia" style="top: 38%; left: 33%;">
-  			  <a th:href="@{/RUS}" target="_blank" title="ロシア">
-  				<img src="/images/map_pin.png" alt="ロシア"></a>
-  				<div class="popup-box">
-  									<img src="/images/Russiaicon.png" alt="説明画像">
-  									 <p>【ロシア】<br>荘厳な建築と芸術、モスクワやサンクトペテルブルク</p>
-  										 </div></div> 
-  				
-  		<!-- ポインタ13：韓国-->
-  		<div class="map-pin country-korea" style="top: 54%; left: 41%;">
-  			<a th:href="@{/KOR}" target="_blank" title="韓国">
-  				<img src="/images/map_pin.png" alt="韓国"></a>
-  				<div class="popup-box">
-  									<img src="/images/koreaicon.png" alt="説明画像">
-  									 <p>【韓国】<br>K-カルチャーと美食、ソウルや済州島が人気</p>
-  										 </div></div>
-  		
- 
+  <iframe src="https://www.google.com/maps/d/embed?mid=1dg5zD90LoupT3LdWZGdaqqyEwVBRzms&ehbc=2E312F&noprof=1" width="1200" height="750"></iframe>
 </div>
 
+<!-- 雲と飛行機 -->
+<img src="/images/cloud.png" alt="cloud" class="cloud" />
+<img src="/images/airplane.png" alt="airplane" class="airplane"
+     style="position: absolute; top: 50px; left: 0;
+            animation: flyAirplane 8s linear infinite;
+            width: 80px;">
+
+<!-- 左下固定ポップアップ -->
+<div class="fixed-popup" id="fixedPopup"></div>
+
+<!-- トップ・マイページリンク -->
 <div class="left-link">
   <a href="/">←トップページへ戻る</a>
 </div>
 <div class="right-link">
-	<!-- 未ログイン時 -->
-				    <a th:if="${!#authorization.expression('isAuthenticated()')}"
-				       th:href="@{/login}" class="login">login→</a>
-
-				    <!-- ログイン時 -->
-				    <a th:if="${#authorization.expression('isAuthenticated()')}"
-				       th:href="@{/mypage}" class="mypage">mypage→</a>
-					   
-					   <div class="right-bottom-link-list">
-					     <ul>
-					       <li><a th:href="@{/EGY}" target="_blank" class="country-link" data-country="egypt">エジプト</a></li>
-					       <li><a th:href="@{/AUS}" target="_blank" class="country-link" data-country="Aust">オーストラリア</a></li>
-					       <li><a th:href="@{/USA}" target="_blank" class="country-link" data-country="usa">アメリカ</a></li>						   
-						   <li><a th:href="@{/IRN}" target="_blank" class="country-link" data-country="Iran">イラン</a></li>
-						   <li><a th:href="@{/ITA}" target="_blank" class="country-link" data-country="italy">イタリア</a></li>
-						   <li><a th:href="@{/FRA}" target="_blank" class="country-link" data-country="France">フランス</a></li>
-						   <li><a th:href="@{/VNM}" target="_blank" class="country-link" data-country="Vietnam">ベトナム</a></li>
-						   <li><a th:href="@{/CHE}" target="_blank" class="country-link" data-country="Switz">スイス</a></li>
-						   <li><a th:href="@{/THA}" target="_blank" class="country-link" data-country="Thai">タイ</a></li>
-						   <li><a th:href="@{/IND}" target="_blank" class="country-link" data-country="india">インド</a></li>
-						   <li><a th:href="@{/CHN}" target="_blank" class="country-link" data-country="china">中国</a></li>
-						   <li><a th:href="@{/RUS}" target="_blank" class="country-link" data-country="Russia">ロシア</a></li>
-						   <li><a th:href="@{/KOR}" target="_blank" class="country-link" data-country="korea">韓国</a></li>
-						   					       
-					     </ul>
-					   </div>
-			
+  <a href="/login">login→</a>
 </div>
+
+<!-- 右下の国リスト -->
+<div class="right-bottom-link-list">
+  <ul>
+    <li>国名を選択↓</li>
+    <li><a href="@{/EGY}" class="country-link" data-country="egypt">エジプト</a></li>
+    <li><a href="@{/AUS}" class="country-link" data-country="Aust">オーストラリア</a></li>
+    <li><a href="@{/USA}" class="country-link" data-country="usa">アメリカ</a></li>
+    <li><a href="@{/IRN}" class="country-link" data-country="Iran">イラン</a></li>
+    <li><a href="@{/ITA}" class="country-link" data-country="italy">イタリア</a></li>
+    <li><a href="@{/FRA}" class="country-link" data-country="France">フランス</a></li>
+    <li><a href="@{/VNM}" class="country-link" data-country="Vietnam">ベトナム</a></li>
+    <li><a href="@{/CHE}" class="country-link" data-country="Switz">スイス</a></li>
+    <li><a href="@{/THA}" class="country-link" data-country="Thai">タイ</a></li>
+    <li><a href="@{/IND}" class="country-link" data-country="india">インド</a></li>
+    <li><a href="@{/CHN}" class="country-link" data-country="china">中国</a></li>
+    <li><a href="@{/RUS}" class="country-link" data-country="Russia">ロシア</a></li>
+    <li><a href="@{/KOR}" class="country-link" data-country="korea">韓国</a></li>
+  </ul>
+</div>
+
 <script>
-  // ページ読み込み後に処理
-  document.addEventListener('DOMContentLoaded', () => {
-    // 左側のリンク要素全部取得
-    const links = document.querySelectorAll('.country-link');
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.country-link');
+  const fixedPopup = document.getElementById('fixedPopup');
 
-    links.forEach(link => {
-      const country = link.dataset.country; // data-country 属性から国識別子取得
+  // 国ごとのデータ
+  const countryData = {
+    egypt: {
+      img: '/images/egypticon.jpg',
+      text: '【エジプト】<br>世界最古の文明「古代エジプト文明」。スフィンクスやピラミッドが有名。首都はカイロ。'
+    },
+    Aust: {
+      img: '/images/Austicon.png',
+      text: '【オーストラリア】<br>大自然と都市が調和。グレートバリアリーフやシドニーが人気。'
+    },
+    usa: {
+      img: '/images/americaicon.png',
+      text: '【アメリカ】<br>多様な文化と絶景、NYやグランドキャニオンなど見どころ満載。'
+    },
+    Iran: {
+      img: '/images/Iranicon.png',
+      text: '【イラン】<br>歴史的建築美が残る国。イスファハンやペルセポリスが有名。'
+    },
+    italy: {
+      img: '/images/italyicon.png',
+      text: '【イタリア】<br>ローマやベネチアなど歴史と美食の国。'
+    },
+    France: {
+      img: '/images/Franceicon.png',
+      text: '【フランス】<br>芸術と美食の都。パリやモンサンミッシェルが有名。'
+    },
+    Vietnam: {
+      img: '/images/Vietnamicon.png',
+      text: '【ベトナム】<br>古都と自然美、ホイアンやハロン湾が人気。'
+    },
+    Switz: {
+      img: '/images/Switzerlandicon.png',
+      text: '【スイス】<br>アルプスの絶景とチョコレートの国。'
+    },
+    Thai: {
+      img: '/images/Thaiicon.png',
+      text: '【タイ】<br>寺院と南国リゾート。バンコクやプーケットが人気。'
+    },
+    india: {
+      img: '/images/indiaicon.png',
+      text: '【インド】<br>多様な文化と宗教。タージ・マハルが象徴的。'
+    },
+    china: {
+      img: '/images/chinaicon.jpg',
+      text: '【中国】<br>万里の長城や故宮など壮大な歴史遺産を持つ国。'
+    },
+    Russia: {
+      img: '/images/Russiaicon.png',
+      text: '【ロシア】<br>壮麗な建築と芸術。モスクワやサンクトペテルブルクが見どころ。'
+    },
+    korea: {
+      img: '/images/koreaicon.png',
+      text: '【韓国】<br>Kカルチャーと美食。ソウルや済州島が人気。'
+    }
+  };
 
-      // 対応するピン要素を取得
-      const pin = document.querySelector(`.map-pin.country-${country}`);
+  // リンクにホバーした時の処理
+  links.forEach(link => {
+    const country = link.dataset.country;
 
-      if (!pin) return;
+    link.addEventListener('mouseenter', () => {
+      const data = countryData[country];
+      if (data) {
+        fixedPopup.innerHTML = `
+          <img src="${data.img}" alt="${country}">
+          <p>${data.text}</p>
+        `;
+        fixedPopup.style.display = 'block';
+        requestAnimationFrame(() => fixedPopup.classList.add('show'));
+      }
+    });
 
-      // リンクにマウスが乗ったらピンに .hover クラスを追加
-      link.addEventListener('mouseenter', () => {
-        pin.classList.add('hover');
-      });
-
-      // マウスが外れたら .hover クラスを削除
-      link.addEventListener('mouseleave', () => {
-        pin.classList.remove('hover');
-      });
+    link.addEventListener('mouseleave', () => {
+      fixedPopup.classList.remove('show');
+      setTimeout(() => { fixedPopup.style.display = 'none'; }, 300);
     });
   });
+});
 </script>
-
 
 </body>
 </html>
