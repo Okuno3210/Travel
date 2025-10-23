@@ -132,8 +132,8 @@
 
   .banner-slide {
     display: flex;
-    width: calc(250px * 8); 
-    animation: scrollBanner 30s linear infinite;
+    width: calc(250px * 9); 
+    animation: scrollBanner 8s linear infinite;
   }
 
   .banner-slide img {
@@ -217,7 +217,7 @@
 
     <!-- ログイン済み時のみ表示 -->
     <div th:if="${#authorization.expression('isAuthenticated()')}">
-      <a href="/logout" class="btn mypage-btn">Logout</a>
+      <a href="/mypage" class="btn mypage-btn">Mypage</a>
     </div>
   </header>
 
@@ -236,16 +236,38 @@
       <p>さあ、次の冒険へ出発！</p>
     </div>
 
-    <div class="banner-container">
-      <div class="banner-slide">
-        <img src="/images/banner1.jpg" alt="観光地1">
-        <img src="/images/banner2.jpg" alt="観光地2">
-        <img src="/images/banner3.jpg" alt="観光地3">
-        <img src="/images/banner4.jpg" alt="観光地4">
-        <img src="/images/banner1.jpg" alt="観光地1">
-        <img src="/images/banner2.jpg" alt="観光地2">
-      </div>
-    </div>
+	<!-- 横に流れるクリック可能なバナー -->
+	<div class="banner-container">
+	  <div class="banner-slide">
+	    <a th:href="@{/USA}">
+	      <img th:src="@{/images/americaicon.png}" alt="アメリカ">
+	    </a>
+	    <a th:href="@{/AUS}">
+	      <img th:src="@{/images/Austicon.png}" alt="オーストラリア">
+	    </a>
+	    <a th:href="@{/EGY}">
+	      <img th:src="@{/images/egypticon.jpg}" alt="エジプト">
+	    </a>
+	    <a th:href="@{/FRA}">
+	      <img th:src="@{/images/Franceicon.png}" alt="フランス">
+	    </a>
+		<a th:href="@{/CHE}">
+		   <img th:src="@{/images/chinaicon.jpg}" alt="中国">
+		</a>
+		<a th:href="@{/ITA}">
+		 <img th:src="@{/images/italyicon.png}" alt="イタリア">
+		</a>
+		<a th:href="@{/IND}">
+		<img th:src="@{/images/indiaicon.png}" alt="インド">
+		</a>
+		<a th:href="@{/KOR}">
+		<img th:src="@{/images/koreaicon.png}" alt="韓国">
+		</a>
+		<a th:href="@{/IRN}">
+		<img th:src="@{/images/Iranicon.png}" alt="イラン">
+		</a>
+	  </div>
+	</div>
   </main>
 
   <!-- 下部緑帯 -->
