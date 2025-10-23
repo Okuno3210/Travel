@@ -3,7 +3,7 @@
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'ja',
-    includedLanguages: 'ar,yue,zh-CN,zh-TW,nl,fr,de,id,it,ko,pl,ru,es,th,vi,hi,bho,nr',
+    includedLanguages: 'ar,yue,zh-CN,zh-TW,nl,fr,de,id,it,ko,pl,ru,es,th,vi,hi,bho,nr,en',
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
