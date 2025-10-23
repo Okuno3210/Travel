@@ -142,12 +142,56 @@
   .left-link a:hover, .right-link a:hover {
     text-decoration: underline;
   }
+  .cloud {
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      width: 100px;
+      opacity: 0.8;
+      animation: floatCloud 30s linear infinite;
+      pointer-events: none; /* クリックを邪魔しない */
+    }
+
+    @keyframes floatCloud {
+      0% {
+        transform: translateX(-150px);
+      }
+      100% {
+        transform: translateX(1300px);
+      }
+    }
+
+    .airplane {
+      position: absolute;
+      top: 40%;
+      left: -100px;
+      width: 60px;
+      opacity: 0.8;
+      animation: flyAirplane 30s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes flyAirplane {
+  	0% {
+  	   transform: translateX(0) rotate(10deg) scaleX(-1);
+  	 }
+  	 49.9% {
+  	   transform: translateX(1300px) rotate(-10deg) scaleX(-1);
+  	 }
+  	 50% {
+  	   /* 反転する瞬間：位置は同じ、向きだけ変える */
+  	   transform: translateX(1300px) rotate(-10deg) scaleX(1);
+  	 }
+  	 100% {
+  	   transform: translateX(0) rotate(10deg) scaleX(1);
+      }
+    }
 </style>
 </head>
 <body>
 
 <div class="map-container">
-  <img src="/images/worldmap.png" alt="世界地図" class="world-map" />
+  
   <!-- ポインタ1：エジプト -->
   <div class="map-pin country-egypt">
     <div class="popup-box">
@@ -236,7 +280,7 @@
   										 </div></div> 
   				
   		<!-- ポインタ13：韓国-->
-  		<div class="map-pin country-korea"">
+  		<div class="map-pin country-korea">
   				<div class="popup-box">
   									<img src="/images/koreaicon.png" alt="説明画像">
   									 <p>【韓国】<br>K-カルチャーと美食、ソウルや済州島が人気</p>
