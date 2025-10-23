@@ -107,7 +107,7 @@
 
   .popup-box {
     display: none;
-    position: absolute;
+    position: relative;
     top: -50px;
     left: 50px;
     width: 200px;
@@ -119,6 +119,7 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 10000;
     line-height: normal;
+	top: 30%; left: 80%;
   }
   
   /* アメリカのポップアップ位置を調整 */
@@ -243,17 +244,14 @@
 	           animation: flyAirplane 8s linear infinite;
 	           width: 80px;">
   <!-- ポインタ1：エジプト -->
-  <div class="map-pin country-egypt" style="top: 60%; left: 15%;">
-    <a th:href="@{/EGY}" target="_blank" title="エジプト">
-      <img src="/images/map_pin.png" alt="エジプト" />
-    </a>
+  <div class="map-pin country-egypt">
     <div class="popup-box">
       <img src="/images/egypticon.jpg" alt="説明画像" />
       <p>【エジプト】<br>ピラミッドやスフィンクスなど古代文明の神秘が残る砂漠の国。</p>
     </div>
   </div>
   <!-- ポインタ2：オーストラリア -->
-  <div class="map-pin country-Aust" style="top: 80%; left: 43%;">
+  <div class="map-pin country-Aust">
     <a th:href="@{/AUS}" target="_blank" title="オーストラリア">
       <img src="/images/map_pin.png" alt="オーストラリア" />
     </a>
@@ -263,18 +261,14 @@
     </div>
   </div>
   <!-- ポインタ3：アメリカ-->
-  		  <div class="map-pin country-usa" style="top: 53%; left: 75%;">
-  		  <a th:href="@{/USA}" target="_blank" title="アメリカ">
-  			<img src="/images/map_pin.png" alt="アメリカ"></a>
+  		  <div class="map-pin country-usa">
   			<div class="popup-box">
   					<img src="/images/americaicon.png" alt="説明画像">
   					 <p>【アメリカ】<br>多様な文化と大自然が共存。NYやグランドキャニオンなど魅力満載。</p>
   						 </div></div> 
   			
   		  <!-- ポインタ4：イラン-->
-  		  <div class="map-pin country-Iran" style="top: 57%; left: 21%;">
-  		  <a th:href="@{/IRN}" target="_blank" title="イラン">
-  		    <img src="/images/map_pin.png" alt="イラン"></a>
+  		  <div class="map-pin country-Iran">
   			<div class="popup-box">
   				<img src="/images/Iranicon.png" alt="説明画像">
   					<p>【イラン】<br>歴史ある建築美、イスファハンやペルセポリス</p>
