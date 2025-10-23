@@ -8,68 +8,68 @@ public class CountryController {
 	
 	@GetMapping("/EGY")
 	public String EgyptView() {	
-		return "egy";
+		return "/countrys/egy";
 	}
 	
 	@GetMapping("/AUS")
 	public String AustrariaView() {	
-		return "aus";
+		return "/countrys/aus";
 	}
 	
 	@GetMapping("/USA")
 	public String UsaView() {	
-		return "usa";
+		return "/countrys/usa";
 	}
 	
 	@GetMapping("/IRN")
 	public String IranView() {	
-		return "irn";
+		return "/countrys/irn";
 	}
 	
 	
 	@GetMapping("/ITA")
 	public String ItalyView() {	
-		return "ita";
+		return "/countrys/ita";
 	}
 	
 	@GetMapping("/FRA")
 	public String FranceView() {	
-		return "fra";
+		return "/countrys/fra";
 	}
 	
 	@GetMapping("/VNM")
 	public String VietnamView() {	
-		return "vnm";
+		return "/countrys/vnm";
 	}
 	
 	@GetMapping("/CHE")
 	public String SwitzerlandView() {	
-		return "che";
+		return "/countrys/che";
 	}
 	
 	@GetMapping("/THA")
 	public String ThaiView() {	
-		return "tha";
+		return "/countrys/tha";
 	}
 	
 	@GetMapping("/IND")
 	public String IndiaView() {	
-		return "ind";
+		return "/countrys/ind";
 	}
 	
 	@GetMapping("/CHN")
 	public String ChinaView() {	
-		return "chn";
+		return "/countrys/chn";
 	}
 	
 	@GetMapping("/RUS")
 	public String RussiaView() {	
-		return "rus";
+		return "/countrys/rus";
 	}
 	
 	@GetMapping("/KOR")
 	public String KoreaView() {	
-		return "kor";
+		return "/countrys/kor";
 	}
 
 }

@@ -1,36 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAVEL POP!</title>
-<style>
-  /* --- デザイン反映CSS --- */
 
-  /* 推奨フォント: Popで親しみやすいフォント (例: Noto Sans JPなど) */
+<style>
+  /* --- 全体共通 --- */
   body {
     margin: 0;
-    font-family: 'Arial', sans-serif; 
-    text-align: center;
-    min-height: 100vh;
-    
-    /* 背景画像 (世界地図と上下のグラデーション) */
+    font-family: 'Noto Sans JP', 'メイリオ', sans-serif;
     background: url('/images/map_background.png') no-repeat center center / cover;
+    text-align: center;
+    color: #202340;
   }
 
-  /* --- ヘッダー --- */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* --- 上部白帯（ヘッダー） --- */
   header {
+    background-color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
+    padding: 15px 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;
   }
 
-  /* ロゴ */
   .logo-img {
-    height: 35px; /* ロゴのサイズを調整 */
+    height: 55px;
   }
 
   .right-buttons {
@@ -38,143 +41,187 @@
     gap: 15px;
   }
 
-  /* --- ボタン共通スタイル --- */
-  a {
-    text-decoration: none;
-    color: inherit; /* リンクの色を親要素から継承 */
+  /* --- ボタン共通 --- */
+  .btn {
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 30px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+    cursor: pointer;
   }
 
-  .btn {
-    text-decoration: none;
-    font-weight: bold;
-    color: #202340; /* ボタン内の文字色 (濃紺) */
-    padding: 10px 25px;
-    border-radius: 30px; /* 丸みを強調 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    white-space: nowrap;
-  }
   .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.18);
   }
 
-  /* 右上 (Login/My Page) ボタン */
   .login-btn {
-    background: #FFC93C; /* 黄色 */
-  }
-  .mypage-btn {
-    background: #FF6B81; /* ピンク */
+    background-color: #FFC93C;
+    color: #202340;
   }
 
-  /* --- メインコンテンツ --- */
+  .mypage-btn {
+    background-color: #FF6B81;
+    color: white;
+  }
+
+  /* --- メイン --- */
   main {
-    height: auto; /* 高さはコンテンツに合わせる */
-    min-height: calc(100vh - 80px - 100px); /* ヘッダーとフッターを考慮 */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px 0;
+    padding: 40px 0;
   }
 
   /* 中央のボタン群 */
   .center-buttons {
     display: flex;
     gap: 20px;
-    margin-bottom: 20px;
-  }
-  .center-btn {
-    padding: 12px 30px;
-    color: white; /* 中央ボタンの文字色は白 */
-    font-size: 16px;
-    position: relative;
-    border-radius: 30px; /* 中央のボタンも丸みを維持 */
-  }
-  /* 中央ボタンの背景色とアイコン（今回は省略） */
-  .center-btn.map-btn {
-    background: #FF6B81; /* ピンク */
-  }
-  .center-btn.select-btn {
-    background: #80C2FF; /* 水色 */
-  }
-  .center-btn.plan-btn {
-    background: #FFC93C; /* 黄色 */
+    margin: 40px 0 30px;
   }
 
-  /* ランドマークのイラスト */
+  .center-btn {
+    color: white;
+    font-weight: bold;
+    padding: 18px 50px;
+    border-radius: 30px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .map-btn { background: #FF6B81; color: #202340; }
+  .select-btn { background: #80C2FF; color: #202340; }
+  .plan-btn { background: #FFC93C; color: #202340; }
+
+  /* 中央イラスト */
   .landmarks-img {
     width: 80%;
     max-width: 650px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    z-index: 5;
-    position: relative;
-    margin-top: 20px;
+    margin: 0 auto 40px;
   }
 
   /* キャッチコピー */
-  .catch-copy {
-      margin-top: 30px;
-      margin-bottom: 40px;
-  }
   .catch-copy h1 {
-    font-size: 40px;
-    color: #202340; /* 濃紺 */
-    margin-top: 20px;
-    margin-bottom: 5px;
-  }
-  .catch-copy p {
-    font-size: 18px;
-    color: #202340; /* 濃紺 */
+    font-size: 50px;
+    font-weight: bold;
+    color: #202340;
+    margin-bottom: 10px;
   }
 
-  /* --- フッター --- */
+  .catch-copy p {
+    font-size: 30px;
+    color: #202340;
+  }
+
+  /* --- 横スクロールバナー --- */
+  .banner-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255,255,255,0.3); 
+    backdrop-filter: blur(8px);
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    padding: 10px 0;
+    margin-top: 40px;
+  }
+
+  .banner-slide {
+    display: flex;
+    width: calc(250px * 8); 
+    animation: scrollBanner 30s linear infinite;
+  }
+
+  .banner-slide img {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .banner-slide img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.25);
+  }
+
+  @keyframes scrollBanner {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* --- 下部緑帯（フッター） --- */
   footer {
+    background-color: #A8E6CF;
     display: flex;
     justify-content: center;
-    gap: 50px;
-    padding: 30px 0;
-    position: relative;
-    z-index: 10;
+    gap: 30px;
+    padding: 35px 0;
+    flex-wrap: wrap;
   }
 
-  /* 下部 (Search) ボタン */
   .footer-btn {
     font-size: 18px;
-    padding: 15px 40px;
-    color: white; /* 文字色は白 */
     font-weight: bold;
-    /* 下部のボタンは角丸四角形に近い形 */
-    border-radius: 10px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  .map-search-btn {
-    background: #FFC93C; /* 黄色 */
-  }
-  .select-search-btn {
-    background: #FF6B81; /* ピンク */
+    color: white;
+    padding: 15px 40px;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
 
+  .footer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+
+  .gourmet-btn { background: #FF6B81; color: #202340;}
+  .scenic-btn { background: #80C2FF; color: #202340;}
+  .activity-btn { background: #FFC93C; color: #202340; }
+
+  /* --- レスポンシブ --- */
+  @media (max-width: 768px) {
+    .center-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .footer-btn {
+      font-size: 16px;
+      padding: 12px 30px;
+    }
+    .catch-copy h1 {
+      font-size: 28px;
+    }
+  }
 </style>
 </head>
+
 <body>
 
+  <!-- 上部白帯 -->
   <header>
     <div class="logo-container">
       <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
     </div>
 
-    <div class="right-buttons">
-      <a th:if="${!#authorization.expression('isAuthenticated()')}"
-         th:href="@{/login}" class="btn login-btn">Login</a>
+    <!-- 未ログイン時のみ表示 -->
+    <div th:if="${!#authorization.expression('isAuthenticated()')}">
+      <a href="/login" class="btn login-btn">Login</a>
+    </div>
 
-      <a th:if="${#authorization.expression('isAuthenticated()')}"
-	     th:href="@{/mypage}" class="btn mypage-btn">My Page</a>
+    <!-- ログイン済み時のみ表示 -->
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+      <a href="/logout" class="btn mypage-btn">Logout</a>
     </div>
   </header>
 
+  <!-- メインエリア -->
   <main>
     <div class="center-buttons">
       <a th:href="@{/maplink}" class="btn center-btn map-btn">地図検索</a>
@@ -183,16 +230,29 @@
     </div>
 
     <img th:src="@{/images/landmarks_illustration.png}" alt="世界のランドマーク" class="landmarks-img">
-    
+
     <div class="catch-copy">
-        <h1>世界のワクワク、一気見！</h1>
-        <p>さあ、踏み出そう！</p>
+      <h1>世界のワクワク、覗いてみよう！</h1>
+      <p>さあ、次の冒険へ出発！</p>
+    </div>
+
+    <div class="banner-container">
+      <div class="banner-slide">
+        <img src="/images/banner1.jpg" alt="観光地1">
+        <img src="/images/banner2.jpg" alt="観光地2">
+        <img src="/images/banner3.jpg" alt="観光地3">
+        <img src="/images/banner4.jpg" alt="観光地4">
+        <img src="/images/banner1.jpg" alt="観光地1">
+        <img src="/images/banner2.jpg" alt="観光地2">
+      </div>
     </div>
   </main>
 
+  <!-- 下部緑帯 -->
   <footer>
-    <a th:href="@{/maplink}" class="btn footer-btn map-search-btn">Map Search</a>
-    <a th:href="@{/select}" class="btn footer-btn select-search-btn">Select Search</a>
+    <a th:href="@{/gourmet}" class="btn footer-btn gourmet-btn">グルメ旅</a>
+    <a th:href="@{/scenic}" class="btn footer-btn scenic-btn">絶景スポット</a>
+    <a th:href="@{/activity}" class="btn footer-btn activity-btn">アクティビティ体験</a>
   </footer>
 
 </body>
