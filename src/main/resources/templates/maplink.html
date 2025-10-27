@@ -5,11 +5,18 @@
 <title>世界地図</title>
 
 <style>
-  body {
-    margin: 0;
-    padding: 20px;
-    background-color: #f0f0f0;
-  }
+  
+	body {
+	  margin: 0;
+	  padding: 20px;
+	  background-image: url("/images/background-sky.png"); /* ← 背景画像パス */
+	  background-size: cover;       /* 画面いっぱいに広げる */
+	  background-position: center;  /* 画像を中央に配置 */
+	  background-repeat: no-repeat; /* 繰り返しをしない */
+	  background-attachment: fixed; /* スクロールしても背景を固定 */
+	}
+
+  
 
   .map-container {
     position: relative;
@@ -43,6 +50,7 @@
 
   .fixed-popup.show {
     opacity: 1;
+	display: block;
   }
 
   .fixed-popup img {
@@ -180,13 +188,21 @@
   <a href="/">←トップページへ戻る</a>
 </div>
 <div class="right-link">
-  <a href="/login">login→</a>
+	
+	<!-- 未ログイン時 -->
+					    <a th:if="${!#authorization.expression('isAuthenticated()')}"
+					       th:href="@{/login}" class="login">login→</a>
+
+					    <!-- ログイン時 -->
+					    <a th:if="${#authorization.expression('isAuthenticated()')}"
+					       th:href="@{/mypage}" class="mypage">mypage→</a>
+						 
 </div>
 
 <!-- 右下の国リスト -->
 <div class="right-bottom-link-list">
   <ul>
-    <li>国名を選択↓</li>
+    <li>国名をクリック↓</li>
     <li><a th:href="@{/EGY}" class="country-link" data-country="egypt">エジプト</a></li>
     <li><a th:href="@{/AUS}" class="country-link" data-country="Aust">オーストラリア</a></li>
     <li><a th:href="@{/USA}" class="country-link" data-country="usa">アメリカ</a></li>
@@ -265,27 +281,25 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // リンクにホバーした時の処理
-  links.forEach(link => {
-    const country = link.dataset.country;
+   links.forEach(link => {
+      const country = link.dataset.country;
 
-    link.addEventListener('mouseenter', () => {
-      const data = countryData[country];
-      if (data) {
-        fixedPopup.innerHTML = `
-          <img src="${data.img}" alt="${country}">
-          <p>${data.text}</p>
-        `;
-        fixedPopup.style.display = 'block';
-        requestAnimationFrame(() => fixedPopup.classList.add('show'));
-      }
-    });
+      link.addEventListener('mouseenter', () => {
+        const data = countryData[country];
+        if (data) {
+          fixedPopup.innerHTML = `
+            <img src="${data.img}" alt="${country}">
+            <p>${data.text}</p>
+          `;
+          fixedPopup.classList.add('show');
+        }
+      });
 
-    link.addEventListener('mouseleave', () => {
-      fixedPopup.classList.remove('show');
-      setTimeout(() => { fixedPopup.style.display = 'none'; }, 300);
+      link.addEventListener('mouseleave', () => {
+        fixedPopup.classList.remove('show');
+      });
     });
   });
-});
 </script>
 
 </body>
