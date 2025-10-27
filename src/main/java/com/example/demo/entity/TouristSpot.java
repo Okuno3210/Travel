@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +18,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "tourist_spots")
 public class TouristSpot {
     @Id
+    @GeneratedValue
     private Long id;          // CSVのid（DB管理用PK）
-
-    private Long regionId;    // RegionとのJOIN用
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;    // RegionとのJOIN用
     private String name;
     private String description;
 }
