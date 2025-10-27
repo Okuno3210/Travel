@@ -30,4 +30,5 @@ public class TopController {
 	public String mapView() {
 		return "maplink";
 	}
+	
 }

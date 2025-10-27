@@ -20,7 +20,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String username;
 
     private String password;
@@ -34,6 +34,8 @@ public class User implements UserDetails {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+    
+    public Long getId() {return this.id; }
 
     @Override
     public String getPassword() { return password; }

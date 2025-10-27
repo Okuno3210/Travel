@@ -2,11 +2,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>My Page</title>
+<title>お気に入り一覧</title>
 </head>
 <body>
-	<a th:href="@{/}" class="btn-map">top</a>
-	<form th:action="@{/logout}" method="post" style="display:inline">
-		        <button type="submit" class="login">logout</button>
+
+<a th:href="@{/}" class="btn-map">トップへ</a>
+
+<form th:action="@{/logout}" method="post" style="display:inline">
+    <button type="submit" class="login">ログアウト</button>
+</form>
+
+<a th:href="@{/list}" class="btn-map">リストへ</a>
+
 </body>
 </html>
