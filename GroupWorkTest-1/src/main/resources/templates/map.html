@@ -6,14 +6,23 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 	    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-		
-		    /* 地図コンテナの高さ指定は必須 */
-		    #map { 
-		        height: 600px; /* ★ここが重要。適切な高さを指定 */
-		        width: 100%;  
+		body { 
+		        font-family: sans-serif; 
+		        text-align: center;
+		        margin: 0;       /* デフォルトマージンをリセット */
+		        padding: 0;      /* デフォルトパディングをリセット */
 		    }
-		    body { font-family: sans-serif; text-align: center; }
-		    h1 { margin-bottom: 5px; }
+		    
+		    /* 地図コンテナの設定 */
+		    #map { 
+		        height: 550px;
+		        width: 100%;  /* 横枠いっぱいに広げる */
+		    }
+		    
+		    /* その他の要素の設定 */
+		    h1 { 
+		        margin-bottom: 5px; 
+		    }
 		</style>
    
 </head>
@@ -37,7 +46,8 @@
 	    // ★ 修正点2: タイルレイヤー（背景地図）の追加 (必須)
 	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	        maxZoom: 4
+	        maxZoom: 4,
+			noWrap: true
 	    }).addTo(map);
 	    // ----------------------------------------------------
 

@@ -1,4 +1,4 @@
-package com.example.demo.MapController;
+package com.example.demo.Controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,12 @@ public class MapController {
     public String mapPage() {
         return "map"; // src/main/resources/templates/map.html をレンダリング
     }
+    
+    @GetMapping("/mapselect")
+    public String selectPage() {
+        return "select"; // src/main/resources/templates/map.html をレンダリング
+    }
+	
 	
     @GetMapping("/api/locations")
     @ResponseBody
