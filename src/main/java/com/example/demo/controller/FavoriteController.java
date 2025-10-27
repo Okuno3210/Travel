@@ -31,7 +31,7 @@ public class FavoriteController {
                     .orElseThrow(() -> new RuntimeException("User not found"));
             favoriteService.addFavorite(user, countryId);
         }
-        return "redirect:/list"; // /list にリダイレクト
+        return "redirect:/"; // /list にリダイレクト
     }
 
     // お気に入り削除
