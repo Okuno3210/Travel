@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller; //1027厚田修正
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Country;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.TouristSpot;
+import com.example.demo.repository.CountryRepository;
 import com.example.demo.repository.RegionRepository;
 import com.example.demo.repository.TouristSpotRepository;
 
@@ -19,15 +21,15 @@ import com.example.demo.repository.TouristSpotRepository;
 @RequestMapping("/api/regions")
 public class RegionApiController {
 
-    private final CountryController countryController;
+    private final CountryRepository countryRepo; //1027書き換え
     private final RegionRepository regionRepo;
     private final TouristSpotRepository spotRepo;
 
     public RegionApiController(RegionRepository regionRepo, 
-    TouristSpotRepository spotRepo, CountryController countryController) {
+    TouristSpotRepository spotRepo, CountryRepository countryRepo) { //1027書き換え
         this.regionRepo = regionRepo;
         this.spotRepo = spotRepo;
-        this.countryController = countryController;
+        this.countryRepo = countryRepo; //1027書き換え
     }
 
     // ▼ region の選択肢取得（CSVから読み込んだデータを返す）
@@ -70,6 +72,13 @@ public class RegionApiController {
     	             ))
     	         .collect(Collectors.toList());
     	    }
+    @GetMapping("/countries")  //国名1027追加
+    public List<String>getCountryName(){
+    	return countryRepo.findAll().stream()
+    			.map(Country::getName)
+    			.distinct().sorted().collect(Collectors.toList());
+    }
+    
     @GetMapping("/travel-times") // 渡航時間リスト
     public List<Integer>getTravelTimes(){
     	return regionRepo.findAll().stream() //逐次処理用にデータをバラす

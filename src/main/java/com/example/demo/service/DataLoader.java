@@ -1,15 +1,14 @@
 
-package com.example.demo.service;
+package com.example.demo.service; //厚田10/27修正
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import jakarta.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ import com.example.demo.repository.RegionRepository;
 import com.example.demo.repository.TouristSpotRepository;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class DataLoader implements ApplicationRunner{// 1027削除　CommandLineRunner {
    
 	private final CountryRepository countryRepo;
 	private final RegionRepository regionRepo;
@@ -46,13 +45,15 @@ public class DataLoader implements CommandLineRunner {
     private Resource spotsCsv;
     //CSV増えたら書き足す
 
-    @PostConstruct
-    public void init() {
+    // @PostConstruct 　1027削除
+    // public void init() {
+    private void loadCsv() { //1027追加
     	loadCountries(); //countryを一番に読み込み
     	loadRegions();   //2番めにcountryに依存してるregionを読み込む
-        loadSpots();     //3番目以降はconcept以外regionに依存
-        // ★ CSV増加時はここに loadXxx() を追加
+        loadSpots();     //3番目以降はconcept以外regionに依存        
     }
+    
+//★ CSV増加時はここに loadXxx() を追加
 
     private void loadCountries() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader
@@ -124,8 +125,11 @@ public class DataLoader implements CommandLineRunner {
     //新しいCSVファイル用に private void ファイル名() { try-catch文でメソッドを書き足す
     
     @Override
-    public void run(String[] args)throws Exception{
-    	loadRegions(); loadSpots();
+    public void run(ApplicationArguments args) throws Exception{ //1027追加
+    	loadCsv(); //1027追加
+    //1027削除　public void run(String[] args)throws Exception{
+    	        // loadRegions(); loadSpots();
+    	
     	//DBに保存できてるか確認ログ
     	//regionRepo.findAllWithSpots()
     	//.forEach(r -> System.out.println(r.getName()
