@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,11 +22,10 @@ public class Country {
 
     //private Long regionId;    // RegionとのJOIN用
 
+    private String code; // AUS, USA, EGY など
+
     private String name;
     private String currencyRate;
     private String description;
     
-    @ManyToOne
-    @JoinColumn(name="region_id")
-    private Region region;
-}
+    }

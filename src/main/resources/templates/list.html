@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Favorites List</title>
+    <style>
+        .btn-map {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        button { margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>お気に入り一覧</h1>
+
+<!-- お気に入りがある場合 -->
+<div th:if="${favorites != null and !#lists.isEmpty(favorites)}">
+    <ul>
+        <li th:each="fav : ${favorites}">
+            <!-- 国名リンク（テンプレート名を小文字化してControllerに渡す） -->
+            <a th:if="${fav.country != null}" 
+               th:href="@{/countrys/{template}(template=${#strings.toLowerCase(fav.country.code)})}" 
+               th:text="${fav.country.name}"></a>
+            <span th:if="${fav.country == null}">国情報なし</span>
+
+            <!-- 削除ボタン -->
+            <form th:if="${fav.country != null}" 
+                  th:action="@{/favorites/remove/{countryId}(countryId=${fav.country.id})}" 
+                  method="post" style="display:inline">
+                <button type="submit">削除</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+<!-- お気に入りがない場合 -->
+<div th:if="${favorites == null or #lists.isEmpty(favorites)}">
+    <p>お気に入りはまだ登録されていません。</p>
+</div>
+
+<!-- トップページリンク -->
+<a th:href="@{/}" class="btn-map">トップへ</a>
+
+</body>
+</html>

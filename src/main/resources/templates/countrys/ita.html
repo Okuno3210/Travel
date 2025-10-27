@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>イタリア観光地ガイド | TravelMap</title>
 </head>
 <body>
+  <header>
+    <h1> イタリアの人気観光地</h1>
+    <p></p>
+  </header>
+  <main>
+    <div th:if="${spots != null and !#lists.isEmpty(spots)}" class="spot-grid">
+      <div class="card" th:each="s : ${spots}" th:if="${s.country == 'イタリア'}">
+        <img th:src="${s.image}" th:alt="${s.name}" />
+        <div class="card-content">
+          <h3 th:text="${s.name}"></h3>
+          <p th:text="${s.desc}"></p>
+          <a th:href="@{/spots/detail/{key}(key=${s.key})}" class="btn">詳細を見る</a>
+        </div>
+      </div>
+    </div>
 
+    <div th:if="${spots == null or #lists.isEmpty(spots)}">
+      <p>イタリアの観光地データが見つかりませんでした。</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TravelMap</p>
+  </footer>
+ 
+  <div id="rates"></div>
+  
+  <div th:if="${country != null}">
+      <p>ID: <span th:text="${country.id}"></span></p>
+  </div>
+  <div th:if="${country == null}">
+      <p>国データが見つかりません</p>
+  </div>
+
+	
+  <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post" sec:authorize="hasRole('USER')">
+      <button type="submit">★ お気に入り登録</button>
+  </form>
+
+	
 </body>
 </html>
