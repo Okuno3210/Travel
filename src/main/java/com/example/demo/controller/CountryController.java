@@ -28,8 +28,6 @@ public class CountryController {
 	    return "countrys/aus";
 	}
 
-
-
 	
 	@GetMapping("/USA")
 	public String UsaView() {	
@@ -88,5 +86,6 @@ public class CountryController {
 	public String KoreaView() {	
 		return "/countrys/kor";
 	}
+
 
 }

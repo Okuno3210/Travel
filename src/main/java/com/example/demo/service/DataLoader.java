@@ -64,9 +64,10 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                 String[] arr = line.split(",");
                 if (arr.length < 4) return;   // 列数が足りなければスキップ
                 Country c = new Country();
-                c.setName(arr[1]);
-                c.setCurrencyRate(arr[2]);
-                c.setDescription(arr.length > 3 ? arr[3] : ""); // 4列目が無ければ空文字
+                c.setCode(arr[1]);
+                c.setName(arr[2]);
+                c.setCurrencyRate(arr[3]);
+                c.setDescription(arr.length > 3 ? arr[4] : ""); // 4列目が無ければ空文字
                 countryRepo.save(c); //カントリー.csvのidに限りエンティティで自動生成して割り振られる  
                 
             });
