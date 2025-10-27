@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -20,61 +21,37 @@ import com.example.demo.repository.RegionRepository;
 import com.example.demo.repository.TouristSpotRepository;
 
 @Component
-public class DataLoader {
-
-    private final RegionRepository regionRepo;
-    private final CountryRepository countryRepo;
+public class DataLoader implements CommandLineRunner {
+   
+	private final CountryRepository countryRepo;
+	private final RegionRepository regionRepo;
     private final TouristSpotRepository spotRepo;
-
-    public DataLoader(RegionRepository regionRepo, CountryRepository countryRepo, TouristSpotRepository spotRepo) {
+    //CSV増えたら書き足す
+    
+    // 2. コンストラクタ（final フィールドの初期化）
+    public DataLoader(CountryRepository countryRepo, 
+    RegionRepository regionRepo, TouristSpotRepository spotRepo) {
         this.regionRepo = regionRepo;
         this.countryRepo = countryRepo;
         this.spotRepo = spotRepo;
-    }
-
-    @Value("classpath:data/region.csv")
-    private Resource regionsCsv;
+    }//CSV増えたら書き足す
 
     @Value("classpath:data/country.csv")
     private Resource countriesCsv;
-
+    
+    @Value("classpath:data/region.csv")
+    private Resource regionsCsv;
+    
     @Value("classpath:data/tourist_spot.csv")
     private Resource spotsCsv;
+    //CSV増えたら書き足す
 
     @PostConstruct
     public void init() {
-        loadRegions();
-        loadCountries();
-        loadSpots();
-
+    	loadCountries(); //countryを一番に読み込み
+    	loadRegions();   //2番めにcountryに依存してるregionを読み込む
+        loadSpots();     //3番目以降はconcept以外regionに依存
         // ★ CSV増加時はここに loadXxx() を追加
-    }
-
-    private void loadRegions() {
-        try (BufferedReader br = new BufferedReader
-        		(new InputStreamReader(regionsCsv.getInputStream(), 
-        				StandardCharsets.UTF_8))) {
-            br.lines()
-            .skip(1) // ヘッダーをスキップ
-            .filter(line -> !line.trim().isEmpty()) // ← 空行を除外
-            .forEach(line -> {
-                String[] arr = line.split(",");
-                //if (arr.length < 9) return;   // 列数が足りなければスキップ
-                
-                Region r = new Region();
-                r.setId(Long.parseLong(arr[0])); //region.csvは主キーのみにする
-                r.setCountry(countryRepo.findById(Long.parseLong(arr[1])).orElse(null));
-                r.setName(arr[2]);
-                r.setBudget(Integer.parseInt(arr[3]));
-                r.setFlightTime(Integer.parseInt(arr[4]));
-                r.setTimezone(Integer.parseInt(arr[5]));
-                r.setClimate(arr[6]);
-                r.setRiskLevel(Integer.parseInt(arr[7]));
-                r.setDescription(arr.length > 8 ? arr[8] : ""); // 9列目が無ければ空文字
-
-                regionRepo.save(r);
-            });
-        } catch (IOException e) { e.printStackTrace(); }
     }
 
     private void loadCountries() {
@@ -86,34 +63,74 @@ public class DataLoader {
                 String[] arr = line.split(",");
                 if (arr.length < 4) return;   // 列数が足りなければスキップ
                 Country c = new Country();
-                //c.setId(Long.parseLong(arr[0]));
                 c.setName(arr[1]);
                 c.setCurrencyRate(arr[2]);
-                //c.setDescription(arr[3]);
                 c.setDescription(arr.length > 3 ? arr[3] : ""); // 4列目が無ければ空文字
-                countryRepo.save(c);                
+                countryRepo.save(c); //カントリー.csvのidに限りエンティティで自動生成して割り振られる  
                 
+            });
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+    
+    private void loadRegions() {
+        try (BufferedReader br = new BufferedReader
+        (new InputStreamReader(regionsCsv.getInputStream(), 
+        				StandardCharsets.UTF_8))) {
+            br.lines()
+            .skip(1) // ヘッダーをスキップ
+            .filter(line -> !line.trim().isEmpty()) // ← 空行を除外
+            .forEach(line -> {
+                String[] arr = line.split(",");
+                //if (arr.length < 9) return;   // 列数が足りなければスキップ
+                Region r = new Region();
+                //r.setId(Long.parseLong(arr[0])); //region.csvは主キーのみ、自動生成
+                r.setCountry(countryRepo.findById(Long.parseLong(arr[1])).orElse(null));
+                r.setName(arr[2]);
+                r.setBudget(Integer.parseInt(arr[3]));
+                r.setFlightTime(Integer.parseInt(arr[4]));
+                r.setTimezone(Integer.parseInt(arr[5]));
+                r.setClimate(arr[6]);
+                r.setRiskLevel(Integer.parseInt(arr[7]));
+                r.setDescription(arr.length > 8 ? arr[8] : ""); // 9列目が無ければ空文字
+                
+                Country country = countryRepo.findById(Long.parseLong(arr[1])).orElse(null);
+                if(country != null) {
+                	r.setCountry(country);}
+                	regionRepo.save(r);
             });
         } catch (IOException e) { e.printStackTrace(); }
     }
 
     private void loadSpots() {
         try (BufferedReader br = new BufferedReader
-        		(new InputStreamReader(spotsCsv.getInputStream(), StandardCharsets.UTF_8))) {
+    (new InputStreamReader(spotsCsv.getInputStream(), StandardCharsets.UTF_8))) {
             br.lines().skip(1)
             .filter(line -> !line.trim().isEmpty()) // ← 空行を除外
             .forEach(line -> {
                 String[] arr = line.split(",");
-                //if (arr.length < 4) return;   // 列数が足りなければスキップ
                 TouristSpot s = new TouristSpot();
-                s.setId(Long.parseLong(arr[0])); // id
-                s.setRegionId(Long.parseLong(arr[1])); // regionId
-                s.setName(arr[2]);                  // Name
-                s.setDescription(arr.length > 3 ? arr[3] : ""); // description
+                //s.setId(Long.parseLong(arr[0]));
+                //s.setRegionId(Long.parseLong(arr[1]));
+                s.setName(arr[2]);
+                s.setDescription(arr.length > 3 ? arr[3] : "");
+                Region region = regionRepo.findById(Long.parseLong(arr[1])).orElse(null);
+                if(region != null) {
+                	s.setRegion(region);
+                }
                 spotRepo.save(s);
             });
         } catch (IOException e) { e.printStackTrace(); }
     }
     //新しいCSVファイル用に private void ファイル名() { try-catch文でメソッドを書き足す
+    
+    @Override
+    public void run(String[] args)throws Exception{
+    	loadRegions(); loadSpots();
+    	//DBに保存できてるか確認ログ
+    	//regionRepo.findAllWithSpots()
+    	//.forEach(r -> System.out.println(r.getName()
+    			//+":"+ r.getTouristSpots().size()));
+    }
+
     
 }

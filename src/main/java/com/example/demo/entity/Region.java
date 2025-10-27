@@ -1,9 +1,14 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,13 +22,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "region")
 public class Region {
 	@Id
-    private Long id;        // CSVのid、テーブル管理用一意ID
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;        // CSVのid、テーブル管理用一意ID自動生成
 
-    //private Long regionId;  // CSVのregion_id、検索・JOIN用の共通キー
-
-	@ManyToOne //(optional = true)  //以下３行、Region は 多対一（ManyToOne） で Country に紐づく
+	@ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+	//@OneToMany(mappedBy="region") private List<Country> countries;
+	@OneToMany(mappedBy="region")
+	private List<TouristSpot> touristSpots;
 
     private String name;
     private Integer budget;
