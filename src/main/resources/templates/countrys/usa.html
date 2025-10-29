@@ -27,11 +27,38 @@
     </div>
   </main>
 
+ 
+  <div id="rates"></div>
+  
+  <form id="searchForm"> <!--検索用ここから-->
+    <label>行きたい国:</label>
+	<select id="countryName"><option value="">すべて</option></select><br><br>
+	
+	<label>行きたい地域:</label>
+      <select id="regionId"><option value="">すべて</option></select><br><br>
+	  
+	 <label>ご旅行の目的</label>
+	 <select id="<!--conceptId入れる-->"><option value="">何でも</option></select><br><br>
+
+      <label>観光名所:</label>
+      <select id="spotId"><option value="">すべて</option></select><br><br>
+
+      <label>渡航時間:</label>
+      <select id="travelTime"><option value="">制限なし</option></select><br><br>
+
+      <label>ご予算:　～</label>
+      <select id="budget"><option value="">制限なし</option></select>
+	  <label>万円</label><br><br>
+      <button type="button" onclick="searchRegions()">検索</button>
+  </form>
+  <hr>
+  <h2>検索結果</h2>
+  <ul id="results"></ul> <!--検索用ここまで-->
+  
   <footer>
     <p>© 2025 TravelMap</p>
   </footer>
- 
-  <div id="rates"></div>
+  
   <script>
   const PAIRS = [
     ["USD","JPY"],
@@ -65,6 +92,105 @@
 
   refresh();
   setInterval(refresh, 5_000);
+  
+  document.addEventListener("DOMContentLoaded",() => { //検索用ここから
+	fetch("/api/countries") //国 1027追加
+	.then(r => r.json())
+	.then(data =>{
+		const select=document.getElementById("countryName");
+		data.forEach(c =>{
+		const opt = document.createElement("option")
+		opt.value=c.id;
+		opt	.textContent=c.name;
+		select.appendChild(opt);	
+		});
+		});	
+		
+	fetch("/api/regions/options") //リージョン
+	.then(r => r.json())
+	.then(data =>{
+		const select=document.getElementById("regionId");
+		data.forEach(r =>{
+			const opt = document.createElement("option");
+			opt.value=r.id;
+			opt.textContent=r.name;
+			select.appendChild(opt);
+		});
+	});
+	fetch("/api/tourist-spots/options") //ツーリストスポット
+	.then(r => r.json())
+	.then(data => {
+		const select=document.getElementById("spotId");
+		data.forEach(s => {
+			const opt=document.createElement("option");
+			opt.value=s.id;
+			opt.textContent=s.name;
+			select.appendChild(opt);
+		});
+	});
+	fetch("/api/regions/travel-times") //渡航時間
+	.then(r => r.json())
+	.then(data => {
+		const select=document.getElementById("travelTime");
+		data.forEach(t => {
+			const opt=document.createElement("option");
+			opt.value=t;
+			opt.textContent=t;
+			select.appendChild(opt);
+		});
+	});
+	fetch("/api/regions/budgets") //予算
+	.then(r => r.json())
+	.then(data => {
+		const select=document.getElementById("budget");
+		data.forEach(b => {
+			const opt=document.createElement("option");
+			opt.value=b;
+			opt.textContent=b;
+			select.appendChild(opt);
+		});
+	});
+  });
+  function searchRegions(){
+	const params=new URLSearchParams();
+	const countryVal = document.getElementById("countryName").value || null;
+	const regionVal = document.getElementById("regionId").value || null;
+	const spotVal = document.getElementById("spotId").value || null;
+	const travelVal = document.getElementById("travelTime").value;
+	const budgetVal = document.getElementById("budget").value || null;
+	// テスト用 console.log("送信前値：",{regionVal, spotVal, travelVal, budgetVal});
+	if(countryVal) params.append("countryName",countryVal);
+	if(regionVal) params.append("regionId",regionVal);
+	if(spotVal) params.append("spotId",spotVal);
+	if(travelVal) params.append("travelTime",travelVal);
+	if(budgetVal) params.append("budget",budgetVal);
+	// テスト用 console.log("送信するURLSearchParams：", params.toString());
+	
+	fetch("/api/regions/search?" + params.toString())
+	.then(r => {if(!r.ok){
+		console.error("サーバエラー",r.status,r.statusText);
+	  return [];}  return r.json(); })
+	.then(data => {
+		const ul = document.getElementById("results");
+		ul.innerHTML = "";
+		if(!data.length === 0){
+			const li = document.createElement("li");
+			li.textContent="該当結果なし";
+			ul.appendChild(li);
+			return;
+		}
+		data.forEach(r => {
+			const li = document.createElement("li");
+			li.textContent = 
+			`${r.name}(${r.countryName} - Budget: ${r.budget}万円,
+			Flight: ${r.flightTime}h)
+			- Spots: ${r.spots.join(",")}`;
+			ul.appendChild(li);
+		});
+	}) .catch(err => console.error(err));
+  }  //検索用ここまで
+  
+  
   </script>
 </body>
 </html>
