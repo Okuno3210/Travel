@@ -33,10 +33,11 @@ public class Region {
 	private List<TouristSpot> touristSpots;
 
     private String name;
-    private Integer budget;
-    private Integer flightTime;
-    private Integer timezone;
+    private String budget;
+    private String flightTime;
+    private String timezone;
     private String climate;
-    private Integer riskLevel;
+    private String riskLevel;
     private String description;
+    private String imgUrl;
 }

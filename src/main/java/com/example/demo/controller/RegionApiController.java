@@ -80,7 +80,7 @@ public class RegionApiController {
     }
     
     @GetMapping("/travel-times") // 渡航時間リスト
-    public List<Integer>getTravelTimes(){
+    public List<String>getTravelTimes(){
     	return regionRepo.findAll().stream() //逐次処理用にデータをバラす
     			.map(Region::getFlightTime)
     			.distinct() //重複防止
@@ -89,7 +89,7 @@ public class RegionApiController {
     }
     
     @GetMapping("/budgets") // 予算リスト
-    public List<Integer> getBudgets(){
+    public List<String> getBudgets(){
     	return regionRepo.findAll().stream()
     			.map(Region::getBudget)
     			.distinct() //重複防止
