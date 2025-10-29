@@ -1,5 +1,14 @@
-﻿id,code,name,currency_rate,description
-1,USA,United states of America,1円 = 0.007ドル,ハンバーガーの国
-2,ITA,Italy,1円 = 0.0057ユーロ,パスタの国
-3,FRA,France,1円 = 0.0057ユーロ,おしゃれ隊長
-4,VNM,Vietnam,1円 = 174.95ドン,フォーの国
+id,code,name,description,image_url
+1,USA,アメリカ,自由と多様性,/images/country/America.png
+2,ITA,イタリア,芸術と情熱,/images/country/Italy.png
+3,FRA,フランス,美と文化,/images/country/France.png
+4,VNM,ベトナム,活気ある歴史,/images/country/Vietnam.png
+5,CHE,スイス,永世中立と自然美,/images/country/Switzerland.png
+6,AUS,オーストラリア,大自然と個性,/images/country/Australia.png
+7,THA,タイ,微笑みの国,/images/country/Thai.png
+8,EGY,エジプト,悠久の文明,/images/country/Egypt.png
+9,IRN,イラン,古きペルシャの栄光,/images/country/Iran.png
+10,IND,インド,混沌と神秘,/images/country/India.png
+11,CHN,中国,巨大な発展,/images/country/China.png
+12,RUS,ロシア,広大な大地,/images/country/Russia.png
+13,KOR,韓国,K-POPとIT,/images/country/Korea.png
