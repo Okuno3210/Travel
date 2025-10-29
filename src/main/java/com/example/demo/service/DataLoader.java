@@ -148,7 +148,7 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
             br.lines().skip(1) // ヘッダーをスキップ
               .filter(line -> !line.trim().isEmpty())
               .forEach(line -> {
-                  String[] arr = line.split(",", 5); // descriptionにカンマがあってもOK
+                  String[] arr = line.split(","); // descriptionにカンマがあってもOK
 
                   // Foodエンティティ作成
                   Food food = new Food();
@@ -157,9 +157,10 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                   food.setImgUrl(arr.length > 4 ? arr[4] : "");
 
                   // Regionを紐づけ
-                  Long regionId = Long.parseLong(arr[1]);
-                  regionRepo.findById(regionId).ifPresent(food::setRegion);
-
+                  Region region = regionRepo.findById(Long.parseLong(arr[1])).orElse(null);
+                  if(region != null) {
+                  	food.setRegion(region);
+                  }
                   // 保存
                   foodRepo.save(food);
               });
