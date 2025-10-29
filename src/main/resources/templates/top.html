@@ -199,10 +199,17 @@
       font-size: 28px;
     }
   }
+  
+  .google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+  }
 </style>
 </head>
 
 <body>
+	
 
   <!-- 上部白帯 -->
   <header>
@@ -210,6 +217,7 @@
       <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
     </div>
 
+	
     <!-- 未ログイン時のみ表示 -->
     <div th:if="${!#authorization.expression('isAuthenticated()')}">
       <a href="/login" class="btn login-btn">Login</a>
@@ -223,7 +231,10 @@
 
   <!-- メインエリア -->
   <main>
-    <div class="center-buttons">
+	
+	<div id="google_translate_element"></div>
+   
+	 <div class="center-buttons">
       <a th:href="@{/maplink}" class="btn center-btn map-btn">地図検索</a>
       <a th:href="@{/select}" class="btn center-btn select-btn">条件検索</a>
       <a th:href="@{/plantrip}" class="btn center-btn plan-btn">ツアープラン一覧</a>
@@ -276,6 +287,9 @@
     <a th:href="@{/scenic}" class="btn footer-btn scenic-btn">絶景スポット</a>
     <a th:href="@{/activity}" class="btn footer-btn activity-btn">アクティビティ体験</a>
   </footer>
+  
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript" src="/js/script.js"></script>
 
 </body>
 </html>
