@@ -25,4 +25,5 @@ public class TouristSpot {
     private Region region;    // RegionとのJOIN用
     private String name;
     private String description;
+    private String imgUrl;
 }
