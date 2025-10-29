@@ -17,7 +17,9 @@ public class CountryController {
         this.countryService = countryService;
     }
 	@GetMapping("/EGY")
-	public String EgyptView() {	
+	public String EgyptView(Model model) {	
+		Country country = countryService.findByCode("EGY");
+	    model.addAttribute("country", country);
 		return "/countrys/egy";
 	}
 	
@@ -30,12 +32,16 @@ public class CountryController {
 
 	
 	@GetMapping("/USA")
-	public String UsaView() {	
+	public String UsaView(Model model) {
+		Country country = countryService.findByCode("USA");
+	    model.addAttribute("country", country);
 		return "/countrys/usa";
 	}
 	
 	@GetMapping("/IRN")
-	public String IranView() {	
+	public String IranView(Model model) {	
+		Country country = countryService.findByCode("IRN");
+	    model.addAttribute("country", country);
 		return "/countrys/irn";
 	}
 	
@@ -48,42 +54,58 @@ public class CountryController {
 	}
 	
 	@GetMapping("/FRA")
-	public String FranceView() {	
+	public String FranceView(Model model) {	
+		Country country = countryService.findByCode("FRA");
+	    model.addAttribute("country", country);
 		return "/countrys/fra";
 	}
 	
 	@GetMapping("/VNM")
-	public String VietnamView() {	
+	public String VietnamView(Model model) {	
+		Country country = countryService.findByCode("VNM");
+	    model.addAttribute("country", country);
 		return "/countrys/vnm";
 	}
 	
 	@GetMapping("/CHE")
-	public String SwitzerlandView() {	
+	public String SwitzerlandView(Model model) {	
+		Country country = countryService.findByCode("CHE");
+	    model.addAttribute("country", country);
 		return "/countrys/che";
 	}
 	
 	@GetMapping("/THA")
-	public String ThaiView() {	
+	public String ThaiView(Model model) {	
+		Country country = countryService.findByCode("THA");
+	    model.addAttribute("country", country);
 		return "/countrys/tha";
 	}
 	
 	@GetMapping("/IND")
-	public String IndiaView() {	
+	public String IndiaView(Model model) {	
+		Country country = countryService.findByCode("IND");
+	    model.addAttribute("country", country);
 		return "/countrys/ind";
 	}
 	
 	@GetMapping("/CHN")
-	public String ChinaView() {	
+	public String ChinaView(Model model) {	
+		Country country = countryService.findByCode("CHN");
+	    model.addAttribute("country", country);
 		return "/countrys/chn";
 	}
 	
 	@GetMapping("/RUS")
-	public String RussiaView() {	
+	public String RussiaView(Model model) {	
+		Country country = countryService.findByCode("RUS");
+	    model.addAttribute("country", country);
 		return "/countrys/rus";
 	}
 	
 	@GetMapping("/KOR")
-	public String KoreaView() {	
+	public String KoreaView(Model model) {	
+		Country country = countryService.findByCode("KOR");
+	    model.addAttribute("country", country);
 		return "/countrys/kor";
 	}
 
