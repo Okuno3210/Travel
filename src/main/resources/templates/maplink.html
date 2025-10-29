@@ -1,87 +1,299 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8" />
-<title>世界地図</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>世界地図 | TRAVEL POP!</title>
 
 <style>
-  
-	body {
-	  margin: 0;
-	  padding: 20px;
-	  background-image: url("/images/background-sky.png"); /* ← 背景画像パス */
-	  background-size: cover;       /* 画面いっぱいに広げる */
-	  background-position: center;  /* 画像を中央に配置 */
-	  background-repeat: no-repeat; /* 繰り返しをしない */
-	  background-attachment: fixed; /* スクロールしても背景を固定 */
-	}
-
+  /* 🎨 全体テーマ：ポップでかわいい旅行デザイン */
+  body {
+    margin: 0;
+	background: url('/images/map_background.png') no-repeat center center / cover;
+    color: #333;
+	font-family: 'Noto Sans JP', 'メイリオ', sans-serif;
+    overflow-x: hidden;
+  }
   
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* ✨ ヘッダー */
+  header {
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+  }
+
+  .logo-img {
+    height: 60px;
+  }
+
+  .btn {
+    font-weight: bold;
+    padding: 10px 28px;
+    border-radius: 25px;
+    font-size: 15px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .login-btn { background: #FFDA77; color: #333; }
+  .mypage-btn { background: #FF6F91; color: #fff; }
+
+  /* 🌍 メインタイトル */
+  h1 {
+    font-size: 30px;
+    margin-bottom: 0px;
+    color: #202340;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+
+  /* 🗺️ 地図セクション */
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+  }
+
+  /* 🗺️ 地図コンテナ修正版 */
   .map-container {
     position: relative;
-    width: 1200px;
-    height: 750px;
-    background-color: rgb(109, 151, 201);
-    margin: 0 auto;
-    overflow: visible;
+    width: 90%;
+    max-width: 1200px;
+    height: 750px; /* ← 高さ少し増やす */
+    border-radius: 25px;
+    overflow: hidden;
+    margin: 20px auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    background: #fff;
+    border: 6px solid rgba(255,255,255,0.8); /* 柔らかい白フチ */
   }
+  
+  .map-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.8);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Googleマップ埋め込みを下に少し下げて見切れ防止 */
+  .map-container iframe {
+    border: none;
+    width: 100%;
+    height: calc(100% + 10px); /* ← 上部見切れ防止のため少し余白分広げる */
+    margin-top: 0px; /* ← カードが上に出る余裕を作る */
+    border-radius: 25px;
+	
+  }
+
+  /* ヘッダーを柔らかくする */
+  .map-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background:  #f9d423;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    z-index: 1;
+  }
+
 
   iframe {
     border: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
   }
 
-  /* 左下の固定ポップアップ */
+  /* 📍 左下ポップアップ（最終改良版 TRAVEL POP! テイスト） */
   .fixed-popup {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 300px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    bottom: 25px;
+    left: 25px;
+    width: 340px;
+    background: linear-gradient(180deg, #fffdf8 0%, #fff9f3 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(255, 182, 193, 0.45);
+    overflow: visible;
     display: none;
-    overflow: hidden;
-    z-index: 10003;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease, transform 0.3s ease;
+    transform: translateY(15px);
+    z-index: 1200; /* ← 帯や地図よりも確実に前面に */
+    border: 2px solid rgba(255, 200, 210, 0.7);
   }
 
+  /* 表示時（ふわっと上がる） */
   .fixed-popup.show {
+    display: block;
     opacity: 1;
-	display: block;
+    transform: translateY(0);
+    animation: popup-fadein 0.4s ease forwards;
   }
 
+  /* ✨ 画像部分（見切れ防止＋浮き感アップ） */
   .fixed-popup img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    display: block;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: 0; /* ← ここが重要。マイナスマージンを削除して見切れ防止！ */
+    box-shadow: 0 6px 15px rgba(255, 150, 170, 0.3);
+    position: relative;
+    z-index: 1;
   }
 
+  /* 📝 テキスト部分（カード下半分） */
   .fixed-popup p {
-    font-size: 18px;
-    padding: 10px;
     margin: 0;
-    line-height: 1.5;
+    padding: 18px 16px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+    background: #fff;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: inset 0 4px 6px rgba(255, 200, 210, 0.25);
   }
 
-  /* 右下の国リスト */
+  /* 💫 アニメーション */
+  @keyframes popup-fadein {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 📍 左下ポップアップ（TRAVEL POP! 超可愛く版） */
+  .fixed-popup {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 360px;
+    background: linear-gradient(180deg, #fff8f0 0%, #ffeef2 100%);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(255, 160, 180, 0.45);
+    overflow: visible;
+    display: none;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 1200;
+    border: 3px solid rgba(255, 200, 220, 0.7);
+  }
+
+  /* 表示時 */
+  .fixed-popup.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: popup-fadein 0.5s ease forwards;
+  }
+
+  /* 画像部分 */
+  .fixed-popup img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-top: -10px;
+    box-shadow: 0 8px 20px rgba(255, 150, 190, 0.35);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .fixed-popup img:hover {
+    transform: translateY(-3px) scale(1.03);
+  }
+
+  /* テキスト部分 */
+  .fixed-popup p {
+    margin: 0;
+    padding: 20px 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+    background: #fffdf9;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: inset 0 6px 12px rgba(255, 200, 210, 0.2);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* アニメーション */
+  @keyframes popup-fadein {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+
+
+  /* 🇯🇵 右下：国リスト（TRAVEL POP! テイスト） */
   .right-bottom-link-list {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    max-width: 220px;
-    font-size: 18px;
-    z-index: 10002;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    background:  #FF6B81; /* 明るいピンクグラデ */
+    color: #fff;
+    padding: 20px 28px;
+    border-radius: 30px; /* しっかり丸く */
+    font-size: 16px;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive; /* POPな丸文字 */
+    font-weight: bold;
+    z-index: 1001;
+    box-shadow: 0 8px 20px rgba(255, 107, 129, 0.4); /* 柔らかい影 */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
   }
 
+  /* リスト整形 */
   .right-bottom-link-list ul {
     list-style: none;
     margin: 0;
@@ -89,201 +301,147 @@
   }
 
   .right-bottom-link-list li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
-  .right-bottom-link-list a {
-    color: white;
-    text-decoration: none;
-  }
-
-  .right-bottom-link-list a:hover {
-    text-decoration: underline;
-  }
-
-  /* トップ・マイページリンク */
-  .left-link, .right-link {
-    position: fixed;
-    top: 5%;
-    background-color: #003366;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 10001;
+  /* 見出し風 */
+  .right-bottom-link-list li:first-child {
     font-weight: bold;
+    color: #FFFACD; /* パステルイエローで目立たせる */
+    margin-bottom: 12px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
   }
 
-  .left-link {
-    left: 10px;
-    font-size: 18px;
+  /* リンク */
+  .right-bottom-link-list a {
+    color: #fff;
+    padding: 6px 0;
+    display: block;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+    border-radius: 10px;
   }
 
-  .right-link {
-    right: 10px;
-    font-size: 18px;
+  /* ホバー時 */
+  .right-bottom-link-list a:hover {
+    color: #FFFAF0;
+    border-left: 3px solid #FFFACD;
+    padding-left: 10px;
+    background: rgba(255,255,255,0.2);
+    transform: translateX(3px);
   }
 
-  .left-link a, .right-link a {
-    color: white;
-    text-decoration: none;
-  }
 
-  .left-link a:hover, .right-link a:hover {
-    text-decoration: underline;
-  }
+  /* --- 下部緑帯（フッター） --- */
+    footer {
+      background-color: #A8E6CF;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 35px 0;
+      flex-wrap: wrap;
+    }
 
-  /* 雲・飛行機（オプション演出） */
-  .cloud {
-    position: absolute;
-    top: 10%;
-    left: 5%;
-    width: 100px;
-    opacity: 0.8;
-    animation: floatCloud 30s linear infinite;
-    pointer-events: none;
-  }
+    .footer-btn {
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      padding: 15px 40px;
+      border-radius: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-  @keyframes floatCloud {
-    0% { transform: translateX(-150px); }
-    100% { transform: translateX(1300px); }
-  }
+    .footer-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
 
-  .airplane {
-    position: absolute;
-    top: 40%;
-    left: -100px;
-    width: 60px;
-    opacity: 0.8;
-    animation: flyAirplane 30s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes flyAirplane {
-    0% { transform: translateX(0) rotate(10deg) scaleX(-1); }
-    49.9% { transform: translateX(1300px) rotate(-10deg) scaleX(-1); }
-    50% { transform: translateX(1300px) rotate(-10deg) scaleX(1); }
-    100% { transform: translateX(0) rotate(10deg) scaleX(1); }
-  }
-
+    .gourmet-btn { background: #FF6B81; color: #202340;}
+    .scenic-btn { background: #80C2FF; color: #202340;}
+    .activity-btn { background: #FFC93C; color: #202340; }
+	
 </style>
 </head>
+
 <body>
 
-<div class="map-container">
-  <iframe src="https://www.google.com/maps/d/embed?mid=1dg5zD90LoupT3LdWZGdaqqyEwVBRzms&ehbc=2E312F&noprof=1" width="1200" height="750"></iframe>
-</div>
+  <!-- 💛 ヘッダー -->
+  <header>
+    <div>
+      <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+    </div>
 
-<!-- 雲と飛行機 -->
-<img src="/images/cloud.png" alt="cloud" class="cloud" />
-<img src="/images/airplane.png" alt="airplane" class="airplane"
-     style="position: absolute; top: 50px; left: 0;
-            animation: flyAirplane 8s linear infinite;
-            width: 80px;">
+    <div>
+      <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn login-btn">Login</a>
+      <a sec:authorize="isAuthenticated()" th:href="@{/mypage}" class="btn mypage-btn">Mypage</a>
+    </div>
+  </header>
 
-<!-- 左下固定ポップアップ -->
-<div class="fixed-popup" id="fixedPopup"></div>
+  <!-- 🌍 メイン -->
+  <main>
+    <h1>🌏 世界地図を旅しよう！</h1>
 
-<!-- トップ・マイページリンク -->
-<div class="left-link">
-  <a href="/">←トップページへ戻る</a>
-</div>
-<div class="right-link">
-	
-	<!-- 未ログイン時 -->
-					    <a th:if="${!#authorization.expression('isAuthenticated()')}"
-					       th:href="@{/login}" class="login">login→</a>
+    <div class="map-container">
+      <div class="map-header">🌈 World Travel Map</div>
+      <iframe src="https://www.google.com/maps/d/embed?mid=1dg5zD90LoupT3LdWZGdaqqyEwVBRzms&ehbc=2E312F&noprof=1"></iframe>
+    </div>
+  </main>
 
-					    <!-- ログイン時 -->
-					    <a th:if="${#authorization.expression('isAuthenticated()')}"
-					       th:href="@{/mypage}" class="mypage">mypage→</a>
-						 
-</div>
+  <!-- 📸 ポップアップ -->
+  <div class="fixed-popup" id="fixedPopup"></div>
 
-<!-- 右下の国リスト -->
-<div class="right-bottom-link-list">
-  <ul>
-    <li>国名をクリック↓</li>
-    <li><a th:href="@{/EGY}" class="country-link" data-country="egypt">エジプト</a></li>
-    <li><a th:href="@{/AUS}" class="country-link" data-country="Aust">オーストラリア</a></li>
-    <li><a th:href="@{/USA}" class="country-link" data-country="usa">アメリカ</a></li>
-    <li><a th:href="@{/IRN}" class="country-link" data-country="Iran">イラン</a></li>
-    <li><a th:href="@{/ITA}" class="country-link" data-country="italy">イタリア</a></li>
-    <li><a th:href="@{/FRA}" class="country-link" data-country="France">フランス</a></li>
-    <li><a th:href="@{/VNM}" class="country-link" data-country="Vietnam">ベトナム</a></li>
-    <li><a th:href="@{/CHE}" class="country-link" data-country="Switz">スイス</a></li>
-    <li><a th:href="@{/THA}" class="country-link" data-country="Thai">タイ</a></li>
-    <li><a th:href="@{/IND}" class="country-link" data-country="india">インド</a></li>
-    <li><a th:href="@{/CHN}" class="country-link" data-country="china">中国</a></li>
-    <li><a th:href="@{/RUS}" class="country-link" data-country="Russia">ロシア</a></li>
-    <li><a th:href="@{/KOR}" class="country-link" data-country="korea">韓国</a></li>
-  </ul>
-</div>
+  <!-- 📍 国リスト -->
+  <div class="right-bottom-link-list">
+    <ul>
+      <li>🌏 国を選ぶ</li>
+      <li><a th:href="@{/EGY}" class="country-link" data-country="egypt">エジプト</a></li>
+      <li><a th:href="@{/AUS}" class="country-link" data-country="Aust">オーストラリア</a></li>
+      <li><a th:href="@{/USA}" class="country-link" data-country="usa">アメリカ</a></li>
+      <li><a th:href="@{/IRN}" class="country-link" data-country="Iran">イラン</a></li>
+      <li><a th:href="@{/ITA}" class="country-link" data-country="italy">イタリア</a></li>
+      <li><a th:href="@{/FRA}" class="country-link" data-country="France">フランス</a></li>
+      <li><a th:href="@{/VNM}" class="country-link" data-country="Vietnam">ベトナム</a></li>
+      <li><a th:href="@{/CHE}" class="country-link" data-country="Switz">スイス</a></li>
+      <li><a th:href="@{/THA}" class="country-link" data-country="Thai">タイ</a></li>
+      <li><a th:href="@{/IND}" class="country-link" data-country="india">インド</a></li>
+      <li><a th:href="@{/CHN}" class="country-link" data-country="china">中国</a></li>
+      <li><a th:href="@{/RUS}" class="country-link" data-country="Russia">ロシア</a></li>
+      <li><a th:href="@{/KOR}" class="country-link" data-country="korea">韓国</a></li>
+    </ul>
+  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const links = document.querySelectorAll('.country-link');
-  const fixedPopup = document.getElementById('fixedPopup');
+  <!-- 🌸 フッター -->
+  <footer>
+    <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">🍴 グルメ旅</a>
+    <a th:href="@{/scenic}" class="footer-btn scenic-btn">🏞 絶景スポット</a>
+    <a th:href="@{/activity}" class="footer-btn activity-btn">🎡 アクティビティ体験</a>
+  </footer>
 
-  // 国ごとのデータ
-  const countryData = {
-    egypt: {
-      img: '/images/country/Egypt.jpg',
-      text: '【エジプト】<br>世界最古の文明「古代エジプト文明」。スフィンクスやピラミッドが有名。首都はカイロ。'
-    },
-    Aust: {
-      img: '/images/country/Australia.png',
-      text: '【オーストラリア】<br>大自然と都市が調和。グレートバリアリーフやシドニーが人気。'
-    },
-    usa: {
-      img: '/images/country/America.png',
-      text: '【アメリカ】<br>多様な文化と絶景、NYやグランドキャニオンなど見どころ満載。'
-    },
-    Iran: {
-      img: '/images/country/Iran.png',
-      text: '【イラン】<br>歴史的建築美が残る国。イスファハンやペルセポリスが有名。'
-    },
-    italy: {
-      img: '/images/country/italy.png',
-      text: '【イタリア】<br>ローマやベネチアなど歴史と美食の国。'
-    },
-    France: {
-      img: '/images/country/France.png',
-      text: '【フランス】<br>芸術と美食の都。パリやモンサンミッシェルが有名。'
-    },
-    Vietnam: {
-      img: '/images/country/Vietnam.png',
-      text: '【ベトナム】<br>古都と自然美、ホイアンやハロン湾が人気。'
-    },
-    Switz: {
-      img: '/images/country/Switzerland.png',
-      text: '【スイス】<br>アルプスの絶景とチョコレートの国。'
-    },
-    Thai: {
-      img: '/images/country/Thailand.png',
-      text: '【タイ】<br>寺院と南国リゾート。バンコクやプーケットが人気。'
-    },
-    india: {
-      img: '/images/country/India.png',
-      text: '【インド】<br>多様な文化と宗教。タージ・マハルが象徴的。'
-    },
-    china: {
-      img: '/images/country/China.jpg',
-      text: '【中国】<br>万里の長城や故宮など壮大な歴史遺産を持つ国。'
-    },
-    Russia: {
-      img: '/images/country/Russia.png',
-      text: '【ロシア】<br>壮麗な建築と芸術。モスクワやサンクトペテルブルクが見どころ。'
-    },
-    korea: {
-      img: '/images/country/korea.png',
-      text: '【韓国】<br>Kカルチャーと美食。ソウルや済州島が人気。'
-    }
-  };
+  <!-- 💫 JS ポップアップ -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.country-link');
+    const fixedPopup = document.getElementById('fixedPopup');
 
-  // リンクにホバーした時の処理
-   links.forEach(link => {
+    const countryData = {
+      egypt: { img: '/images/country/Egypt.jpg', text: '【エジプト】<br>ピラミッドとナイル文明の国。首都カイロ。' },
+      Aust: { img: '/images/country/Australia.png', text: '【オーストラリア】<br>大自然と都市が調和する国。' },
+      usa: { img: '/images/country/America.png', text: '【アメリカ】<br>NYやグランドキャニオンなど多様な魅力。' },
+      Iran: { img: '/images/country/Iran.png', text: '【イラン】<br>歴史と芸術の建築美が残る国。' },
+      italy: { img: '/images/country/Italy.png', text: '【イタリア】<br>美食と歴史のロマン溢れる国。' },
+      France: { img: '/images/country/France.png', text: '【フランス】<br>芸術と美食の都。' },
+      Vietnam: { img: '/images/country/Vietnam.png', text: '【ベトナム】<br>ハロン湾と古都の情緒。' },
+      Switz: { img: '/images/country/Switzerland.png', text: '【スイス】<br>アルプスの絶景と時計の国。' },
+      Thai: { img: '/images/country/Thailand.png', text: '【タイ】<br>寺院と南国リゾートの楽園。' },
+      india: { img: '/images/country/India.png', text: '【インド】<br>タージマハルとスパイス文化。' },
+      china: { img: '/images/country/China.jpg', text: '【中国】<br>万里の長城や故宮など歴史遺産多数。' },
+      Russia: { img: '/images/country/Russia.png', text: '【ロシア】<br>モスクワやサンクトペテルブルクが見どころ。' },
+      korea: { img: '/images/country/Korea.png', text: '【韓国】<br>Kカルチャーと美食の国。' }
+    };
+
+    links.forEach(link => {
       const country = link.dataset.country;
-
       link.addEventListener('mouseenter', () => {
         const data = countryData[country];
         if (data) {
@@ -294,13 +452,12 @@ document.addEventListener('DOMContentLoaded', () => {
           fixedPopup.classList.add('show');
         }
       });
-
       link.addEventListener('mouseleave', () => {
         fixedPopup.classList.remove('show');
       });
     });
   });
-</script>
+  </script>
 
 </body>
 </html>
