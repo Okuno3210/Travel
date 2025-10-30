@@ -1,6 +1,7 @@
-package com.example.demo.controller; //1027厚田修正
+package com.example.demo.controller; //1030厚田修正
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Country;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.TouristSpot;
 import com.example.demo.repository.CountryRepository;
@@ -21,15 +21,15 @@ import com.example.demo.repository.TouristSpotRepository;
 @RequestMapping("/api/regions")
 public class RegionApiController {
 
-    private final CountryRepository countryRepo; //1027書き換え
+    private final CountryRepository countryRepo;
     private final RegionRepository regionRepo;
     private final TouristSpotRepository spotRepo;
 
     public RegionApiController(RegionRepository regionRepo, 
-    TouristSpotRepository spotRepo, CountryRepository countryRepo) { //1027書き換え
+    TouristSpotRepository spotRepo, CountryRepository countryRepo) {
         this.regionRepo = regionRepo;
         this.spotRepo = spotRepo;
-        this.countryRepo = countryRepo; //1027書き換え
+        this.countryRepo = countryRepo;
     }
 
     // ▼ region の選択肢取得（CSVから読み込んだデータを返す）
@@ -45,17 +45,16 @@ public class RegionApiController {
     // ▼ 検索機能（region・spot・時間・予算を条件に検索）
     @GetMapping("/search")
     public List<Map<String, Object>> searchRegions(
-    		@RequestParam(required=false) String countryName,
+    		@RequestParam(required=false) Long countryId, //String countryName,
     		@RequestParam(required=false)String regionName,
             @RequestParam(required = false) Long regionId,
             @RequestParam(required = false) String spotId,
-            @RequestParam(required = false) Integer travelTime,
+            @RequestParam(required = false) String travelTime, //10/30 Stringに変更
             @RequestParam(required = false) Integer budget
     ) {
-    	//System.out.println("リージョンId=" + regionId + ", travelTime=" + travelTime);
-    	//System.out.println("リクエスト呼ばれてるか確認："+spotId);
+
        	List<Region>regions=regionRepo.searchRegions
-    	(countryName,regionId,regionName,spotId,travelTime,budget);
+    	(countryId,regionId,regionName,spotId,travelTime,budget);
     	
     	return regions.stream()
     	    	.map(r -> Map.of(
@@ -66,18 +65,30 @@ public class RegionApiController {
     	                "spots", r.getTouristSpots() != null
     	                ? r.getTouristSpots().stream()
     	                .map(TouristSpot::getName)
-    	                .collect(Collectors.toList()): List.of(),
+    	                .collect(Collectors.toList())
+    	                : List.of(),
     	                "countryName", r.getCountry() != null 
-    	                ? r.getCountry().getName() : null         
+    	                ? r.getCountry().getName() : null,
+    	                "description",r.getCountry() != null //1030追加
+    	                ? r.getCountry().getDescription() : null
     	             ))
     	         .collect(Collectors.toList());
     	    }
-    @GetMapping("/countries")  //国名1027追加
-    public List<String>getCountryName(){
+    @GetMapping("/countries")  //国名
+    /*public List<String>getCountryName(){
     	return countryRepo.findAll().stream()
-    			.map(Country::getName)
-    			.distinct().sorted().collect(Collectors.toList());
-    }
+    			.map(Country::getName).distinct().sorted()*/
+    public List<Map<String,Object>>getCountryName(){
+    	return countryRepo.findAll().stream()
+    			.map(c ->{
+    				Map<String,Object> m=new HashMap<>();
+    				m.put("id", c.getId());
+    				m.put("code", c.getCode());
+    				m.put("name", c.getName());
+    				m.put("description", c.getDescription());
+    				m.put("ImgUrl", c.getImgUrl()); //10/30追加
+    				return m;
+    			}).collect(Collectors.toList());}
     
     @GetMapping("/travel-times") // 渡航時間リスト
     public List<String>getTravelTimes(){
