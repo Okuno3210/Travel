@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${region.name}">Region Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f9ff;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        img {
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            margin: 20px auto;
+            border-radius: 12px;
+        }
+        .info {
+            margin-top: 20px;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        .spots {
+            margin-top: 40px;
+        }
+        .spots h3 {
+            color: #007bff;
+        }
+        .spots ul {
+            list-style: none;
+            padding: 0;
+        }
+        .spots li {
+            background: #f0f7ff;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        a.back {
+            display: inline-block;
+            margin-top: 30px;
+            background: linear-gradient(90deg, #007bff, #00c4ff);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        a.back:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${region.name}"></h1>
+
+    <img th:src="${region.imageUrl}" alt="地域画像">
+
+    <div class="info">
+        <p><strong>国名:</strong> <span th:text="${region.country.name}"></span></p>
+        <p><strong>予算:</strong> <span th:text="${region.budget}"></span> 万円</p>
+        <p><strong>渡航時間:</strong> <span th:text="${region.flightTime}"></span> 時間</p>
+        <p><strong>タイムゾーン:</strong> <span th:text="${region.timezone}"></span></p>
+        <p><strong>気候:</strong> <span th:text="${region.climate}"></span></p>
+        <p><strong>治安レベル:</strong> <span th:text="${region.riskLevel}"></span></p>
+        <p><strong>説明:</strong></p>
+        <p th:text="${region.description}"></p>
+    </div>
+
+    <div class="spots" th:if="${region.touristSpots != null and !#lists.isEmpty(region.touristSpots)}">
+        <h3>観光スポット一覧</h3>
+        <ul>
+            <li th:each="spot : ${region.touristSpots}">
+                <a th:href="@{/spots/detail/{id}(id=${spot.id})}" th:text="${spot.name}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <a href="/regions" class="back">一覧に戻る</a>
+</div>
+</body>
+</html>

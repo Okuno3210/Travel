@@ -39,5 +39,5 @@ public class Region {
     private String climate;
     private String riskLevel;
     private String description;
-    private String imgUrl;
+    private String imageUrl;
 }

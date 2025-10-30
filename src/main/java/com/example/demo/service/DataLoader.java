@@ -102,7 +102,7 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                 r.setClimate(arr[6]);
                 r.setRiskLevel(arr[7]);
                 r.setDescription(arr.length > 8 ? arr[8] : ""); // 9列目が無ければ空文字
-                r.setImgUrl(arr[9]); 
+                r.setImageUrl(arr[9]); 
                 Country country = countryRepo.findById(Long.parseLong(arr[1])).orElse(null);
                 if(country != null) {
                 	r.setCountry(country);}
