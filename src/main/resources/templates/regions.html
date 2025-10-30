@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Region List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #f4f9ff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 40px;
+            background: #f8fbff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h2 a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        h2 a:hover {
+            text-decoration: underline;
+        }
+        img {
+            width: 250px;
+            border-radius: 10px;
+            display: block;
+            margin-top: 10px;
+        }
+        p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>地域一覧</h1>
+    <ul>
+        <li th:each="region : ${regions}">
+            <h2>
+                <a th:href="@{'/region/' + ${region.id}}" th:text="${region.name}"></a>
+            </h2>
+            <p><strong>国名:</strong> <span th:text="${region.country.name}"></span></p>
+            <p><strong>概要:</strong> <span th:text="${region.description}"></span></p>
+            <img th:src="${region.imageUrl}" alt="region image"/>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
