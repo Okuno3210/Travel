@@ -11,10 +11,10 @@ public class TopController {
 		return "top";
 	}
 	
-	@GetMapping("/mypage")
-	public String mypageView() {
-		return "mypage";
-	}
+//	@GetMapping("/list")
+//	public String mypageView() {
+//		return "list";
+//	}
 	
 	@GetMapping("/login")
 	public String loginView() {

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,9 @@ import com.example.demo.repository.FoodRepository;
 
 @Controller
 public class FoodController {
+	
+	// 例: Food.java
+	private String region; // 例えば "アジア", "ヨーロッパ" など
 
     @Autowired
     private FoodRepository foodRepository;
@@ -21,9 +26,15 @@ public class FoodController {
     @GetMapping("/foods")
     public String getFoods(Model model) {
         List<Food> foods = foodRepository.findAll();
-        model.addAttribute("foods", foods);
+
+        // 地域ごとにグループ化
+        Map<String, List<Food>> foodsByRegion = foods.stream()
+        	    .collect(Collectors.groupingBy(food -> food.getRegion().getName()));
+
+        model.addAttribute("foodsByRegion", foodsByRegion);
         return "foods"; // templates/foods.html
     }
+
 
     // 個別ページ
     @GetMapping("/foods/{id}")

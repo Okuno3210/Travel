@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link rel="stylesheet" th:href="@{/css/common.css}">
+
 </head>
 <body>
-
+	
+	<div th:replace="fragments/header :: header"></div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
