@@ -28,5 +28,6 @@ public class Food {
 
     private String name;
     private String description;
-    private String imgUrl;
+    private String imageUrl;
+;
 }
