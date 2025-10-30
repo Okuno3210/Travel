@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import jakarta.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -59,7 +57,8 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
     private void loadCsv() { //1027追加
     	loadCountries(); //countryを一番に読み込み
     	loadRegions();   //2番めにcountryに依存してるregionを読み込む
-        loadSpots();     //3番目以降はconcept以外regionに依存        
+        loadSpots();     //3番目以降はconcept以外regionに依存 
+        loadFoods();
     }
     
 //★ CSV増加時はここに loadXxx() を追加
@@ -119,8 +118,9 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
             .filter(line -> !line.trim().isEmpty()) // ← 空行を除外
             .forEach(line -> {
                 String[] arr = line.split(",");
-                
-
+                if(arr.length > 5) {
+                System.out.println("Line length: " + arr.length + " -> " + line);
+                }
                 TouristSpot s = new TouristSpot();
                 //s.setId(Long.parseLong(arr[0]));
                 //s.setRegionId(Long.parseLong(arr[1]));
@@ -134,11 +134,6 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                 spotRepo.save(s);
             });
         } catch (IOException e) { e.printStackTrace(); }
-    }
-    
-    @PostConstruct
-    public void init() {
-        loadFoods(); // 起動時に呼び出す
     }
     
 	private void loadFoods() {
@@ -157,10 +152,11 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                   food.setImgUrl(arr.length > 4 ? arr[4] : "");
 
                   // Regionを紐づけ
-                  Region region = regionRepo.findById(Long.parseLong(arr[1])).orElse(null);
+                  Region region = regionRepo.findById(Long.parseLong(arr[1].trim())).orElse(null);
                   if(region != null) {
                   	food.setRegion(region);
                   }
+                  
                   // 保存
                   foodRepo.save(food);
               });
