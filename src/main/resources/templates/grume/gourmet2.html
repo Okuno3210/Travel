@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>グルメ紹介</title>
+<style>
+  body {
+    font-family: "Yu Gothic", sans-serif;
+    background-color: #fafafa;
+    padding: 20px;
+  }
+  .food-item {
+    margin-bottom: 50px;
+  }
+  .food-item img {
+    width: 400px;
+    height: 400px;
+    border-radius: 8px;
+    display: block;
+    margin-top: 10px;
+  }
+  .food-item h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  .food-item p {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="food-item">
+    <h2>イン・アンド・アウト・バーガータコス</h2>
+    <a th:href="@{/region/001}">
+      <img th:src="@{/images/food/001.jpg}" alt="イン・アンド・アウト・バーガータコス">
+    </a>
+    <p>ロサンゼルスは本格的なメキシコ料理の宝庫。屋台やトラックで食べるタコスは格別です。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>フードトラック料理</h2>
+    <a th:href="@{/region/001}">
+      <img th:src="@{/images/food/002.jpg}" alt="フードトラック料理">
+    </a>
+    <p>様々な国の料理を提供するフードトラック（移動販売車）が街中にあり、手軽に多様な味が楽しめます。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>サワードウブレッド</h2>
+    <a th:href="@{/region/001}">
+      <img th:src="@{/images/food/003.jpg}" alt="サワードウブレッド">
+    </a>
+    <p>サンフランシスコに近いこともあり、酸味のある発酵パン（サワードウ）を使った料理やパンが人気です。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>高級ステーキハウスのステーキ</h2>
+    <a th:href="@{/region/002}">
+      <img th:src="@{/images/food/004.jpg}" alt="高級ステーキハウスのステーキ">
+    </a>
+    <p>ラスベガスの高級ホテルには一流のステーキハウスが多く、熟成肉や和牛などを堪能できます。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>セレブシェフのレストラン料理</h2>
+    <a th:href="@{/region/002}">
+      <img th:src="@{/images/food/005.jpg}" alt="セレブシェフのレストラン料理">
+    </a>
+    <p>ゴードン・ラムゼイなど、著名シェフがプロデュースした独創的な料理を体験できます。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>ファインダイニング</h2>
+    <a th:href="@{/region/002}">
+      <img th:src="@{/images/food/006.jpg}" alt="ファインダイニング">
+    </a>
+    <p>世界のトップホテルにある、洗練された雰囲気とサービスで楽しむ高級各国料理。</p>
+  </div>
+
+  <div class="food-item">
+    <h2>チミチャンガ</h2>
+    <a th:href="@{/region/003}">
+      <img th:src="@{/images/food/007.jpg}" alt="チミチャンガ">
+    </a>
+    <p>大きなトルティーヤに具材を詰めて揚げた、サウスウェスト料理の定番。</p>
+  </div>
+
+</body>
+</html>
