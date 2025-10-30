@@ -1,100 +1,112 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${region.name}">Region Detail</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f9ff;
-            color: #333;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #007bff;
-            border-bottom: 3px solid #007bff;
-            padding-bottom: 10px;
-        }
-        img {
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            margin: 20px auto;
-            border-radius: 12px;
-        }
-        .info {
-            margin-top: 20px;
-            line-height: 1.8;
-            font-size: 1.1em;
-        }
-        .spots {
-            margin-top: 40px;
-        }
-        .spots h3 {
-            color: #007bff;
-        }
-        .spots ul {
-            list-style: none;
-            padding: 0;
-        }
-        .spots li {
-            background: #f0f7ff;
-            margin-bottom: 10px;
-            padding: 10px 15px;
-            border-radius: 8px;
-        }
-        a.back {
-            display: inline-block;
-            margin-top: 30px;
-            background: linear-gradient(90deg, #007bff, #00c4ff);
-            color: #fff;
-            padding: 10px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-        a.back:hover {
-            opacity: 0.85;
-        }
-    </style>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${region.name}">地域詳細</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  </head>
 <body>
-<div class="container">
-    <h1 th:text="${region.name}"></h1>
 
-    <img th:src="${region.imageUrl}" alt="地域画像">
-
-    <div class="info">
-        <p><strong>国名:</strong> <span th:text="${region.country.name}"></span></p>
-        <p><strong>予算:</strong> <span th:text="${region.budget}"></span> 万円</p>
-        <p><strong>渡航時間:</strong> <span th:text="${region.flightTime}"></span> 時間</p>
-        <p><strong>タイムゾーン:</strong> <span th:text="${region.timezone}"></span></p>
-        <p><strong>気候:</strong> <span th:text="${region.climate}"></span></p>
-        <p><strong>治安レベル:</strong> <span th:text="${region.riskLevel}"></span></p>
-        <p><strong>説明:</strong></p>
-        <p th:text="${region.description}"></p>
+  <header class="pop-header">
+    <div class="logo-area">
+      <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
     </div>
-
-    <div class="spots" th:if="${region.touristSpots != null and !#lists.isEmpty(region.touristSpots)}">
-        <h3>観光スポット一覧</h3>
-        <ul>
-            <li th:each="spot : ${region.touristSpots}">
-                <a th:href="@{/spots/detail/{id}(id=${spot.id})}" th:text="${spot.name}"></a>
-            </li>
-        </ul>
+    <div class="header-buttons">
+      <a href="/login" class="btn login-btn" th:if="${!#authorization.expression('isAuthenticated()')}">Login</a>
+      <a href="/mypage" class="btn mypage-btn" th:if="${#authorization.expression('isAuthenticated()')}">My Page</a>
     </div>
+  </header>
 
-    <a href="/regions" class="back">一覧に戻る</a>
-</div>
+  <main class="region-detail">
+    <section class="region-hero">
+      <img th:src="${region.imageUrl}" alt="地域画像" class="region-image">
+      <div class="hero-text-overlay">
+        <h1 th:text="${region.name}" class="region-title">地域名</h1>
+        <p class="region-sub">
+          <span th:text="'所属国：' + ${region.country.name}">国名</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="description-area">
+        <p class="region-description" th:text="${region.description}">地域の説明が入ります。観光地として人気のリゾート地。温暖な気候で一年中楽しめる！</p>
+    </section>
+
+    <section class="info-card">
+      <h2>✨ 渡航・基本情報</h2>
+      <ul class="info-list-grid">
+        <li class="info-item">
+            <span class="info-icon">💰</span>
+            <strong>旅行予算</strong>
+            <span th:text="${region.budget}">--万円</span>
+        </li>
+        <li class="info-item">
+            <span class="info-icon">✈️</span>
+            <strong>所要時間</strong>
+            <span th:text="${region.flightTime}">--時間</span>
+        </li>
+        <li class="info-item">
+            <span class="info-icon">⏰</span>
+            <strong>時差</strong>
+            <span th:text="${region.timezone}">--時間</span>
+        </li>
+        <li class="info-item">
+            <span class="info-icon">☀️</span>
+            <strong>気候</strong>
+            <span th:text="${region.climate}">--</span>
+        </li>
+        <li class="info-item risk-level">
+            <span class="info-icon">🚨</span>
+            <strong>渡航危険レベル</strong>
+            <span th:text="'レベル' + ${region.riskLevel}">レベル--</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="recommend-area">
+      <h2>🏝 おすすめ観光スポット</h2>
+      <div class="spot-cards">
+        <th:block th:each="spot : ${touristSpots}">
+          <div class="spot-card" th:classappend="${spotStat.index % 3 == 0}? 'pink' : ${spotStat.index % 3 == 1}? 'blue' : 'yellow'">
+            <img th:src="${spot.imageUrl}" alt="" class="spot-image">
+            <div class="spot-content">
+                <h3 th:text="${spot.name}">名所名</h3>
+                <p th:text="${spot.description}">説明文</p>
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </section>
+
+    <section class="food-area">
+      <h2> 必食！地域のグルメ</h2>
+      <div class="food-cards">
+        <th:block th:each="food : ${foods}">
+          <div class="food-card">
+            <img th:src="${food.imageUrl}" alt="" class="food-image">
+            <div class="food-content">
+                <h3 th:text="${food.name}">食べ物名</h3>
+                <p th:text="${food.description}">食べ物説明</p>
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </section>
+
+    <div class="bottom-buttons">
+      <a href="/favorite" class="btn favorite-btn">💖 お気に入りに追加</a>
+      <a href="/regions" class="btn back-btn">🏠 トップメニューへ</a>
+      <a href="/regions/next" class="btn next-btn">✈️ 次の旅行を探す</a>
+    </div>
+  </main>
+
+  <footer>
+    <a th:href="@{/gourmet}" class="footer-btn gourmet">グルメ旅</a>
+    <a th:href="@{/scenic}" class="footer-btn scenic">絶景スポット</a>
+    <a th:href="@{/activity}" class="footer-btn activity">アクティビティ体験</a>
+    <a th:href="@{/foods}" class="footer-btn foods-btn">グルメ一覧</a>
+  </footer>
+
 </body>
 </html>
