@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food List</title>
+</head>
+<body>
+<h1>Food List</h1>
+<ul>
+    <li th:each="food : ${foods}">
+        <h2>
+            <a th:href="@{'/foods/' + ${food.id}}" th:text="${food.name}"></a>
+        </h2>
+        <p th:text="${food.description}"></p>
+        <img th:src="${food.imageUrl}" alt="food image" width="200"/>
+    </li>
+</ul>
+</body>
+</html>

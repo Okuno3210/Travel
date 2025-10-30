@@ -149,7 +149,7 @@ public class DataLoader implements ApplicationRunner{// 1027削除　CommandLine
                   Food food = new Food();
                   food.setName(arr[2]);
                   food.setDescription(arr.length > 3 ? arr[3] : "");
-                  food.setImgUrl(arr.length > 4 ? arr[4] : "");
+                  food.setImageUrl(arr.length > 4 ? arr[4] : "");
 
                   // Regionを紐づけ
                   Region region = regionRepo.findById(Long.parseLong(arr[1].trim())).orElse(null);
