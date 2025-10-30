@@ -226,7 +226,7 @@
 
     <!-- ログイン済み時のみ表示 -->
     <div th:if="${#authorization.expression('isAuthenticated()')}">
-      <a href="/mypage" class="btn mypage-btn">Mypage</a>
+      <a href="/list" class="btn mypage-btn">Mypage</a>
     </div>
   </header>
 

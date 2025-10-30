@@ -1,54 +1,197 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Favorites List</title>
-    <style>
-        .btn-map {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 6px 12px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 10px; }
-        button { margin-left: 10px; }
-    </style>
+<meta charset="UTF-8">
+<title>お気に入り一覧</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', 'メイリオ', sans-serif;
+    background: url('/images/map_background.png') no-repeat center top / cover;
+    background-attachment: fixed;
+    text-align: center;
+    color: #202340;
+  }
+
+  /* --- ヘッダー --- */
+  header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+  }
+
+  .logo-img {
+    height: 55px;
+  }
+
+  .btn {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .login-btn {
+    background-color: #FFC93C;
+    color: #202340;
+  }
+
+  /* --- メイン --- */
+  main {
+    padding: 40px 20px;
+    padding-bottom: 100px; /* フッター固定分の余白 */
+  }
+
+  h1 {
+    margin-top: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+
+  li {
+    margin-bottom: 12px;
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .country-link {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #202340;
+  }
+
+  button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e74c3c;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #c0392b;
+  }
+
+  .btn-map {
+    display: inline-block;
+    margin: 20px 10px 10px 10px;
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .btn-map:hover {
+    background-color: #217dbb;
+  }
+
+  .no-favorites {
+    margin-top: 40px;
+    font-size: 1.1em;
+  }
+
+  form.inline {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  /* --- フッター固定 --- */
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #A8E6CF;
+    padding: 20px 0;
+    color: #202340;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+  }
+</style>
 </head>
 <body>
 
-<h1>お気に入り一覧</h1>
+<!-- ヘッダー -->
+<header>
+  <div class="logo-container">
+    <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+  </div>
 
-<!-- お気に入りがある場合 -->
-<div th:if="${favorites != null and !#lists.isEmpty(favorites)}">
-    <ul>
-        <li th:each="fav : ${favorites}">
-            <!-- 国名リンク（テンプレート名を小文字化してControllerに渡す） -->
-            <a th:if="${fav.country != null}" 
-               th:href="@{/countrys/{template}(template=${#strings.toLowerCase(fav.country.code)})}" 
-               th:text="${fav.country.name}"></a>
-            <span th:if="${fav.country == null}">国情報なし</span>
+  <!-- Logoutボタン -->
+  <div th:if="${#authorization.expression('isAuthenticated()')}">
+    <form th:action="@{/logout}" method="post" style="display:inline">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit" class="btn login-btn">Logout</button>
+    </form>
+  </div>
 
-            <!-- 削除ボタン -->
-            <form th:if="${fav.country != null}" 
-                  th:action="@{/favorites/remove/{countryId}(countryId=${fav.country.id})}" 
-                  method="post" style="display:inline">
-                <button type="submit">削除</button>
-            </form>
-        </li>
-    </ul>
-</div>
+  <!-- 未ログイン時 -->
+  <div th:if="${!#authorization.expression('isAuthenticated()')}">
+    <a href="/login" class="btn login-btn">Login</a>
+  </div>
+</header>
 
-<!-- お気に入りがない場合 -->
-<div th:if="${favorites == null or #lists.isEmpty(favorites)}">
-    <p>お気に入りはまだ登録されていません。</p>
-</div>
+<!-- メイン -->
+<main>
+  <h1>お気に入り一覧</h1>
 
-<!-- トップページリンク -->
-<a th:href="@{/}" class="btn-map">トップへ</a>
+  <!-- お気に入りがある場合 -->
+  <div th:if="${favorites != null and !#lists.isEmpty(favorites)}">
+      <ul>
+          <li th:each="fav : ${favorites}">
+              <span>
+                  <a th:if="${fav.country != null}" 
+                     th:href="@{/countrys/{template}(template=${#strings.toLowerCase(fav.country.code)})}" 
+                     th:text="${fav.country.name}" class="country-link"></a>
+                  <span th:if="${fav.country == null}">国情報なし</span>
+              </span>
+
+              <!-- 削除ボタン -->
+              <form th:action="@{/favorites/remove/{countryId}(countryId=${fav.country != null ? fav.country.id : fav.id})}" 
+                    method="post" class="inline">
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <button type="submit">削除</button>
+              </form>
+          </li>
+      </ul>
+  </div>
+
+  <!-- お気に入りがない場合 -->
+  <div th:if="${favorites == null or #lists.isEmpty(favorites)}" class="no-favorites">
+      <p>お気に入りはまだ登録されていません。</p>
+  </div>
+
+  <!-- トップページリンク -->
+  <a th:href="@{/}" class="btn-map">トップへ</a>
+</main>
+
+<!-- フッター固定 -->
+<footer>
+  <p>© 2025 TRAVEL POP!</p>
+</footer>
 
 </body>
 </html>
