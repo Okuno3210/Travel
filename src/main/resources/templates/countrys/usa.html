@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" th:href="@{/css/style.css}">
   <title>アメリカ観光地ガイド | TravelMap</title>
 </head>
 <body>
@@ -10,6 +11,10 @@
     <h1>🇺🇸 アメリカの人気観光地</h1>
     <p>多様な文化と絶景が共存する国 — 自由の女神、グランドキャニオン、ナイアガラの滝など</p>
   </header>
+  <div style="display: flex; align-items: center;">
+     <img th:src="@{/images/country/America.png}" alt="アメリカ" style="width:700px; height:auto; margin-right:15px;">
+     <p>夢を追いかける人々の街、世界の映画産業の中心地。 「ハリウッド・サイン」を背景に記念写真を撮り、スターの仲間入り気分を味わいましょう。 ハリウッド大通りでは、有名俳優たちの手形やサインが刻まれた「ウォーク・オブ・フェーム」を散策。 TCLチャイニーズ・シアターで、お気に入りのスターの足跡を見つけるのも楽しみの一つです。 映画史の栄光と、現代のエンターテイメントが交差するこの場所で、あなただけのストーリーを見つけてください。 誰もが知る“あの”場所で、きらめく才能の気配を感じましょう。</p>
+   </div>
   <main>
     <div th:if="${spots != null and !#lists.isEmpty(spots)}" class="spot-grid">
       <div class="card" th:each="s : ${spots}" th:if="${s.country == 'アメリカ'}">
@@ -192,5 +197,26 @@
   
   
   </script>
+  <a th:href="@{/region/001}">
+  	 <img th:src="@{/images/region/001.jpg}" alt="ロサンゼルス" style="width:300px; height:auto; margin-right:15px;">
+  </a>
+  <a th:href="@{/region/002}">
+   	 <img th:src="@{/images/region/002.jpg}" alt="ラスベガス" style="width:300px; height:auto; margin-right:15px;">
+  </a>
+  <a th:href="@{/region/003}">
+     <img th:src="@{/images/region/003.jpg}" alt="アリゾナ州" style="width:300px; height:auto; margin-right:15px;">
+   </a>
+   <a th:href="@{/region/004}">
+	 <img th:src="@{/images/region/004.jpg}" alt="ニューヨーク" style="width:300px; height:auto; margin-right:15px;">
+   </a>
+   <a th:href="@{/region/005}">
+	  <img th:src="@{/images/region/005.jpg}" alt="ワシントンD.C." style="width:300px; height:auto; margin-right:15px;">
+   </a>
+	<a th:href="@{/region/006}">
+	   <img th:src="@{/images/region/006.jpg}" alt="フロリダ" style="width:300px; height:auto; margin-right:15px;">
+   </a>
+   <a th:href="@{/region/007}">
+	    <img th:src="@{/images/region/007.jpg}" alt="ハワイ" style="width:300px; height:auto; margin-right:15px;">
+   </a>
 </body>
 </html>
