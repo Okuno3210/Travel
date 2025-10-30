@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${food.name}">Food Detail</title>
+</head>
+<body>
+<h1 th:text="${food.name}"></h1>
+<p th:text="${food.description}"></p>
+<img th:src="${food.imageUrl}" alt="food image" width="300"/>
+<p>Region: <span th:text="${food.region.name}"></span></p>
+
+<a href="/foods">Back to list</a>
+</body>
+</html>

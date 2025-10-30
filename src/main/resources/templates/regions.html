@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>地域一覧 | TRAVEL POP!</title>
+  <style>
+    /* -------------------------------------- */
+    /* CSS STYLE START */
+    /* -------------------------------------- */
+    
+    /* フォント */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Nunito:wght@600;700&display=swap');
+
+    :root {
+      --color-primary: #00A2B8;    /* メインカラー: シアン/ターコイズ */
+      --color-secondary: #FF6B99; /* アクセントカラー: ピンク */
+      --color-yellow: #FFCA40;    /* イエロー */
+      --color-light-bg: #F8F8F8;
+      --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+      background: url('/images/map_background.png') no-repeat center center / cover;
+      color: #333;
+      text-align: center;
+    }
+
+    /* -------------------------------------- */
+    /* ヘッダー */
+    /* -------------------------------------- */
+    .pop-header {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      border-radius: 0 0 20px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-area { margin-right: auto; }
+    .logo-img { height: 40px; }
+
+    .header-buttons a, .btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .login-btn { background: var(--color-yellow); color: #333; }
+    .mypage-btn { background: var(--color-secondary); color: #fff; }
+    .header-buttons a:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+    /* -------------------------------------- */
+    /* メインコンテンツ - 地域一覧 */
+    /* -------------------------------------- */
+    .region-list-main {
+        padding: 40px 20px;
+    }
+
+    .main-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 42px;
+        color: var(--color-secondary);
+        margin-bottom: 5px;
+    }
+
+    .main-subtitle {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 40px;
+    }
+
+    /* 地域カードのグリッドレイアウト */
+    .region-grid {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+    }
+
+    .region-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* カード全体をリンクとして機能させる */
+    .region-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    .region-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .region-image-container {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .region-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .region-card:hover .region-image {
+        transform: scale(1.05);
+    }
+
+    .region-info {
+        padding: 20px;
+        text-align: left;
+    }
+
+    .region-name {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--color-primary);
+        margin: 0 0 8px;
+    }
+
+    .country-name {
+        font-size: 14px;
+        color: #888;
+        margin: 0 0 10px;
+        display: flex;
+        align-items: center;
+    }
+    .country-name .icon {
+        font-size: 18px;
+        margin-right: 5px;
+        color: var(--color-secondary);
+    }
+
+    .description {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        /* 概要文を3行で省略 */
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+    .view-detail-btn {
+        display: inline-block;
+        color: var(--color-secondary);
+        font-weight: 700;
+        padding-top: 5px;
+        border-bottom: 2px solid var(--color-secondary);
+    }
+
+    /* -------------------------------------- */
+    /* フッター */
+    /* -------------------------------------- */
+    footer {
+      background: var(--color-primary);
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      padding: 20px 0;
+      flex-wrap: wrap;
+    }
+    .footer-btn {
+      color: var(--color-primary);
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      background: #fff;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    .footer-btn:hover {
+      background: var(--color-yellow);
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+      .pop-header { padding: 10px 20px; }
+      .main-title { font-size: 32px; }
+      .main-subtitle { font-size: 16px; margin-bottom: 30px; }
+      .region-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+  <header class="pop-header">
+    <div class="logo-area">
+      <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+    </div>
+    <div class="header-buttons">
+      <a href="/login" class="btn login-btn" th:if="${!#authorization.expression('isAuthenticated()')}">Login</a>
+      <a href="/mypage" class="btn mypage-btn" th:if="${#authorization.expression('isAuthenticated()')}">My Page</a>
+    </div>
+  </header>
+
+  <main class="region-list-main">
+    <div class="container">
+      <h1 class="main-title">🌍 世界のワクワク、覗こう！</h1>
+      <p class="main-subtitle">あなたにぴったりの旅行先を見つけよう</p>
+
+      <ul class="region-grid">
+        <li th:each="region : ${regions}" class="region-card">
+          <a th:href="@{/region/{id}(id=${region.id})}" class="region-link">
+            <div class="region-item">
+              <div class="region-image-container">
+                <img th:src="${region.imageUrl}" alt="地域画像" class="region-image">
+              </div>
+              <div class="region-info">
+                <h2 th:text="${region.name}" class="region-name">地域名</h2>
+                <p class="country-name">
+                    <span class="icon">📍</span>
+                    <strong th:text="${region.country.name}">国名</strong>
+                </p>
+                <p class="description" th:text="${region.description}">概要文が入ります。人気の観光地で温暖な気候が特徴です。</p>
+                <div class="view-detail-btn">詳細を見る →</div>
+              </div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">グルメ旅</a>
+    <a th:href="@{/scenic}" class="footer-btn scenic-btn">絶景スポット</a>
+    <a th:href="@{/activity}" class="footer-btn activity-btn">アクティビティ体験</a>
+    <a th:href="@{/foods}" class="footer-btn foods-btn">グルメ一覧</a>
+  </footer>
+
+  </body>
+</html>

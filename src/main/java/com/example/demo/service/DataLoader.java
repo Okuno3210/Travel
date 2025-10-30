@@ -106,6 +106,7 @@ public class DataLoader implements ApplicationRunner{
                 r.setTimezone(arr[5]);
                 r.setClimate(arr[6]);
                 r.setRiskLevel(arr[7]);
+
                 r.setDescription(arr[8]);
                 r.setImgUrl(arr[9]); 
                 //Country country = countryRepo.findById(Long.parseLong(arr[1])).orElse(null); 10/30書き換え
@@ -154,7 +155,7 @@ public class DataLoader implements ApplicationRunner{
                   Food food = new Food();
                   food.setName(arr[2]);
                   food.setDescription(arr.length > 3 ? arr[3] : "");
-                  food.setImgUrl(arr.length > 4 ? arr[4] : "");
+                  food.setImageUrl(arr.length > 4 ? arr[4] : "");
 
                   // Regionを紐づけ
                   Region region = regionRepo.findById(Long.parseLong(arr[1].trim())).orElse(null);
