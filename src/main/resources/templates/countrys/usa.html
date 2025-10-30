@@ -27,9 +27,9 @@
       </div>
     </div>
 
-    <div th:if="${spots == null or #lists.isEmpty(spots)}">
+    <!--<div th:if="${spots == null or #lists.isEmpty(spots)}">
       <p>アメリカの観光地データが見つかりませんでした。</p>
-    </div>
+    </div>-->
   </main>
 
  
@@ -37,13 +37,13 @@
   
   <form id="searchForm"> <!--検索用ここから-->
     <label>行きたい国:</label>
-	<select id="countryName"><option value="">すべて</option></select><br><br>
+	<select id="countryId"><option value="">すべて</option></select><br><br>
 	
 	<label>行きたい地域:</label>
       <select id="regionId"><option value="">すべて</option></select><br><br>
 	  
 	 <label>ご旅行の目的</label>
-	 <select id="<!--conceptId入れる-->"><option value="">何でも</option></select><br><br>
+	 <select id="conceptId"><option value="">何でも</option></select><br><br>
 
       <label>観光名所:</label>
       <select id="spotId"><option value="">すべて</option></select><br><br>
@@ -59,6 +59,10 @@
   <hr>
   <h2>検索結果</h2>
   <ul id="results"></ul> <!--検索用ここまで-->
+  
+  <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post" sec:authorize="hasRole('USER')">
+        <button type="submit">★ お気に入り登録</button>
+    </form>
   
   <footer>
     <p>© 2025 TravelMap</p>
@@ -99,10 +103,10 @@
   setInterval(refresh, 5_000);
   
   document.addEventListener("DOMContentLoaded",() => { //検索用ここから
-	fetch("/api/countries") //国 1027追加
+	fetch("/api/countries") //国
 	.then(r => r.json())
 	.then(data =>{
-		const select=document.getElementById("countryName");
+		const select=document.getElementById("countryId"); //("countryName");
 		data.forEach(c =>{
 		const opt = document.createElement("option")
 		opt.value=c.id;
@@ -122,7 +126,20 @@
 			select.appendChild(opt);
 		});
 	});
-	fetch("/api/tourist-spots/options") //ツーリストスポット
+	
+	fetch("/api/concepts/options") //コンセプト 10/30追加
+		.then(r => r.json())
+		.then(data => {
+			const select=document.getElementById("conseptId");
+			data.forEach(s => {
+				const opt=document.createElement("option");
+				opt.value=co.id;
+				opt.textContent=co.name;
+				select.appendChild(opt);
+			});
+		});
+		
+		fetch("/api/tourist-spots/options") //ツーリストスポット
 	.then(r => r.json())
 	.then(data => {
 		const select=document.getElementById("spotId");
@@ -133,6 +150,7 @@
 			select.appendChild(opt);
 		});
 	});
+	
 	fetch("/api/regions/travel-times") //渡航時間
 	.then(r => r.json())
 	.then(data => {
@@ -158,18 +176,19 @@
   });
   function searchRegions(){
 	const params=new URLSearchParams();
-	const countryVal = document.getElementById("countryName").value || null;
+	const countryVal = document.getElementById("countryId").value || null; //("countryName").value || null;
 	const regionVal = document.getElementById("regionId").value || null;
 	const spotVal = document.getElementById("spotId").value || null;
 	const travelVal = document.getElementById("travelTime").value;
 	const budgetVal = document.getElementById("budget").value || null;
-	// テスト用 console.log("送信前値：",{regionVal, spotVal, travelVal, budgetVal});
-	if(countryVal) params.append("countryName",countryVal);
+	const conseptVal = document.getElementById("concept").value || null; //10/30追加
+
+	if(countryVal) params.append("countryId",countryVal); //("countryName",countryVal);
 	if(regionVal) params.append("regionId",regionVal);
 	if(spotVal) params.append("spotId",spotVal);
 	if(travelVal) params.append("travelTime",travelVal);
 	if(budgetVal) params.append("budget",budgetVal);
-	// テスト用 console.log("送信するURLSearchParams：", params.toString());
+	if(conceptVal)params.append("concept",conceptVal);
 	
 	fetch("/api/regions/search?" + params.toString())
 	.then(r => {if(!r.ok){
@@ -187,7 +206,7 @@
 		data.forEach(r => {
 			const li = document.createElement("li");
 			li.textContent = 
-			`${r.name}(${r.countryName} - Budget: ${r.budget}万円,
+			`${r.name}(${r.countryName}:${r.description} - Budget: ${r.budget}万円,
 			Flight: ${r.flightTime}h)
 			- Spots: ${r.spots.join(",")}`;
 			ul.appendChild(li);
@@ -218,5 +237,9 @@
    <a th:href="@{/region/007}">
 	    <img th:src="@{/images/region/007.jpg}" alt="ハワイ" style="width:300px; height:auto; margin-right:15px;">
    </a>
+   
+   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+   	<script type="text/javascript" src="/js/script.js"></script>
+	
 </body>
 </html>

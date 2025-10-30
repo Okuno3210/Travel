@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller; //10/30修正
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,11 +22,10 @@ public class TouristSpotApiController {
 	@GetMapping("/options")
     public List<Map<String,Object>> getOptions(){
     	return spotRepo.findAll().stream()
-    			/*.filter(s -> s.getId() != null && s.getName() != null)
-    			.map(s -> Map.of("id", s.getId(), "name", s.getName()))*/
     			.map(s ->{Map<String, Object> m = new HashMap<>();
     			m.put("id", s.getId());
     			m.put("name", s.getName());
+    			m.put("description", s.getDescription()); //10/30追加
     			return m;
     				
     			})
