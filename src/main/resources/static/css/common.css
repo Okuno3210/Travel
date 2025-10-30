@@ -1,3 +1,14 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #A8E6CF;
+  padding: 20px 0;
+  color: #202340;
+  font-weight: bold;
+  text-align: center;
+  z-index: 1000;
+}
 
 header {
   background-color: #ffffff;
