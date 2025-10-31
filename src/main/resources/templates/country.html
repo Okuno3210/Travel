@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${country.name} + ' 観光地ガイド | TravelMap'">TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+  <header>
+	<div th:replace="fragments/header :: header"></div>
+    <h1 th:text="${country.name} + ' の人気観光地'">国名の人気観光地</h1>
+  </header>
+
+  <section class="country-summary" style="display: flex; align-items: center; margin-bottom: 20px;">
+    <img th:src="${country.imgUrl}" alt="" style="width: 600px; height: auto; margin-right: 20px;">
+    <p th:text="${country.description}">国の説明</p>
+  </section>
+
+  <main>
+    <div id="rates"></div>
+
+    <section th:if="${regions != null and !#lists.isEmpty(regions)}">
+      <h2>🌍 地域一覧</h2>
+      <div class="region-grid">
+        <div class="region-card" th:each="region : ${regions}">
+          <img th:src="${region.imageUrl}" alt="" class="region-image">
+          <div class="region-text">
+            <h3 th:text="${region.name}">地域名</h3>
+            <p th:text="${region.description}">説明</p>
+
+            <ul class="region-info">
+              <li>💰 予算：<span th:text="${region.budget}">--万円</span></li>
+              <li>✈️ フライト時間：<span th:text="${region.flightTime}">--時間</span></li>
+              <li>☀️ 気候：<span th:text="${region.climate}">--</span></li>
+            </ul>
+
+            <a th:href="@{/region/{id}(id=${region.id})}" class="btn">詳細を見る</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section th:if="${regions == null or #lists.isEmpty(regions)}">
+      <p>この国には登録された地域がありません。</p>
+    </section>
+	<!-- 戻るボタン -->
+	<div class="bottom-buttons">
+	  <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
+	</div>
+  </main>
+	
+
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post"
+        sec:authorize="hasRole('USER')">
+    <button type="submit" class="btn">★ お気に入り登録</button>
+  </form>
+
+  <!-- デバッグ用 -->
+  <div style="margin-top: 20px; font-size: small; color: gray;">
+    <div th:if="${country != null}">
+      <p>ID: <span th:text="${country.id}"></span></p>
+    </div>
+    <div th:if="${country == null}">
+      <p>国データが見つかりません。</p>
+    </div>
+  </div>
+  <!-- 為替レートを表示する領域 -->
+  <div id="rates"></div>
+
+  <!-- JSファイルを読み込む -->
+  <script th:src="@{/js/rates.js}"></script>
+
+  <!-- ページ読み込み後に開始 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      FxRate.start("rates", 5000); // 5秒ごとに更新
+    });
+  </script>
+  </body>
+  </html>
+
+</body>
+</html>

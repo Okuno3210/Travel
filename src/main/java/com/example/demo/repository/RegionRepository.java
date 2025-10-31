@@ -17,13 +17,14 @@ public interface RegionRepository extends JpaRepository
 		    FROM Region r
 		    LEFT JOIN FETCH r.country c
 		    LEFT JOIN FETCH r.touristSpots ts
+		    LEFT JOIN FETCH r.concepts co
 		    WHERE (:regionId IS NULL OR r.id = :regionId)
 		    AND(:countryId IS NULL OR c.id =:countryId)
 		    AND(:regionName IS NULL OR r.name =:regionName)
 		      AND (:spotId IS NULL OR ts.id =:spotId)
 		      AND (:travelTime IS NULL OR r.flightTime <= :travelTime)
 		      AND (:budget IS NULL OR r.budget <= :budget)
-		      AND(:concept IS NULL OR co.concept <= :concept)
+		      AND(:concept IS NULL OR co.name = :concept)
 		    """)
 		List<Region> searchRegions(
 				@Param("countryId") Long countryId,
@@ -37,8 +38,18 @@ public interface RegionRepository extends JpaRepository
     // ★ CSV追加時はLEFT JOIN + AND 条件を追記
 	@Query("SELECT DISTINCT r FROM Region r LEFT "
 			+ "JOIN FETCH r.touristSpots LEFT "
-			+ "JOIN FETCH r.country c LEFT"
-			+"JOIN FETCH co.concept")
+			+ "JOIN FETCH r.country c LEFT "
+			+ "JOIN FETCH r.concepts co")
 	List<Region>findAllWithSpots();
+	
+	@Query("""
+		    SELECT DISTINCT r
+		    FROM Region r
+		    JOIN FETCH r.country c
+		    LEFT JOIN FETCH r.touristSpots ts
+		    WHERE c.id = :countryId
+		""")
+		List<Region> findByCountryId(@Param("countryId") Long countryId);
+
 }
 //AND(:countryName IS NULL OR c.name =:countryName)

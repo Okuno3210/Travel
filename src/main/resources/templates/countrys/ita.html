@@ -4,48 +4,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>イタリア観光地ガイド | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title th:text="${country.name} + '観光地ガイド | TravelMap'">TravelMap</title>
 </head>
 <body>
   <header>
-    <h1> イタリアの人気観光地</h1>
-    <p></p>
+    <h1 th:text="${country.name} + 'の人気観光地'">国名の人気観光地</h1>
   </header>
+
+  <div style="display: flex; align-items: center;">
+    <img th:src="${country.imgUrl}" alt="" style="width:700px; height:auto; margin-right:15px;">
+    <p th:text="${country.description}">国の説明</p>
+  </div>
+
   <main>
-    <div th:if="${spots != null and !#lists.isEmpty(spots)}" class="spot-grid">
-      <div class="card" th:each="s : ${spots}" th:if="${s.country == 'イタリア'}">
-        <img th:src="${s.image}" th:alt="${s.name}" />
-        <div class="card-content">
-          <h3 th:text="${s.name}"></h3>
-          <p th:text="${s.desc}"></p>
-          <a th:href="@{/spots/detail/{key}(key=${s.key})}" class="btn">詳細を見る</a>
+    <section th:if="${regions != null and !#lists.isEmpty(regions)}">
+      <h2>🌍 地域一覧</h2>
+      <div class="region-grid">
+        <div class="region-card" th:each="region : ${regions}">
+          <img th:src="${region.imageUrl}" alt="" class="region-image">
+          <h3 th:text="${region.name}">地域名</h3>
+          <p th:text="${region.description}">説明</p>
+
+          <ul class="region-info">
+            <li>💰 予算：<span th:text="${region.budget}">--万円</span></li>
+            <li>✈️ フライト時間：<span th:text="${region.flightTime}">--時間</span></li>
+            <li>☀️ 気候：<span th:text="${region.climate}">--</span></li>
+          </ul>
+
+          <a th:href="@{/region/{id}(id=${region.id})}" class="btn">詳細を見る</a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div th:if="${spots == null or #lists.isEmpty(spots)}">
-      <p>イタリアの観光地データが見つかりませんでした。</p>
-    </div>
+    <section th:if="${regions == null or #lists.isEmpty(regions)}">
+      <p>この国には登録された地域がありません。</p>
+    </section>
   </main>
 
   <footer>
     <p>© 2025 TravelMap</p>
   </footer>
- 
-  <div id="rates"></div>
-  
+
   <div th:if="${country != null}">
-      <p>ID: <span th:text="${country.id}"></span></p>
+    <p>ID: <span th:text="${country.id}"></span></p>
   </div>
+
   <div th:if="${country == null}">
-      <p>国データが見つかりません</p>
+    <p>国データが見つかりません</p>
   </div>
 
-	
   <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post" sec:authorize="hasRole('USER')">
-      <button type="submit">★ お気に入り登録</button>
+    <button type="submit">★ お気に入り登録</button>
   </form>
-
-	
 </body>
 </html>

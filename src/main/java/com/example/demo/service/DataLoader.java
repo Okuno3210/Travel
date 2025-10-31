@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -54,17 +58,26 @@ public class DataLoader implements ApplicationRunner{
     
     @Value("classpath:data/food.csv")
     private Resource foodsCsv;
-    @Value("clathpath:data/concept.csv")
+    
+    @Value("classpath:data/concept.csv")
     private Resource conceptsCsv;
+    
+    @Value("classpath:data/region_concept.csv")
+    private Resource regionConceptsCsv;
+
     //CSV増えたら書き足す
 
     // @PostConstruct 　1027削除、選択肢が二重になる
     private void loadCsv() {
     	loadCountries(); //countryを一番に読み込み
     	loadRegions();   //2番めにcountryに依存してるregionを読み込む
-        loadSpots();     //3番目以降はconcept以外regionに依存 
-        loadFoods();
+    	var regions = regionRepo.findAll()
+    	     .stream()
+    		 .collect(Collectors.toMap(Region::getId, r -> r));
+    	loadSpots(regions);     //3番目以降はconcept以外regionに依存 
+        loadFoods(regions);
         loadConcepts();
+        loadRegionConcepts();
     }
     
 //★ CSV増加時はここに loadXxx() を追加
@@ -108,17 +121,21 @@ public class DataLoader implements ApplicationRunner{
                 r.setRiskLevel(arr[7]);
 
                 r.setDescription(arr[8]);
-                r.setImgUrl(arr[9]); 
+                r.setImageUrl(arr[9]); 
                 //Country country = countryRepo.findById(Long.parseLong(arr[1])).orElse(null); 10/30書き換え
-                Country country=countryRepo.findByCode(arr[1]).orElse(null);
-                if(country != null) {
-                	r.setCountry(country);}
-                	regionRepo.save(r);
+                Country country = countryRepo.findById(Long.parseLong(arr[1])).orElse(null);
+                if (country != null) {
+                    r.setCountry(country);
+                    regionRepo.save(r);
+                } else {
+                    System.out.println("⚠️ Country not found for region: " + arr[0] + ", country_id=" + arr[1]);
+                }
+
             });
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    private void loadSpots() {
+    private void loadSpots(Map<Long, Region> regionCache) {
         try (BufferedReader br = new BufferedReader
     (new InputStreamReader(spotsCsv.getInputStream(), StandardCharsets.UTF_8))) {
             br.lines().skip(1)
@@ -132,9 +149,9 @@ public class DataLoader implements ApplicationRunner{
                 //s.setId(Long.parseLong(arr[0]));　主キー自動生成
                 s.setName(arr[2]);
                 s.setDescription(arr[3]);
-         Region region = regionRepo.findById(Long.parseLong(arr[1])).orElse(null);
-                if(region != null) {
-                	s.setRegion(region);
+                Region region = regionCache.get(Long.parseLong(arr[1]));
+                if (region != null) {
+                    s.setRegion(region);
                 }
                 s.setImgUrl(arr[4]);
                 spotRepo.save(s);
@@ -142,7 +159,7 @@ public class DataLoader implements ApplicationRunner{
         } catch (IOException e) { e.printStackTrace(); }
     }
     
-	private void loadFoods() {
+	private void loadFoods(Map<Long, Region> regionCache) {
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(foodsCsv.getInputStream(), StandardCharsets.UTF_8))) {
 
@@ -158,9 +175,9 @@ public class DataLoader implements ApplicationRunner{
                   food.setImageUrl(arr.length > 4 ? arr[4] : "");
 
                   // Regionを紐づけ
-                  Region region = regionRepo.findById(Long.parseLong(arr[1].trim())).orElse(null);
-                  if(region != null) {
-                  	food.setRegion(region);
+                  Region region = regionCache.get(Long.parseLong(arr[1].trim()));
+                  if (region != null) {
+                      food.setRegion(region);
                   }
                   
                   // 保存
@@ -180,22 +197,61 @@ public class DataLoader implements ApplicationRunner{
 	            .forEach(line -> {
 	                String[] arr = line.split(",");
 	                Concept co = new Concept();
+	                co.setName(arr[1].trim());
 	                conceptRepo.save(co);
 	            });
         } catch (IOException e) { e.printStackTrace(); }
     }
+	
+	private void loadRegionConcepts() {
+	    try (BufferedReader br = new BufferedReader(
+	            new InputStreamReader(regionConceptsCsv.getInputStream(), StandardCharsets.UTF_8))) {
+
+	        br.lines().skip(1) // ヘッダー行スキップ
+	          .filter(line -> !line.trim().isEmpty())
+	          .forEach(line -> {
+	              String[] arr = line.split(",");
+	              if (arr.length < 3) return; // id, region_id, concept_id → 最低3列必要
+
+	              Long regionId = Long.parseLong(arr[1].trim());
+	              Long conceptId = Long.parseLong(arr[2].trim());
+
+	              Region region = regionRepo.findById(regionId).orElse(null);
+	              Concept concept = conceptRepo.findById(conceptId).orElse(null);
+
+	              if (region != null && concept != null) {
+	                  if (region.getConcepts() == null) {
+	                      region.setConcepts(new java.util.ArrayList<>());
+	                  }
+
+	                  // 既に存在しない場合のみ追加
+	                  if (!region.getConcepts().contains(concept)) {
+	                      region.getConcepts().add(concept);
+	                      regionRepo.save(region);
+	                  }
+	              }
+	          });
+
+	        System.out.println("✅ region_concept.csv の読み込み完了");
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
 
     
     //新しいCSVファイル用に private void ファイル名() { try-catch文でメソッドを書き足す
-    
+	@Transactional
     @Override
     public void run(ApplicationArguments args) throws Exception{
     	 //H2をfileにした後、選択肢を毎回新規取得するために一旦捨てる　10/30追加
-    	spotRepo.deleteAll();
-        regionRepo.deleteAll();
-        countryRepo.deleteAll(); //CSV増えたら書き足す
-        foodRepo.deleteAll();
-        conceptRepo.deleteAll();
+    	conceptRepo.deleteAllInBatch();
+    	foodRepo.deleteAllInBatch();
+    	spotRepo.deleteAllInBatch();
+    	regionRepo.deleteAllInBatch();
+    	countryRepo.deleteAllInBatch();
         
     	loadCsv(); //1027追加
 

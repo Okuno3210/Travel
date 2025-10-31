@@ -395,19 +395,19 @@
   <div class="right-bottom-link-list">
     <ul>
       <li>🌏 国を選ぶ</li>
-      <li><a th:href="@{/EGY}" class="country-link" data-country="egypt">エジプト</a></li>
-      <li><a th:href="@{/AUS}" class="country-link" data-country="Aust">オーストラリア</a></li>
-      <li><a th:href="@{/USA}" class="country-link" data-country="usa">アメリカ</a></li>
-      <li><a th:href="@{/IRN}" class="country-link" data-country="Iran">イラン</a></li>
-      <li><a th:href="@{/ITA}" class="country-link" data-country="italy">イタリア</a></li>
-      <li><a th:href="@{/FRA}" class="country-link" data-country="France">フランス</a></li>
-      <li><a th:href="@{/VNM}" class="country-link" data-country="Vietnam">ベトナム</a></li>
-      <li><a th:href="@{/CHE}" class="country-link" data-country="Switz">スイス</a></li>
-      <li><a th:href="@{/THA}" class="country-link" data-country="Thai">タイ</a></li>
-      <li><a th:href="@{/IND}" class="country-link" data-country="india">インド</a></li>
-      <li><a th:href="@{/CHN}" class="country-link" data-country="china">中国</a></li>
-      <li><a th:href="@{/RUS}" class="country-link" data-country="Russia">ロシア</a></li>
-      <li><a th:href="@{/KOR}" class="country-link" data-country="korea">韓国</a></li>
+      <li><a th:href="@{/country/8/regions}" class="country-link" data-country="egypt">エジプト</a></li>
+      <li><a th:href="@{/country/6/regions}" class="country-link" data-country="Aust">オーストラリア</a></li>
+      <li><a th:href="@{/country/1/regions}" class="country-link" data-country="usa">アメリカ</a></li>
+      <li><a th:href="@{/country/9/regions}" class="country-link" data-country="Iran">イラン</a></li>
+      <li><a th:href="@{/country/2/regions}" class="country-link" data-country="italy">イタリア</a></li>
+      <li><a th:href="@{/country/3/regions}" class="country-link" data-country="France">フランス</a></li>
+      <li><a th:href="@{/country/4/regions}" class="country-link" data-country="Vietnam">ベトナム</a></li>
+      <li><a th:href="@{/country/5/regions}" class="country-link" data-country="Switz">スイス</a></li>
+      <li><a th:href="@{/country/7/regions}" class="country-link" data-country="Thai">タイ</a></li>
+      <li><a th:href="@{/country/10/regions}" class="country-link" data-country="india">インド</a></li>
+      <li><a th:href="@{/country/11/regions}" class="country-link" data-country="china">中国</a></li>
+      <li><a th:href="@{/country/12/regions}" class="country-link" data-country="Russia">ロシア</a></li>
+      <li><a th:href="@{/country/13/regions}" class="country-link" data-country="korea">韓国</a></li>
     </ul>
   </div>
 
@@ -416,6 +416,9 @@
     <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">🍴 グルメ旅</a>
     <a th:href="@{/scenic}" class="footer-btn scenic-btn">🏞 絶景スポット</a>
     <a th:href="@{/activity}" class="footer-btn activity-btn">🎡 アクティビティ体験</a>
+		<div class="bottom-buttons">
+		  <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
+		</div>
   </footer>
 
   <!-- 💫 JS ポップアップ -->
@@ -433,7 +436,7 @@
       France: { img: '/images/country/France.png', text: '【フランス】<br>芸術と美食の都。' },
       Vietnam: { img: '/images/country/Vietnam.png', text: '【ベトナム】<br>ハロン湾と古都の情緒。' },
       Switz: { img: '/images/country/Switzerland.png', text: '【スイス】<br>アルプスの絶景と時計の国。' },
-      Thai: { img: '/images/country/Thailand.png', text: '【タイ】<br>寺院と南国リゾートの楽園。' },
+      Thai: { img: '/images/country/Thai.png', text: '【タイ】<br>寺院と南国リゾートの楽園。' },
       india: { img: '/images/country/India.png', text: '【インド】<br>タージマハルとスパイス文化。' },
       china: { img: '/images/country/China.jpg', text: '【中国】<br>万里の長城や故宮など歴史遺産多数。' },
       Russia: { img: '/images/country/Russia.png', text: '【ロシア】<br>モスクワやサンクトペテルブルクが見どころ。' },

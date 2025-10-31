@@ -50,11 +50,12 @@ public class RegionApiController {
             @RequestParam(required = false) Long regionId,
             @RequestParam(required = false) String spotId,
             @RequestParam(required = false) String travelTime, //10/30 Stringに変更
-            @RequestParam(required = false) Integer budget
+            @RequestParam(required = false) Integer budget,
+            @RequestParam(required = false) String concept
     ) {
 
        	List<Region>regions=regionRepo.searchRegions
-    	(countryId,regionId,regionName,spotId,travelTime,budget);
+    	(countryId,regionId,regionName,spotId,travelTime,budget,concept);
     	
     	return regions.stream()
     	    	.map(r -> Map.of(
@@ -71,9 +72,11 @@ public class RegionApiController {
     	                ? r.getCountry().getName() : null,
     	                "description",r.getCountry() != null //1030追加
     	                ? r.getCountry().getDescription() : null
+    	                
     	             ))
     	         .collect(Collectors.toList());
-    	    }
+    }
+    
     @GetMapping("/countries")  //国名
     /*public List<String>getCountryName(){
     	return countryRepo.findAll().stream()
