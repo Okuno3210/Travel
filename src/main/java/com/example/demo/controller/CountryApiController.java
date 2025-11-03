@@ -23,9 +23,10 @@ public class CountryApiController {
     	return countryRepo.findAll().stream()
     			.map(c ->{Map<String, Object> m = new HashMap<>();
     			m.put("id",c.getId());
+    			m.put("code", c.getCode());
     			m.put("name", c.getName());
     			m.put("description",c.getDescription());
-    			m.put("ImgUrl", c.getImgUrl()); //10/30追加
+    			m.put("ImageUrl", c.getImageUrl());
     			return m;
     			})
     			.collect(Collectors.toList());	

@@ -46,10 +46,10 @@
 	 <select id="conceptId"><option value="">何でも</option></select><br><br>
 
       <label>観光名所:</label>
-      <select id="spotId"><option value="">すべて</option></select><br><br>
+      <select id="touristSpotId"><option value="">すべて</option></select><br><br>
 
       <label>渡航時間:</label>
-      <select id="travelTime"><option value="">制限なし</option></select><br><br>
+      <select id="flightTime"><option value="">制限なし</option></select><br><br>
 
       <label>ご予算:　～</label>
       <select id="budget"><option value="">制限なし</option></select>
@@ -103,10 +103,10 @@
   setInterval(refresh, 5_000);
   
   document.addEventListener("DOMContentLoaded",() => { //検索用ここから
-	fetch("/api/countries") //国
+	fetch("/api/countries/options") //国
 	.then(r => r.json())
 	.then(data =>{
-		const select=document.getElementById("countryId"); //("countryName");
+		const select=document.getElementById("countryId");
 		data.forEach(c =>{
 		const opt = document.createElement("option")
 		opt.value=c.id;
@@ -127,34 +127,35 @@
 		});
 	});
 	
-	fetch("/api/concepts/options") //コンセプト 10/30追加
+	//コンセプト　中間テーブルないので今はコメントアウトしときます
+	/*fetch("/api/concept/options")
 		.then(r => r.json())
 		.then(data => {
 			const select=document.getElementById("conseptId");
-			data.forEach(s => {
+			data.forEach(co => {
 				const opt=document.createElement("option");
 				opt.value=co.id;
 				opt.textContent=co.name;
 				select.appendChild(opt);
 			});
-		});
+		});*/
 		
 		fetch("/api/tourist-spots/options") //ツーリストスポット
 	.then(r => r.json())
 	.then(data => {
-		const select=document.getElementById("spotId");
+		const select=document.getElementById("touristSpotId");
 		data.forEach(s => {
 			const opt=document.createElement("option");
-			opt.value=s.id;
+			opt.value=s.regionId;
 			opt.textContent=s.name;
 			select.appendChild(opt);
 		});
 	});
 	
-	fetch("/api/regions/travel-times") //渡航時間
+	fetch("/api/regions/flight-times") //渡航時間
 	.then(r => r.json())
 	.then(data => {
-		const select=document.getElementById("travelTime");
+		const select=document.getElementById("flightTime");
 		data.forEach(t => {
 			const opt=document.createElement("option");
 			opt.value=t;
@@ -175,20 +176,24 @@
 	});
   });
   function searchRegions(){
+	
 	const params=new URLSearchParams();
-	const countryVal = document.getElementById("countryId").value || null; //("countryName").value || null;
+	const countryVal = document.getElementById("countryId").value || null;
 	const regionVal = document.getElementById("regionId").value || null;
-	const spotVal = document.getElementById("spotId").value || null;
-	const travelVal = document.getElementById("travelTime").value;
+	const touristSpotVal = document.getElementById("touristSpotId").value || null;
+	const flightVal = document.getElementById("flightTime").value;
 	const budgetVal = document.getElementById("budget").value || null;
-	const conseptVal = document.getElementById("concept").value || null; //10/30追加
-
-	if(countryVal) params.append("countryId",countryVal); //("countryName",countryVal);
+	
+	//const conseptVal = document.getElementById("concept").value || null;
+	//中間テーブルないのでconceptはコメントアウトしときます
+	
+	if(countryVal) params.append("countryId",countryVal);
 	if(regionVal) params.append("regionId",regionVal);
-	if(spotVal) params.append("spotId",spotVal);
-	if(travelVal) params.append("travelTime",travelVal);
+	if(touristSpotVal) params.append("touristSpotId",touristSpotVal);
+	if(flightVal) params.append("flightTime",flightVal);
 	if(budgetVal) params.append("budget",budgetVal);
-	if(conceptVal)params.append("concept",conceptVal);
+	
+	//if(conceptVal)params.append("concept",conceptVal);
 	
 	fetch("/api/regions/search?" + params.toString())
 	.then(r => {if(!r.ok){
@@ -197,7 +202,7 @@
 	.then(data => {
 		const ul = document.getElementById("results");
 		ul.innerHTML = "";
-		if(!data.length === 0){
+		if(data.length === 0){
 			const li = document.createElement("li");
 			li.textContent="該当結果なし";
 			ul.appendChild(li);
@@ -208,7 +213,7 @@
 			li.textContent = 
 			`${r.name}(${r.countryName}:${r.description} - Budget: ${r.budget}万円,
 			Flight: ${r.flightTime}h)
-			- Spots: ${r.spots.join(",")}`;
+			- Spots: ${r.spots.join(",")}`;//水色文字はRegionApiControllerの"緑文字"参照
 			ul.appendChild(li);
 		});
 	}) .catch(err => console.error(err));

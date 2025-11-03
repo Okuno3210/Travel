@@ -10,14 +10,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "foods") // テーブル名は任意で変更可
-public class Food {
-
+@Table(name = "concept") // テーブル名は任意で変更可
+public class Concept {
     @Id
     @GeneratedValue
     private Long id;          // DB管理用PK
@@ -27,32 +25,16 @@ public class Food {
     private Region region;    // RegionとのJOIN
 
     private String name;
-    private String description;
-    private String imageUrl;
     
     public Long getId() {return id;}
     public void setId(Long id) {this.id=id;}
-    
-    public Region getRegion() {return region;}
-    public void setRegion(Region region) {this.region=region;}
-    
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getImageUrl() {
-		return imageUrl;
-	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-;
 }
+
