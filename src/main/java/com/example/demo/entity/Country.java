@@ -25,7 +25,6 @@ public class Country {
     private String code; // AUS, USA, EGY など
 
     private String name;
-    private String currencyRate;
     private String description;
-    private String imgUrl;
+    private String imageUrl; //11/4修正
     }
