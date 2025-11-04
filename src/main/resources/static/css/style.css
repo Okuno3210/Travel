@@ -366,3 +366,34 @@ footer {
       margin: 0 auto;
   }
 }
+main{
+	padding-bottom: 50px;
+}
+
+.country-summary {
+    max-width: 1000px;           /* 少しワイドに */
+    margin: 60px auto;           /* 中央寄せ＋余白広め */
+    padding: 30px;
+    background-color: #fefefe;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    text-align: center;
+  }
+
+  /* --- 画像 --- */
+  .country-image {
+    width: 100%;
+    height: 380px;              /* 大きめに統一 */
+    object-fit: cover;          /* 枠内でトリミング */
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  /* --- 説明文 --- */
+  .country-description {
+    font-size: 1.3rem;          /* 少し大きめの文字 */
+    line-height: 1.9;
+    color: #333;
+    margin: 0 auto;
+    max-width: 900px;           /* テキスト行の長さを制限（読みやすく） */
+  }
