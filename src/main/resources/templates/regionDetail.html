@@ -100,6 +100,9 @@
       <a href="/regions/next" class="btn next-btn">✈️ 次の旅行を探す</a>
     </div>
   </main>
+  
+  <a th:href="@{/flight/search(region=${region.name})}" class="btn">✈️ この地域への航空券を探す</a>
+
 
   <footer>
     <a th:href="@{/gourmet}" class="footer-btn gourmet">グルメ旅</a>
