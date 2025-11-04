@@ -164,7 +164,7 @@
           <li th:each="fav : ${favorites}">
               <span>
                   <a th:if="${fav.country != null}" 
-                     th:href="@{/countrys/{template}(template=${#strings.toLowerCase(fav.country.code)})}" 
+                     th:href="@{/country/{template}/regions(template=${#strings.toLowerCase(fav.country.id)})}" 
                      th:text="${fav.country.name}" class="country-link"></a>
                   <span th:if="${fav.country == null}">国情報なし</span>
               </span>
