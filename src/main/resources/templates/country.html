@@ -7,21 +7,34 @@
   <title th:text="${country.name} + ' 観光地ガイド | TravelMap'">TravelMap</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/common.css}">
-</head>
-<body>
-  <header>
-	<div th:replace="fragments/header :: header"></div>
-    <h1 th:text="${country.name} + ' の人気観光地'">国名の人気観光地</h1>
-  </header>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
 
-  <section class="country-summary" style="display: flex; align-items: center; margin-bottom: 20px;">
-    <img th:src="${country.imgUrl}" alt="" style="width: 600px; height: auto; margin-right: 20px;">
+  <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer type="text/javascript" src="/js/script.js"></script>
+</head>
+
+<body>
+  <!-- 共通ヘッダー -->
+  <header th:replace="fragments/header :: header"></header>
+
+  <h1 th:text="${country.name} + ' の人気観光地'">国名の人気観光地</h1>
+
+  <!-- 国の概要 -->
+  <section class="country-summary">
+    <img th:src="${country.imgUrl}" alt="国の画像" class="country-image">
     <p th:text="${country.description}">国の説明</p>
   </section>
 
   <main>
+    <!-- 為替レート表示 -->
     <div id="rates"></div>
 
+    <!-- 地域一覧 -->
     <section th:if="${regions != null and !#lists.isEmpty(regions)}">
       <h2>🌍 地域一覧</h2>
       <div class="region-grid">
@@ -30,59 +43,51 @@
           <div class="region-text">
             <h3 th:text="${region.name}">地域名</h3>
             <p th:text="${region.description}">説明</p>
-
             <ul class="region-info">
               <li>💰 予算：<span th:text="${region.budget}">--万円</span></li>
               <li>✈️ フライト時間：<span th:text="${region.flightTime}">--時間</span></li>
               <li>☀️ 気候：<span th:text="${region.climate}">--</span></li>
             </ul>
-
             <a th:href="@{/region/{id}(id=${region.id})}" class="btn">詳細を見る</a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- 地域がない場合 -->
     <section th:if="${regions == null or #lists.isEmpty(regions)}">
       <p>この国には登録された地域がありません。</p>
     </section>
-	<!-- 戻るボタン -->
-	<div class="bottom-buttons">
-	  <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
-	</div>
-  </main>
-	
 
-  <div th:replace="fragments/footer :: footer"></div>
+    <!-- お気に入り登録 -->
+    <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post"
+          sec:authorize="hasRole('USER')">
+      <button type="submit" class="btn">★ お気に入り登録</button>
+    </form>
 
-  <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post"
-        sec:authorize="hasRole('USER')">
-    <button type="submit" class="btn">★ お気に入り登録</button>
-  </form>
+    <!-- 戻るボタン -->
+    <div class="bottom-buttons">
+      <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
+    </div>
 
-  <!-- デバッグ用 -->
-  <div style="margin-top: 20px; font-size: small; color: gray;">
-    <div th:if="${country != null}">
+    <!-- デバッグ用 -->
+    <div class="debug-info" th:if="${country != null}">
       <p>ID: <span th:text="${country.id}"></span></p>
     </div>
-    <div th:if="${country == null}">
+    <div class="debug-info" th:if="${country == null}">
       <p>国データが見つかりません。</p>
     </div>
-  </div>
-  <!-- 為替レートを表示する領域 -->
-  <div id="rates"></div>
+  </main>
 
-  <!-- JSファイルを読み込む -->
+  <!-- 共通フッター -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- JSファイル読み込み -->
   <script th:src="@{/js/rates.js}"></script>
-
-  <!-- ページ読み込み後に開始 -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       FxRate.start("rates", 5000); // 5秒ごとに更新
     });
   </script>
-  </body>
-  </html>
-
 </body>
 </html>

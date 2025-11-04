@@ -206,7 +206,24 @@
 	left: 20px;
 	top: 20px;
   }
+  
+  .translate-box {
+    position: absolute;
+    left: 350px;
+    top: 25px;
+  }
+
 </style>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+  }
+</script>
+
+<script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script defer type="text/javascript" src="/js/script.js"></script>
+
 </head>
 
 <body>
@@ -217,7 +234,8 @@
     <div class="logo-container">
       <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
     </div>
-
+	
+	<div id="google_translate_element" class="translate-box"></div>
 	
     <!-- 未ログイン時のみ表示 -->
     <div th:if="${!#authorization.expression('isAuthenticated()')}">
@@ -289,9 +307,6 @@
     <a th:href="@{/activity}" class="btn footer-btn activity-btn">アクティビティ体験</a>
 	<a th:href="@{/foods}" class="btn footer-btn foods-btn">グルメ一覧</a>
   </footer>
-  
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <script type="text/javascript" src="/js/script.js"></script>
 
 </body>
 </html>
