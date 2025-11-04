@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${food.name}">Food Detail</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
+	<header th:replace="fragments/header :: header"></header>
+	
 <h1 th:text="${food.name}"></h1>
 <p th:text="${food.description}"></p>
 <img th:src="${food.imageUrl}" alt="food image" width="300"/>
-<p>Region: <span th:text="${food.region.name}"></span></p>
+<p>
+  Region:
+  <a th:href="@{/region/{id}(id=${food.region.id})}"
+     th:text="${food.region.name}">
+  </a>
+</p>
+
 
 <a href="/foods">Back to list</a>
+
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
