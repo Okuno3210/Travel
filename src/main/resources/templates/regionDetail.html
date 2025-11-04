@@ -23,9 +23,9 @@
       <img th:src="${region.imageUrl}" alt="地域画像" class="region-image">
       <div class="hero-text-overlay">
         <h1 th:text="${region.name}" class="region-title">地域名</h1>
-        <p class="region-sub">
-          <span th:text="'所属国：' + ${region.country.name}">国名</span>
-        </p>
+		<p class="region-sub">
+		  <span th:text="${region.country != null ? '所属国：' + region.country.name : '所属国：情報なし'}">国名</span>
+		</p>
       </div>
     </section>
 
