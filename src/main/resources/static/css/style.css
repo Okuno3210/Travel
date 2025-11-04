@@ -398,3 +398,14 @@ main{
     margin: 0 auto;
     max-width: 900px;           /* テキスト行の長さを制限（読みやすく） */
   }
+  #fxrate-credit {
+    text-align: center;
+    font-size: 0.9em;
+    color: #444;
+    margin-top: 15px;
+    opacity: 0.8;
+  }
+  #fxrate-credit a {
+    color: inherit;
+    text-decoration: underline;
+  }
