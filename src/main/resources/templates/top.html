@@ -132,13 +132,13 @@
 
   .banner-slide {
     display: flex;
-    width: calc(250px * 9); 
-    animation: scrollBanner 8s linear infinite;
+    width: calc(250px * 13); 
+    animation: scrollBanner 15s linear infinite;
   }
 
   .banner-slide img {
     width: 250px;
-    height: 150px;
+    height: 200px;
     object-fit: cover;
     border-radius: 12px;
     margin: 0 10px;
@@ -269,32 +269,44 @@
 	<!-- 横に流れるクリック可能なバナー -->
 		<div class="banner-container">
 		  <div class="banner-slide">
-		    <a th:href="@{/USA}">
+		    <a th:href="@{/country/1/regions}">
 		      <img th:src="@{/images/country/America.png}" alt="アメリカ">
 		    </a>
-		    <a th:href="@{/AUS}">
+			<a th:href="@{/country/2/regions}">
+			  <img th:src="@{/images/country/Italy.png}" alt="イタリア">
+			</a>
+			<a th:href="@{/country/3/regions}">
+			  <img th:src="@{/images/country/France.png}" alt="フランス">
+			</a>
+			<a th:href="@{/country/4/regions}">
+			  <img th:src="@{/images/country/Vietnam.png}" alt="ベトナム">
+			</a>
+			<a th:href="@{/country/5/regions}">
+			  <img th:src="@{/images/country/Switzerland.png}" alt="スイス">
+			</a>
+		    <a th:href="@{/country/6/regions}">
 		      <img th:src="@{/images/country/Australia.png}" alt="オーストラリア">
 		    </a>
-		    <a th:href="@{/EGY}">
+			<a th:href="@{/country/7/regions}">
+			  <img th:src="@{/images/country/Thailand.png}" alt="タイ">
+			 </a>
+		    <a th:href="@{/country/8/regions}">
 		      <img th:src="@{/images/country/Egypt.jpg}" alt="エジプト">
 		    </a>
-		    <a th:href="@{/FRA}">
-		      <img th:src="@{/images/country/France.png}" alt="フランス">
-		    </a>
-			<a th:href="@{/CHN}">
-			   <img th:src="@{/images/country/China.jpg}" alt="中国">
+			<a th:href="@{/country/9/regions}">
+			   <img th:src="@{/images/country/Iran.png}" alt="イラン">
 			</a>
-			<a th:href="@{/ITA}">
-			 <img th:src="@{/images/country/Italy.png}" alt="イタリア">
-			</a>
-			<a th:href="@{/IND}">
+			<a th:href="@{/country/10/regions}">
 			<img th:src="@{/images/country/India.png}" alt="インド">
 			</a>
-			<a th:href="@{/KOR}">
-			<img th:src="@{/images/country/Korea.png}" alt="韓国">
+			<a th:href="@{/country/11/regions}">
+			<img th:src="@{/images/country/China.jpg}" alt="中国">
 			</a>
-			<a th:href="@{/IRN}">
-			<img th:src="@{/images/country/Iran.png}" alt="イラン">
+			<a th:href="@{/country/12/regions}">
+			  <img th:src="@{/images/country/Russia.png}" alt="ロシア">
+			</a>
+			<a th:href="@{/country/13/regions}">
+			<img th:src="@{/images/country/Korea.png}" alt="韓国">
 			</a>
 		  </div>
 	</div>

@@ -78,7 +78,7 @@
         <li class="info-item">
           <span class="info-icon">💰</span>
           <strong>旅行予算</strong>
-          <span th:text="${region.budget}">--万円</span>
+          <span th:text="${region.budget} + '万円～'">--万円</span>
         </li>
         <li class="info-item">
           <span class="info-icon">✈️</span>
@@ -98,7 +98,7 @@
         <li class="info-item risk-level">
           <span class="info-icon">🚨</span>
           <strong>渡航危険レベル</strong>
-          <span th:text="'レベル' + ${region.riskLevel}">レベル--</span>
+          <span th:text="${region.riskLevel}">レベル--</span>
         </li>
       </ul>
     </section>
