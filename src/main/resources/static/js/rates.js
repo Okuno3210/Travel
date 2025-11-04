@@ -1,44 +1,67 @@
-// script/fxRate.js
+// /js/rates.js
 const FxRate = (function () {
 
-  const pairs = [
-    ["USD", "JPY"],
-  ];
+  const countryToCurrency = {
+    USA: "USD",
+    ITA: "EUR",
+    FRA: "EUR",
+    VNM: "VND",
+    CHE: "CHF",
+    AUS: "AUD",
+    THA: "THB",
+    EGY: "EGP",
+    IRN: "IRR",
+    IND: "INR",
+    CHN: "CNY",
+    RUS: "RUB",
+    KOR: "KRW",
+  };
 
-  const API_BASE = "https://api.frankfurter.app/latest";
+  // ✅ exchangerate.host に統一
+  const API_BASE = "https://api.exchangerate.host/latest";
 
   async function fetchRate(from, to) {
-    const res = await fetch(`${API_BASE}?from=${from}&to=${to}`);
-    if (!res.ok) throw new Error(res.statusText);
+    const res = await fetch(`${API_BASE}?base=${from}&symbols=${to}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const data = await res.json();
-    return { rate: data.rates[to], date: data.date, base: data.base };
+
+    // レスポンス確認
+    if (!data || !data.rates || !data.rates[to]) {
+      // error がオブジェクトのことがあるので、文字列化
+      const msg =
+        typeof data.error === "string"
+          ? data.error
+          : data.error
+          ? JSON.stringify(data.error)
+          : "レート情報なし";
+      throw new Error(msg);
+    }
+
+    return { rate: data.rates[to], date: data.date };
   }
 
-  async function update(containerId) {
+
+  async function update(containerId, countryCode, to = "JPY") {
     const container = document.getElementById(containerId);
     if (!container) return console.warn(`Container #${containerId} not found`);
-    container.innerHTML = "";
 
-    for (const [from, to] of pairs) {
-      const div = document.createElement("div");
-      div.textContent = `${from}/${to}: 読み込み中…`;
-      container.appendChild(div);
+    const base = countryToCurrency[countryCode] || "USD";
+    container.textContent = `${base}/${to}: 読み込み中…`;
 
-      try {
-        const { rate, date } = await fetchRate(from, to);
-        div.textContent = `${from}/${to}: ${rate.toFixed(3)}（${date}）`;
-      } catch (err) {
-        div.textContent = `${from}/${to}: エラー (${err.message})`;
-      }
+    try {
+      const { rate, date } = await fetchRate(base, to);
+      container.textContent = `${base}/${to}: ${rate.toFixed(3)}（${date}）`;
+    } catch (err) {
+      container.textContent = `${base}/${to}: エラー (${err.message})`;
+      console.warn(`FX取得失敗: ${base}/${to}`, err);
     }
   }
 
-  function start(containerId, intervalMs = 60000) {
-    update(containerId);
-    setInterval(() => update(containerId), intervalMs);
+  function start(containerId, countryCode, intervalMs = 60000) {
+    update(containerId, countryCode);
+    setInterval(() => update(containerId, countryCode), intervalMs);
   }
 
-  // 外部から使える関数を公開
   return { start };
-
 })();

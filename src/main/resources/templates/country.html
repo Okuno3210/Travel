@@ -8,14 +8,14 @@
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/common.css}">
   
+  <!-- Google翻訳ウィジェット -->
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
     }
   </script>
-
-  <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <script defer type="text/javascript" src="/js/script.js"></script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 
   <main>
     <!-- 為替レート表示 -->
-    <div id="rates"></div>
+    <div id="rates" class="fx-rate"></div>
 
     <!-- 地域一覧 -->
     <section th:if="${regions != null and !#lists.isEmpty(regions)}">
@@ -82,11 +82,14 @@
   <!-- 共通フッター -->
   <div th:replace="fragments/footer :: footer"></div>
 
-  <!-- JSファイル読み込み -->
+  <!-- 為替レートJS -->
   <script th:src="@{/js/rates.js}"></script>
-  <script>
+
+  <!-- ページ読み込み後に開始 -->
+  <script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", () => {
-      FxRate.start("rates", 5000); // 5秒ごとに更新
+      const countryCode = /*[[${country.code}]]*/ 'USA';
+      FxRate.start("rates", countryCode, 5000); // 5秒ごとに更新
     });
   </script>
 </body>
