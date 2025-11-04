@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券予約確認 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <h1>✈️ 航空券予約確認</h1>
+  </header>
+
+  <main class="confirm-page">
+    <h2>以下の内容で予約しますか？</h2>
+
+    <div class="confirm-card">
+      <p th:text="'出発地: ' + ${departure}"></p>
+      <p th:text="'目的地: ' + ${destination}"></p>
+      <p th:text="'出発日: ' + ${date}"></p>
+      <p th:text="'人数: ' + ${passenger} + '名'"></p>
+      <p th:text="'料金: 約' + ${price} + '円'"></p>
+    </div>
+
+    <form th:action="@{/flight/complete}" method="post">
+      <input type="hidden" name="departure" th:value="${departure}">
+      <input type="hidden" name="destination" th:value="${destination}">
+      <input type="hidden" name="date" th:value="${date}">
+      <input type="hidden" name="passenger" th:value="${passenger}">
+      <input type="hidden" name="price" th:value="${price}">
+      <button type="submit" class="btn">✅ この内容で予約する</button>
+      <a href="/flight/search" class="btn back-btn">戻る</a>
+    </form>
+  </main>
+</body>
+</html>
