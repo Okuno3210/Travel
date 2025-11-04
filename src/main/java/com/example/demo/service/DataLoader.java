@@ -94,7 +94,7 @@ public class DataLoader implements ApplicationRunner{
                 c.setCode(arr[1]);
                 c.setName(arr[2]);
                 c.setDescription(arr[3]);
-                c.setImgUrl(arr[4]);
+                c.setImageUrl(arr[4]);
                 countryRepo.save(c); //カントリー.csvのidエンティティで自動生成して割り振られる  
                 
             });
@@ -153,7 +153,7 @@ public class DataLoader implements ApplicationRunner{
                 if (region != null) {
                     s.setRegion(region);
                 }
-                s.setImgUrl(arr[4]);
+                s.setImageUrl(arr[4]);
                 spotRepo.save(s);
             });
         } catch (IOException e) { e.printStackTrace(); }
