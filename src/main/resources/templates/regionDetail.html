@@ -3,113 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${region.name}">地域詳細</title>
+  <title th:text="${region.name} + ' | TRAVEL POP!'">地域詳細</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
-  </head>
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <style>
+	.region-hero {
+	  position: relative;
+	  height: 400px;
+	  overflow: hidden;
+	}
+
+	.region-image {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	  z-index: 0; /* 背面 */
+	}
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 25px;
+	 }
+  </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+
+  <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer type="text/javascript" src="/js/script.js"></script>
+  
+</head>
 <body>
 
-  <header class="pop-header">
-    <div class="logo-area">
-      <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
-    </div>
-    <div class="header-buttons">
-      <a href="/login" class="btn login-btn" th:if="${!#authorization.expression('isAuthenticated()')}">Login</a>
-      <a href="/mypage" class="btn mypage-btn" th:if="${#authorization.expression('isAuthenticated()')}">My Page</a>
-    </div>
-  </header>
+  <!-- ヘッダー -->
+<header th:replace="fragments/header :: header"></header>
 
+  <!-- 地域ヒーローエリア -->
   <main class="region-detail">
-    <section class="region-hero">
-      <img th:src="${region.imageUrl}" alt="地域画像" class="region-image">
-      <div class="hero-text-overlay">
-        <h1 th:text="${region.name}" class="region-title">地域名</h1>
-		<p class="region-sub">
-		  <span th:text="${region.country != null ? '所属国：' + region.country.name : '所属国：情報なし'}">国名</span>
-		</p>
-      </div>
-    </section>
+	<section class="region-hero">
+	  <img th:src="${region.imageUrl}" alt="地域画像" class="region-image">
+	  <div class="hero-text-overlay">
+	    <h1 th:text="${region.name}" class="region-title">地域名</h1>
+	    <p class="region-sub">
+	      <span th:text="${region.country != null ? '所属国：' + region.country.name : '所属国：情報なし'}">国名</span>
+	    </p>
+	  </div>
+	</section>
 
+
+    <!-- 説明エリア -->
     <section class="description-area">
-        <p class="region-description" th:text="${region.description}">地域の説明が入ります。観光地として人気のリゾート地。温暖な気候で一年中楽しめる！</p>
+      <p class="region-description" th:text="${region.description}">
+        地域の説明が入ります。観光地として人気のリゾート地。温暖な気候で一年中楽しめる！
+      </p>
     </section>
 
+    <!-- 基本情報 -->
     <section class="info-card">
       <h2>✨ 渡航・基本情報</h2>
       <ul class="info-list-grid">
         <li class="info-item">
-            <span class="info-icon">💰</span>
-            <strong>旅行予算</strong>
-            <span th:text="${region.budget}">--万円</span>
+          <span class="info-icon">💰</span>
+          <strong>旅行予算</strong>
+          <span th:text="${region.budget}">--万円</span>
         </li>
         <li class="info-item">
-            <span class="info-icon">✈️</span>
-            <strong>所要時間</strong>
-            <span th:text="${region.flightTime}">--時間</span>
+          <span class="info-icon">✈️</span>
+          <strong>所要時間</strong>
+          <span th:text="${region.flightTime}">--時間</span>
         </li>
         <li class="info-item">
-            <span class="info-icon">⏰</span>
-            <strong>時差</strong>
-            <span th:text="${region.timezone}">--時間</span>
+          <span class="info-icon">⏰</span>
+          <strong>時差</strong>
+          <span th:text="${region.timezone}">--時間</span>
         </li>
         <li class="info-item">
-            <span class="info-icon">☀️</span>
-            <strong>気候</strong>
-            <span th:text="${region.climate}">--</span>
+          <span class="info-icon">☀️</span>
+          <strong>気候</strong>
+          <span th:text="${region.climate}">--</span>
         </li>
         <li class="info-item risk-level">
-            <span class="info-icon">🚨</span>
-            <strong>渡航危険レベル</strong>
-            <span th:text="'レベル' + ${region.riskLevel}">レベル--</span>
+          <span class="info-icon">🚨</span>
+          <strong>渡航危険レベル</strong>
+          <span th:text="'レベル' + ${region.riskLevel}">レベル--</span>
         </li>
       </ul>
     </section>
 
+    <!-- 観光スポット -->
     <section class="recommend-area">
       <h2>🏝 おすすめ観光スポット</h2>
       <div class="spot-cards">
-        <th:block th:each="spot : ${touristSpots}">
-          <div class="spot-card" th:classappend="${spotStat.index % 3 == 0}? 'pink' : ${spotStat.index % 3 == 1}? 'blue' : 'yellow'">
-            <img th:src="${spot.imageUrl}" alt="" class="spot-image">
+        <th:block th:each="spot, spotStat : ${touristSpots}">
+          <div class="spot-card">
+            <img th:src="${spot.imageUrl}" alt="観光スポット画像" class="spot-image">
             <div class="spot-content">
-                <h3 th:text="${spot.name}">名所名</h3>
-                <p th:text="${spot.description}">説明文</p>
+              <h3 th:text="${spot.name}">名所名</h3>
+              <p th:text="${spot.description}">説明文</p>
             </div>
           </div>
         </th:block>
       </div>
     </section>
 
+    <!-- グルメ -->
     <section class="food-area">
-      <h2> 必食！地域のグルメ</h2>
+      <h2>🍴 必食！地域のグルメ</h2>
       <div class="food-cards">
         <th:block th:each="food : ${foods}">
           <div class="food-card">
-            <img th:src="${food.imageUrl}" alt="" class="food-image">
+            <img th:src="${food.imageUrl}" alt="料理画像" class="food-image">
             <div class="food-content">
-                <h3 th:text="${food.name}">食べ物名</h3>
-                <p th:text="${food.description}">食べ物説明</p>
+              <h3 th:text="${food.name}">食べ物名</h3>
+              <p th:text="${food.description}">食べ物説明</p>
             </div>
           </div>
         </th:block>
       </div>
     </section>
 
+    <!-- 下部ボタン群 -->
     <div class="bottom-buttons">
-      <a href="/favorite" class="btn favorite-btn">💖 お気に入りに追加</a>
-      <a href="/regions" class="btn back-btn">🏠 トップメニューへ</a>
-      <a href="/regions/next" class="btn next-btn">✈️ 次の旅行を探す</a>
+      <a href="/" class="btn back-btn">🏠 トップメニューへ</a>
+	  <a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
     </div>
+
+    <!-- 航空券ボタン -->
+    <div class="bottom-buttons">
+      <a th:href="@{/flight/search(region=${region.name})}" class="btn next-btn">✈️ この地域への航空券を探す</a>
+    </div>
+
   </main>
-  
-  <a th:href="@{/flight/search(region=${region.name})}" class="btn">✈️ この地域への航空券を探す</a>
 
-
-  <footer>
-    <a th:href="@{/gourmet}" class="footer-btn gourmet">グルメ旅</a>
-    <a th:href="@{/scenic}" class="footer-btn scenic">絶景スポット</a>
-    <a th:href="@{/activity}" class="footer-btn activity">アクティビティ体験</a>
-    <a th:href="@{/foods}" class="footer-btn foods-btn">グルメ一覧</a>
-  </footer>
+  <!-- フッター -->
+ <div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>
