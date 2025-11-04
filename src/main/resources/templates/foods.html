@@ -3,20 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Food List by Region</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
   <style>
-    body {
-      font-family: 'Noto Sans JP', 'メイリオ', sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 30px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      color: #333;
-    }
-
+	
     /* 地域全体（左右2列にする） */
     .regions-grid {
       display: grid;
@@ -94,6 +84,8 @@
 
 <h1>Food List by Region</h1>
 
+<header th:replace="fragments/header :: header"></header>
+
 <!-- 地域を2列で並べる -->
 <div class="regions-grid">
   <div class="region-block" th:each="entry : ${foodsByRegion}">
@@ -108,6 +100,8 @@
   </div>
 </div>
 </div>
+
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>
