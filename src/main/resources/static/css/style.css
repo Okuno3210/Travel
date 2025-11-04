@@ -63,6 +63,7 @@
 
 body {
   margin: 0;
+  padding-top: 100px;
   font-family: 'Nunito', 'Noto Sans JP', sans-serif;
   background: url('/images/map_background.png') no-repeat center center / cover;
   color: #333;
