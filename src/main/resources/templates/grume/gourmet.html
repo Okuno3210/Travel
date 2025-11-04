@@ -1,33 +1,101 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
-<body>
-	<a th:href="@{/region/001}">
-				<img th:src="@{/images/food/001.jpg}" alt="イン・アンド・アウト・バーガータコス" style="width:400px; height:400px; margin-right:15px;">
-			    </a>
-			    <h2>ロサンゼルスは本格的なメキシコ料理の宝庫。屋台やトラックで食べるタコスは格別です。</h2>
-	<a th:href="@{/region/001}">
-				<img th:src="@{/images/food/002.jpg}" alt="フードトラック料理" style="width:400px; height:400px; margin-right:15px;">
-				</a>
-				<h2>様々な国の料理を提供するフードトラック（移動販売車）が街中にあり、手軽に多様な味が楽しめます。</h2>
-	<a th:href="@{/region/001}">
-	            <img th:src="@{/images/food/003.jpg}" alt="サワードウブレッド" style="width:400px; height:400px; margin-right:15px;">
-				</a>
-				<h2>サンフランシスコに近いこともあり、酸味のある発酵パン（サワードウ）を使った料理やパンが人気です。</h2>
-	<a th:href="@{/region/002}">
-				<img th:src="@{/images/food/004.jpg}" alt="高級ステーキハウスのステーキ" style="width:400px; height:400px; margin-right:15px;">
-				</a>
-				<h2>ラスベガスの高級ホテルには一流のステーキハウスが多く、熟成肉や和牛などを堪能できます。</h2>
-	<a th:href="@{/region/002}">
-				<img th:src="@{/images/food/005.jpg}" alt="セレブシェフのレストラン料理" style="width:400px; height:400px; margin-right:15px;">
-				</a>
-				<h2>ゴードン・ラムゼイなど、著名シェフがプロデュースした独創的な料理を体験できます</h2>
-	<a th:href="@{/region/002}">
-				<img th:src="@{/images/food/006.jpg}" alt="ファインダイニング" style="width:400px; height:400px; margin-right:15px;">
-				</a>
-				<h2>世界のトップホテルにある、洗練された雰囲気とサービスで楽しむ高級各国料理。</h2>							    
+
+<title>グルメ特集</title>
+</head>
+<body style="margin:0; padding:0; background-color:#A8E6CF;">
+
+<h1 style="text-align:center;">グルメ特集</h1>
+
+<!-- ===== 1段目 ===== -->
+<div style="display: flex; justify-content:center; margin-bottom: 40px;">
+  <div style="text-align:center; margin-right: 30px;">
+    <h1>イン・アンド・アウト・バーガータコス</h1>
+    <a th:href="@{/region/001}">
+      <img th:src="@{/images/food/001.jpg}" width="400" height="400">
+    </a>
+    <h2>ロサンゼルスは本格的なメキシコ料理の宝庫。屋台やトラックで食べるタコスは格別です。</h2>
+  </div>
+
+  <div style="text-align:center;">
+    <h1>フードトラック料理</h1>
+    <a th:href="@{/region/002}">
+      <img th:src="@{/images/food/002.jpg}" width="400" height="400">
+    </a>
+    <h2>様々な国の料理を提供するフードトラックが街中にあり、手軽に多様な味が楽しめます。</h2>
+  </div>
+</div>
+
+<!-- ===== 2段目 ===== -->
+<div style="display: flex; justify-content:center; margin-bottom: 40px;">
+  <div style="text-align:center; margin-right: 30px;">
+    <h1>サワードウブレッド</h1>
+    <a th:href="@{/region/003}">
+      <img th:src="@{/images/food/003.jpg}" width="400" height="400">
+    </a>
+    <h2>サンフランシスコ発祥の酸味のあるパン。現地のカフェでは人気の定番です。</h2>
+  </div>
+
+  <div style="text-align:center;">
+    <h1>高級ステーキ</h1>
+    <a th:href="@{/region/004}">
+      <img th:src="@{/images/food/004.jpg}" width="400" height="400">
+    </a>
+    <h2>ラスベガスの一流ステーキハウスで味わう、熟成肉と和牛の極上ステーキ。</h2>
+  </div>
+</div>
+
+<!-- ===== 3段目 ===== -->
+<div style="display: flex; justify-content:center; margin-bottom: 80px;">
+  <div style="text-align:center; margin-right: 30px;">
+    <h1>セレブシェフの創作料理</h1>
+    <a th:href="@{/region/005}">
+      <img th:src="@{/images/food/005.jpg}" width="400" height="400">
+    </a>
+    <h2>著名シェフが手掛ける洗練された一皿。五感で楽しむグルメ体験です。</h2>
+  </div>
+
+  <div style="text-align:center;">
+    <h1>ファインダイニング</h1>
+    <a th:href="@{/region/006}">
+      <img th:src="@{/images/food/006.jpg}" width="400" height="400">
+    </a>
+    <h2>世界のトップホテルにある、洗練された雰囲気の中で楽しむ極上料理。</h2>
+  </div>
+</div>
+
+<!-- ===== footer（壁紙的背景） ===== -->
+<footer style="
+  background-color: #A8E6CF;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 35px 0;
+  flex-wrap: wrap;
+  text-align: center;
+">
+  <p style="font-size: 20px; color: #333;">© 2025 Gourmet Travel</p>
+</footer>
+
+<!-- ===== 戻るボタン（固定） ===== -->
+<div style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 100;
+">
+  <button onclick="history.back()" 
+          style="font-size: 24px; padding: 15px 40px; background-color: #ffffff; border: none; border-radius: 8px;">
+    戻る
+  </button>
+</div>
+
 </body>
 </html>
