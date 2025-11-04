@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券検索 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <h1>✈️ 航空券検索</h1>
+    <p th:if="${country != null}" th:text="'目的地: ' + ${country}"></p>
+    <p th:if="${region != null}" th:text="'地域: ' + ${region}"></p>
+  </header>
+
+  <main class="flight-search">
+    <form th:action="@{/flight/result}" method="get" class="search-form">
+      <label>出発地:</label>
+      <input type="text" name="departure" placeholder="例: 東京" required><br><br>
+
+      <label>目的地:</label>
+      <input type="text" name="destination"
+             th:value="${region != null ? region : country}" required><br><br>
+
+      <label>出発日:</label>
+      <input type="date" name="date" required><br><br>
+
+      <label>人数:</label>
+      <input type="number" name="passenger" min="1" value="1"><br><br>
+
+      <button type="submit" class="btn">検索する</button>
+    </form>
+  </main>
+
+  <footer>
+    <a href="/" class="btn back-btn">🏠 トップへ戻る</a>
+  </footer>
+</body>
+</html>

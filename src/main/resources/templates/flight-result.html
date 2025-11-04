@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券検索結果 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <h1>🛫 航空券検索結果</h1>
+  </header>
+
+  <main class="flight-result">
+    <h2 th:text="'出発地: ' + ${departure} + ' → 目的地: ' + ${destination}"></h2>
+    <p th:text="'出発日: ' + ${date}"></p>
+    <p th:text="'人数: ' + ${passenger} + '名'"></p>
+
+    <div class="result-card">
+      <p th:text="'最安値: 約' + ${price} + '円～'"></p>
+      <p>航空会社：ANA / JAL / United など</p>
+      <p>所要時間：およそ 10 時間</p>
+    </div>
+
+    <button class="btn">この便を予約する</button>
+    <a href="/flight/search" class="btn back-btn">再検索</a>
+  </main>
+
+  <footer>
+    <p>© 2025 TravelMap</p>
+  </footer>
+</body>
+</html>

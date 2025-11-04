@@ -53,6 +53,9 @@
         </div>
       </div>
     </section>
+	
+	<a th:href="@{/flight/search(country=${country.name})}" class="btn">✈️ 航空券を探す</a>
+
 
     <!-- 地域がない場合 -->
     <section th:if="${regions == null or #lists.isEmpty(regions)}">
