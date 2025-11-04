@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券予約完了 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <header>
+    <h1>🎉 ご予約が完了しました！</h1>
+  </header>
+
+  <main class="complete-page">
+    <section class="summary">
+      <h2>✈️ ご予約内容</h2>
+      <p th:text="'予約番号: ' + ${bookingNumber}"></p>
+      <p th:text="'出発地: ' + ${departure}"></p>
+      <p th:text="'目的地: ' + ${destination}"></p>
+      <p th:text="'出発日: ' + ${date}"></p>
+      <p th:text="'人数: ' + ${passenger} + '名'"></p>
+      <p th:text="'合計金額: 約' + ${price} + '円'"></p>
+    </section>
+
+    <section class="next-actions">
+      <h3>今後の流れ</h3>
+      <ul>
+        <li>✉️ ご登録のメールアドレスに予約確認メールを送信しました。</li>
+        <li>📱 出発の24時間前に搭乗手続きを行ってください。</li>
+        <li>💺 マイページからチケット情報を確認できます。</li>
+      </ul>
+    </section>
+
+    <div class="buttons">
+      <a href="/mypage" class="btn">マイページへ</a>
+      <a href="/" class="btn back-btn">トップへ戻る</a>
+    </div>
+  </main>
+</body>
+</html>

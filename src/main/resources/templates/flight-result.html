@@ -21,7 +21,16 @@
       <p>所要時間：およそ 10 時間</p>
     </div>
 
-    <button class="btn">この便を予約する</button>
+    <!-- 🔽 この部分を修正 -->
+    <form th:action="@{/flight/confirm}" method="get">
+      <input type="hidden" name="departure" th:value="${departure}">
+      <input type="hidden" name="destination" th:value="${destination}">
+      <input type="hidden" name="date" th:value="${date}">
+      <input type="hidden" name="passenger" th:value="${passenger}">
+      <input type="hidden" name="price" th:value="${price}">
+      <button type="submit" class="btn">この便を予約する</button>
+    </form>
+
     <a href="/flight/search" class="btn back-btn">再検索</a>
   </main>
 
