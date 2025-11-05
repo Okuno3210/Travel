@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>航空券検索 | TravelMap</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
   <style>
     body {
       font-family: 'Noto Sans JP', sans-serif;
@@ -11,13 +12,6 @@
       color: #333;
       margin: 0;
       padding: 0;
-    }
-
-    header {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: white;
-      text-align: center;
-      padding: 20px;
     }
 
     h1 {
@@ -29,7 +23,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 40px 20px;
+      padding: 120px 20px;
     }
 
     .search-form {
@@ -85,14 +79,36 @@
     .back-btn:hover {
       background: #888;
     }
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 30px;
+	 }
   </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
+  
 </head>
 <body>
-  <header>
+	
+	<header th:replace="fragments/header :: header"></header>
     <h1>✈️ 航空券検索</h1>
     <p th:if="${selectedRegion != null and selectedRegion != ''}"
        th:text="'地域: ' + ${selectedRegion}"></p>
-  </header>
+ 
 
   <main class="flight-search">
     <form th:action="@{/flight/result}" method="get" class="search-form">

@@ -130,7 +130,29 @@
     text-align: center;
     z-index: 1000;
   }
+  
+  .google_translate_element{
+  position: absolute;
+  left: 20px;
+  top: 20px;
+   }
+   
+   .translate-box {
+     position: absolute;
+     left: 350px;
+     top: 30px;
+   }
+   
 </style>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+  }
+</script>
+<script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script defer th:src="@{/js/script.js}"></script>
+
 </head>
 <body>
 
@@ -139,6 +161,8 @@
   <div class="logo-container">
     <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
   </div>
+  
+  <div id="google_translate_element" class="translate-box"></div>
 
   <!-- Logoutボタン -->
   <div th:if="${#authorization.expression('isAuthenticated()')}">
