@@ -4,11 +4,42 @@
   <meta charset="UTF-8">
   <title>航空券検索結果 | TravelMap</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  
+  <style>
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 30px;
+	 }
+	 
+  main{
+  	padding-top: 100px;
+  }
+  </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
+  
 </head>
 <body>
-  <header>
+	
+	<header th:replace="fragments/header :: header"></header>
+ 
     <h1>🛫 航空券検索結果</h1>
-  </header>
+  
 
   <main class="flight-result">
     <!-- 出発地・目的地 -->
