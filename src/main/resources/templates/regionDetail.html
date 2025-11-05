@@ -9,13 +9,11 @@
   <style>
 	.region-hero {
 	  position: relative;
-	  height: 450px;
 	  overflow: hidden;
 	}
 
 	.region-image {
 	  position: absolute;
-	  top: 0px;
 	  left: 0;
 	  width: 100%;
 	  height: 100%;
@@ -103,38 +101,37 @@
       </ul>
     </section>
 
-    <!-- 観光スポット -->
-    <section class="recommend-area">
-      <h2>🏝 おすすめ観光スポット</h2>
-      <div class="spot-cards">
-        <th:block th:each="spot, spotStat : ${touristSpots}">
-          <div class="spot-card">
-            <img th:src="${spot.imageUrl}" alt="観光スポット画像" class="spot-image">
-            <div class="spot-content">
-              <h3 th:text="${spot.name}">名所名</h3>
-              <p th:text="${spot.description}">説明文</p>
-            </div>
-          </div>
-        </th:block>
-      </div>
-    </section>
+	<!-- 観光スポット -->
+	<section class="recommend-area">
+	  <h2>🏝 おすすめ観光スポット</h2>
+	  <div class="spot-cards">
+	    <th:block th:each="spot : ${touristSpots}">
+	      <div class="spot-card">
+	        <img th:src="${spot.imageUrl}" alt="観光スポット画像" class="spot-image">
+	        <div class="spot-content">
+	          <h3 th:text="${spot.name}">名所名</h3>
+	          <p th:text="${spot.description}">説明文</p>
+	        </div>
+	      </div>
+	    </th:block>
+	  </div>
+	</section>
 
-    <!-- グルメ -->
-    <section class="food-area">
-      <h2>🍴 必食！地域のグルメ</h2>
-      <div class="food-cards">
-        <th:block th:each="food : ${foods}">
-          <div class="food-card">
-            <img th:src="${food.imageUrl}" alt="料理画像" class="food-image">
-            <div class="food-content">
-              <h3 th:text="${food.name}">食べ物名</h3>
-              <p th:text="${food.description}">食べ物説明</p>
-            </div>
-          </div>
-        </th:block>
-      </div>
-    </section>
-
+	<!-- グルメ -->
+	<section class="food-area">
+	  <h2>🍴 必食！地域のグルメ</h2>
+	  <div class="food-cards">
+	    <th:block th:each="food : ${foods}">
+	      <div class="food-card">
+	        <img th:src="${food.imageUrl}" alt="料理画像" class="food-image">
+	        <div class="food-content">
+	          <h3 th:text="${food.name}">食べ物名</h3>
+	          <p th:text="${food.description}">食べ物説明</p>
+	        </div>
+	      </div>
+	    </th:block>
+	  </div>
+	</section>
     <!-- 下部ボタン群 -->
     <div class="bottom-buttons">
       <a href="/" class="btn back-btn">🏠 トップメニューへ</a>
