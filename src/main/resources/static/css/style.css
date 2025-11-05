@@ -65,7 +65,9 @@ body {
   margin: 0;
   padding-top: 100px;
   font-family: 'Nunito', 'Noto Sans JP', sans-serif;
-  background: url('/images/map_background.png') no-repeat center center / cover;
+  background: url('/images/map_background.png') no-repeat ;
+  background-position: center 90px;
+  background-size: 160%; 
   color: #333;
   text-align: center;
 }
@@ -216,6 +218,7 @@ body {
   margin: 0 auto 50px;
 }
 .spot-card {
+  background-color: #fefefe;
   /* 背景色のローテーションは保持しつつ、カードを写真主体に */
   border-radius: 20px;
   overflow: hidden;

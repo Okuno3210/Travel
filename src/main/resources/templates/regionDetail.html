@@ -7,6 +7,22 @@
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <style>
+	
+	header {
+	  background-color: #ffffff;
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	  padding: 15px 50px;
+	  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  height: 67px;
+	  width: 95%;
+	  z-index: 10;
+	}
+	
 	.region-hero {
 	  position: relative;
 	  overflow: hidden;
@@ -31,6 +47,17 @@
 	   position: absolute;
 	   left: 350px;
 	   top: 25px;
+	 }
+	 
+	 body {
+	   margin: 0;
+	   padding-top: 100px;
+	   font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+	   background: url('/images/map_background.png') no-repeat ;
+	   background-position: center 400px;
+	   background-size: 250%; 
+	   color: #333;
+	   text-align: center;
 	 }
   </style>
   
