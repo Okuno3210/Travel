@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>絶景特集</title>
+<style>
+	header.pop-header {
+	  padding: 8px 20px !important;
+	  height: 60px !important;
+	  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+	}
+
+	header.pop-header .logo-img {
+	  height: 32px !important;
+	}
+
+	header.pop-header nav a {
+	  font-size: 0.95rem !important;
+	  padding: 6px 12px !important;
+	}
+
+  /* ベースデザイン */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: linear-gradient(180deg, #E0F7FA 0%, #FFFFFF 100%);
+    color: #333;
+  }
+
+  /* ページタイトル */
+  h1 {
+    margin: 60px 0 40px;
+    font-size: 48px;
+    font-weight: 800;
+    color: #00A2B8;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    letter-spacing: 0.05em;
+  }
+
+  /* 画像を並べるエリア */
+  .feature-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px; /* 画像の間隔を広くして高級感を */
+    margin-bottom: 60px;
+    padding: 0 40px;
+  }
+
+  /* 各画像カード */
+  .feature-gallery a {
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-gallery img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  /* ホバー時のアニメーション */
+  .feature-gallery a:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  }
+  .feature-gallery a:hover img {
+    transform: scale(1.08);
+  }
+
+  /* オーバーレイテキスト */
+  .feature-gallery a::after {
+    content: attr(alt-text);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0));
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    text-align: center;
+    border-radius: 0 0 16px 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+  }
+
+  .feature-gallery a:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 戻るボタン */
+  .back-button {
+    display: inline-block;
+    padding: 14px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #00A2B8;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 162, 184, 0.3);
+  }
+
+  .back-button:hover {
+    background-color: #008A9C;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 162, 184, 0.4);
+  }
+
+  /* フッター感覚で配置 */
+  .back-container {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 36px;
+      margin: 40px 0 30px;
+    }
+    .feature-gallery img {
+      width: 90vw;
+      height: 240px;
+    }
+    .feature-gallery {
+      gap: 25px;
+      padding: 0 10px;
+    }
+  }
+</style>
+</head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+  <h1>🌏 絶景特集</h1>
+
+  <div class="feature-gallery">
+    <a th:href="@{/scenic/scenic2}" alt-text="⛰ 山特集">
+       <img th:src="@{/images/mountain.png}" alt="山特集">
+    </a>
+    <a th:href="@{/scenic/scenic3}" alt-text="🌊 海特集">
+       <img th:src="@{/images/ocean.png}" alt="海特集">
+    </a>
+    <a th:href="@{/scenic/scenic4}" alt-text="🏯 世界遺産特集">
+       <img th:src="@{/images/WorldHeritageSite.png}" alt="世界遺産特集">
+    </a>
+  </div>
+
+  <div class="back-container">
+    <button class="back-button" onclick="history.back()">← 前のページに戻る</button>
+  </div>
+  
+  <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
