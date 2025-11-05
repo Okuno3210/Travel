@@ -11,27 +11,30 @@
   </header>
 
   <main class="flight-result">
-    <h2 th:text="'出発地: ' + ${departure} + ' → 目的地: ' + ${destination}"></h2>
+    <!-- 出発地・目的地 -->
+    <h2 th:text="'出発地: ' + ${departure.name} + '（' + ${departure.code} + '） → 目的地: ' + ${destination.name} + '（' + ${destination.code} + '）'"></h2>
     <p th:text="'出発日: ' + ${date}"></p>
     <p th:text="'人数: ' + ${passenger} + '名'"></p>
 
+    <!-- 結果カード -->
     <div class="result-card">
       <p th:text="'最安値: 約' + ${price} + '円～'"></p>
       <p>航空会社：ANA / JAL / United など</p>
       <p>所要時間：およそ 10 時間</p>
     </div>
 
-    <!-- 🔽 この部分を修正 -->
-    <form th:action="@{/flight/confirm}" method="get">
-      <input type="hidden" name="departure" th:value="${departure}">
-      <input type="hidden" name="destination" th:value="${destination}">
+    <!-- ✅ 確認ページへ進むフォーム -->
+    <form th:action="@{/flight/confirm}" method="get" class="confirm-form">
+      <input type="hidden" name="departureCode" th:value="${departure.code}">
+      <input type="hidden" name="destinationCode" th:value="${destination.code}">
       <input type="hidden" name="date" th:value="${date}">
       <input type="hidden" name="passenger" th:value="${passenger}">
       <input type="hidden" name="price" th:value="${price}">
       <button type="submit" class="btn">この便を予約する</button>
     </form>
 
-    <a href="/flight/search" class="btn back-btn">再検索</a>
+    <!-- 再検索ボタン -->
+    <a href="/flight/search" class="btn back-btn">🔁 再検索する</a>
   </main>
 
   <footer>
