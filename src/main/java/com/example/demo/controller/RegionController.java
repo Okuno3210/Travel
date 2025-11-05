@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.entity.Country;
+import com.example.demo.entity.Food;
 import com.example.demo.entity.Region;
+import com.example.demo.entity.TouristSpot;
 import com.example.demo.repository.CountryRepository;
+import com.example.demo.repository.FoodRepository;
 import com.example.demo.repository.RegionRepository;
+import com.example.demo.repository.TouristSpotRepository;
 
 @Controller
 public class RegionController {
@@ -32,13 +36,30 @@ public class RegionController {
     }
 
     // 個別ページ
+    @Autowired
+    private FoodRepository foodRepository;
+
+    @Autowired
+    private TouristSpotRepository touristSpotRepository; // 観光スポット用
+
     @GetMapping("/region/{id}")
     public String getRegion(@PathVariable Long id, Model model) {
         Region region = regionRepository.findById(id)
                          .orElseThrow(() -> new IllegalArgumentException("Invalid region id: " + id));
+
+        // グルメ情報取得
+        List<Food> foods = foodRepository.findByRegionId(id);
+
+        // 観光スポット取得
+        List<TouristSpot> touristSpots = touristSpotRepository.findByRegionId(id);
+
         model.addAttribute("region", region);
-        return "regionDetail"; // → templates/regionDetail.html
+        model.addAttribute("foods", foods);
+        model.addAttribute("touristSpots", touristSpots);
+
+        return "regionDetail"; // Thymeleafテンプレート名
     }
+
     
  // Country別の地域一覧
     @GetMapping("/country/{countryId}/regions")

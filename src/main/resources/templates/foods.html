@@ -17,6 +17,7 @@
 
     /* 各地域ブロック */
     .region-block {
+	  width: 850px;
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -78,6 +79,16 @@
         grid-template-columns: 1fr;
       }
     }
+	
+	body {
+	  margin: 0;
+	  padding-top: 100px;
+	  padding-bottom: 110px;
+	  font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+	  background: url('/images/map_background.png') no-repeat center center / cover;
+	  color: #333;
+	  text-align: center;
+	}
   </style>
 </head>
 <body>
@@ -94,7 +105,7 @@
   <div class = "food-list">
     <div th:each="food : ${entry.value}" class="food-card">
       <img th:src="@{${food.imageUrl}}" th:alt="${food.name}">
-      <a th:href="@{/foods/{id}(id=${food.id})}" th:text="${food.name}"></a>
+      <a th:href="@{/region/{id}(id=${food.region.id})}" th:text="${food.name}"></a>
       <p th:text="${food.description}"></p>
     </div>
   </div>

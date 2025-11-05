@@ -20,6 +20,49 @@
 	   left: 350px;
 	   top: 30px;
 	 }
+	 
+	 main{
+		padding-bottom: 10px;
+	 }
+	 
+	 .bottom-buttons {
+	     display: flex;           /* 横並びにする */
+	     justify-content: center; /* 中央寄せ */
+	     gap: 10px;               /* ボタン間の隙間 */
+	     flex-wrap: wrap;         /* 画面が狭くなったら折り返す */
+	     padding: 15px 0;
+	 }
+	 
+	 .footer-btn1 {
+	   color:var(--color-primary);
+	   font-weight: bold;
+	   padding: 10px 20px;
+	   border-radius: 20px;
+	   text-decoration: none;
+	   background: #fff;
+	   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+	 }
+	 
+	 .footer-btn2 {
+	   color: var(--color-primary);
+	   font-weight: bold;
+	   padding: 10px 20px;
+	   border-radius: 20px;
+	   text-decoration: none;
+	   background: #fff;
+	   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+	 }
+	 
+	 .footer-btn3 {
+	   color: var(--color-primary);
+	   font-weight: bold;
+	   padding: 10px 20px;
+	   border-radius: 20px;
+	   text-decoration: none;
+	   background: #fff;
+	   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+	 }
+
   </style>
   
   <!-- Google翻訳ウィジェット -->
@@ -68,24 +111,21 @@
       </div>
     </section>
 	
-	<a th:href="@{/flight/search(country=${country.name})}" class="btn">✈️ 航空券を探す</a>
+	<div class="bottom-buttons">
+	    <a th:href="@{/flight/search(country=${country.name})}" class="footer-btn1">✈️ 航空券を探す</a>
 
+	    <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}"  method="post"
+	          sec:authorize="hasRole('USER')">
+	        <button type="submit" class="footer-btn2">★ お気に入り登録</button>
+	    </form>
+
+	    <button type="button" class="footer-btn3" onclick="history.back()">← ひとつ前に戻る</button>
+	</div>
 
     <!-- 地域がない場合 -->
     <section th:if="${regions == null or #lists.isEmpty(regions)}">
       <p>この国には登録された地域がありません。</p>
     </section>
-
-    <!-- お気に入り登録 -->
-    <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}" method="post"
-          sec:authorize="hasRole('USER')">
-      <button type="submit" class="btn">★ お気に入り登録</button>
-    </form>
-
-    <!-- 戻るボタン -->
-    <div class="bottom-buttons">
-      <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
-    </div>
 
     <!-- デバッグ用 -->
     <div class="debug-info" th:if="${country != null}">

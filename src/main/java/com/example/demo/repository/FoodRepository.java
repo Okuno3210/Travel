@@ -26,4 +26,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     // 全件取得（Regionをまとめてフェッチ）
     @Query("SELECT f FROM Food f LEFT JOIN FETCH f.region r")
     List<Food> findAllWithRegion();
+    
+    List<Food> findByRegionId(Long regionId);
+
 }
