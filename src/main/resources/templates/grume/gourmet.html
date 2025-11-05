@@ -12,6 +12,49 @@
 
 <h1 style="text-align:center;">グルメ特集</h1>
 
+<!-- ===== 11/5 テスト ===== 
+タグの並び　<div style="display:～
+ （左側配置）<div <h2 </h2 <a <svg <clipPath <rect </clipPath <image </svg </a <h4 </h4 </div  
+ （右側配置）<div <h2 </h2 <a <svg <clipPath <rect </clipPath <image </svg </a <h4 </h4 </div 
+ 	</div
+ -->
+<div style="display: flex; justify-content:center; margin-bottom: 40px;">
+  <div style="text-align:center; margin-right: 30px;">
+    <h2>イン・アンド・アウト・バーガータコス</h2>
+    <a th:href="@{/region/001}">
+		<svg width="400" height="400" viewBox="0 0 400 400"
+		       xmlns="http://www.w3.org/2000/svg">
+		    <clipPath id="squareClip001">
+		      <rect x="0" y="0" width="400" height="400" />
+		    </clipPath>
+		<image th:href="@{/images/food/001.jpg}" width="400" height="400"
+			           preserveAspectRatio="xMidYMid slice"
+			           clip-path="url(#squareClip001)" />
+	</svg>
+    </a>
+    <h4>ロサンゼルスは本格的なメキシコ料理の宝庫。<br>
+		屋台やトラックで食べるタコスは格別です。</h4>
+  </div>
+
+  <div style="text-align:center; margin-right: 30px;">
+    <h2>フードトラック料理</h2>
+    <a th:href="@{/region/002}">
+		<svg width="400" height="400" viewBox="0 0 400 400"
+				       xmlns="http://www.w3.org/2000/svg">
+				    <clipPath id="squareClip001">
+				      <rect x="0" y="0" width="400" height="400" />
+				    </clipPath>
+      <image th:href="@{/images/food/002.jpg}" width="400" height="400"
+								           preserveAspectRatio="xMidYMid slice"
+								           clip-path="url(#squareClip001)" /></svg>
+    </a>
+    <h4>様々な国の料理を提供するフードトラックが街中にあり、<br>
+		手軽に多様な味が楽しめます。</h4>
+  </div>
+</div>
+<!--テストここまで-->
+
+
 <!-- ===== 1段目 ===== -->
 <div style="display: flex; justify-content:center; margin-bottom: 40px;">
   <div style="text-align:center; margin-right: 30px;">
