@@ -101,7 +101,7 @@
             <h3 th:text="${region.name}">地域名</h3>
             <p th:text="${region.description}">説明</p>
             <ul class="region-info">
-              <li>💰 予算：<span th:text="${region.budget}">--万円</span></li>
+              <li>💰 予算：<span th:text="${region.budget + '万円～'}">--万円</span></li>
               <li>✈️ フライト時間：<span th:text="${region.flightTime}">--時間</span></li>
               <li>☀️ 気候：<span th:text="${region.climate}">--</span></li>
             </ul>
