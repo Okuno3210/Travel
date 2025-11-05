@@ -17,7 +17,7 @@ public class FlightController {
 
         model.addAttribute("country", country);
         model.addAttribute("region", region);
-        return "flight-search"; // templates/flight-search.html
+        return "flight/flight-search"; // templates/flight-search.html
     }
 
     @GetMapping("/flight/result")
@@ -34,7 +34,7 @@ public class FlightController {
         model.addAttribute("date", date);
         model.addAttribute("passenger", passenger);
         model.addAttribute("price", 98000); // ダミーデータ
-        return "flight-result"; // templates/flight-result.html
+        return "flight/flight-result"; // templates/flight-result.html
     }
     
     @GetMapping("/flight/confirm")
@@ -51,7 +51,7 @@ public class FlightController {
         model.addAttribute("date", date);
         model.addAttribute("passenger", passenger);
         model.addAttribute("price", price);
-        return "flight-confirm";
+        return "flight/flight-confirm";
     }
 
     @PostMapping("/flight/complete")
@@ -72,7 +72,7 @@ public class FlightController {
         model.addAttribute("passenger", passenger);
         model.addAttribute("price", price);
         model.addAttribute("bookingNumber", bookingNumber);
-        return "flight-complete";
+        return "flight/flight-complete";
     }
 
 }
