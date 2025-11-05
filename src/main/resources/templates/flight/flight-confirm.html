@@ -14,22 +14,28 @@
     <h2>以下の内容で予約しますか？</h2>
 
     <div class="confirm-card">
-      <p th:text="'出発地: ' + ${departure}"></p>
-      <p th:text="'目的地: ' + ${destination}"></p>
+      <p th:text="'出発地: ' + ${departure.name} + '（' + ${departure.code} + '）'"></p>
+      <p th:text="'目的地: ' + ${destination.name} + '（' + ${destination.code} + '）'"></p>
       <p th:text="'出発日: ' + ${date}"></p>
       <p th:text="'人数: ' + ${passenger} + '名'"></p>
       <p th:text="'料金: 約' + ${price} + '円'"></p>
     </div>
 
-    <form th:action="@{/flight/complete}" method="post">
-      <input type="hidden" name="departure" th:value="${departure}">
-      <input type="hidden" name="destination" th:value="${destination}">
+    <!-- ✅ 完了ページへ送信 -->
+    <form th:action="@{/flight/complete}" method="post" class="confirm-form">
+      <input type="hidden" name="departureCode" th:value="${departure.code}">
+      <input type="hidden" name="destinationCode" th:value="${destination.code}">
       <input type="hidden" name="date" th:value="${date}">
       <input type="hidden" name="passenger" th:value="${passenger}">
       <input type="hidden" name="price" th:value="${price}">
+
       <button type="submit" class="btn">✅ この内容で予約する</button>
-      <a href="/flight/search" class="btn back-btn">戻る</a>
+      <a href="/flight/result" class="btn back-btn">戻る</a>
     </form>
   </main>
+
+  <footer>
+    <p>© 2025 TravelMap</p>
+  </footer>
 </body>
 </html>

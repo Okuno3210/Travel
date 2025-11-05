@@ -4,28 +4,122 @@
   <meta charset="UTF-8">
   <title>航空券検索 | TravelMap</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f7faff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .search-form {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #00c6ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .back-btn {
+      background: #aaa;
+    }
+
+    .back-btn:hover {
+      background: #888;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>✈️ 航空券検索</h1>
-    <p th:if="${country != null}" th:text="'目的地: ' + ${country}"></p>
-    <p th:if="${region != null}" th:text="'地域: ' + ${region}"></p>
+    <p th:if="${selectedRegion != null and selectedRegion != ''}"
+       th:text="'地域: ' + ${selectedRegion}"></p>
   </header>
 
   <main class="flight-search">
     <form th:action="@{/flight/result}" method="get" class="search-form">
+
       <label>出発地:</label>
-      <input type="text" name="departure" placeholder="例: 東京" required><br><br>
+      <select name="departureCode" required>
+        <option value="">選択してください</option>
+        <option th:each="a : ${airports}"
+                th:value="${a.code}"
+                th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
+        </option>
+      </select>
 
       <label>目的地:</label>
-      <input type="text" name="destination"
-             th:value="${region != null ? region : country}" required><br><br>
+      <select name="destinationCode" required>
+        <option value="">選択してください</option>
+        <option th:each="a : ${airports}"
+                th:value="${a.code}"
+                th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
+        </option>
+      </select>
 
       <label>出発日:</label>
-      <input type="date" name="date" required><br><br>
+      <input type="date" name="date" required>
 
       <label>人数:</label>
-      <input type="number" name="passenger" min="1" value="1"><br><br>
+      <input type="number" name="passenger" min="1" value="1">
 
       <button type="submit" class="btn">検索する</button>
     </form>
@@ -35,4 +129,5 @@
     <a href="/" class="btn back-btn">🏠 トップへ戻る</a>
   </footer>
 </body>
+</html>
 </html>
