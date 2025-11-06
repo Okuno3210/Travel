@@ -104,12 +104,13 @@
     font-weight: bold;
     border: none;
     border-radius: 30px;
-    padding: 14px 0;
+    padding: 14px 10px;
     font-size: 18px;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  }
+	margin-top: 10px;
+	}
 
   button[type="submit"]:hover {
     background-color: #FF5068;
@@ -191,7 +192,7 @@
         </div>
       </form>
 	  <a th:href="@{/signup}"><button type="submit">新規登録</button></a>
-	
+	  <a onclick="history.back()"><button type="submit">一つ前に戻る</button></a>
     </div>
   </main>
 
