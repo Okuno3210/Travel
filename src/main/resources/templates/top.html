@@ -128,6 +128,20 @@
       <h1>世界のワクワク、覗いてみよう！</h1>
       <p>さあ、次の冒険へ出発！</p>
     </div>
+	
+	<div class="random-tourist-spot">
+	    <h2>おすすめ観光スポット</h2>
+	    
+		<div class="random-images">
+		    <div th:each="img, stat : ${randomImages}">
+		        <a th:href="@{/region/{id}(id=${imageIds[stat.index]})}">
+		            <img th:src="@{'/images/tourist_spot/' + ${img}}" 
+		                 alt="tourist spot" class="tourist-img">
+		        </a>
+		    </div>
+		</div>
+
+	</div>
 
   </main>
 
