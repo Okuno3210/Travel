@@ -280,3 +280,20 @@ top: 20px;
    from { transform: translateY(0px); }
    to { transform: translateY(-8px); }
  }
+ 
+ .random-tourist-spot {
+     text-align: center;
+     margin: 50px 0;
+ }
+
+ .random-images {
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+ }
+
+ .tourist-img {
+     width: 250px;
+     height: auto;
+     border-radius: 10px;
+ }

@@ -248,8 +248,8 @@
 		    <div class="bookings-grid">
 		      <div class="booking-card" th:each="b : ${bookings}">
 		        <h3 th:text="'予約番号: ' + ${b.bookingNumber}"></h3>
-		        <p th:text="'出発地: ' + ${b.departureName} + ' (' + ${b.departureCode} + ')'"></p>
-		        <p th:text="'目的地: ' + ${b.destinationName} + ' (' + ${b.destinationCode} + ')'"></p>
+		        <p th:text="'出発地: ' + ${b.departure} + ' (' + ${b.departureCode} + ')'"></p>
+		        <p th:text="'目的地: ' + ${b.destination} + ' (' + ${b.destinationCode} + ')'"></p>
 		        <p th:text="'出発日: ' + ${b.date}"></p>
 		        <p th:text="'人数: ' + ${b.passenger} + '名'"></p>
 		        <p th:text="'合計金額: ' + ${b.price} + '円'"></p>
