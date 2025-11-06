@@ -140,10 +140,11 @@
       <button type="submit" class="btn">検索する</button>
     </form>
   </main>
-
-  <footer>
+  <div>
     <a href="/" class="btn back-btn">🏠 トップへ戻る</a>
-  </footer>
+	<a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
+  </div>
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
 </html>

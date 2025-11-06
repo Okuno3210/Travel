@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.FlightBooking;
 import com.example.demo.entity.Region;
+import com.example.demo.entity.User;
 import com.example.demo.repository.AirportRepository;
 import com.example.demo.repository.FlightBookingRepository;
 import com.example.demo.repository.RegionAirportRepository;
 import com.example.demo.repository.RegionRepository;
+import com.example.demo.repository.UserRepository;
 
 /**
  * ✈️ FlightController 完全版（2025対応）
@@ -42,6 +45,10 @@ public class FlightController {
 
     @Autowired
     private FlightBookingRepository bookingRepo;
+    
+    @Autowired
+    private UserRepository userRepository;
+
 
     /**
      * ✈ 検索画面の表示
@@ -135,7 +142,8 @@ public class FlightController {
             @RequestParam String date,
             @RequestParam Integer passenger,
             @RequestParam Integer price,
-            Model model) {
+            Model model,
+            Principal principal) {  // ← 追加
 
         Airport departure = airportRepo.findByCode(departureCode).orElse(null);
         Airport destination = airportRepo.findByCode(destinationCode).orElse(null);
@@ -145,10 +153,20 @@ public class FlightController {
             return "flight/flight-search";
         }
 
+        // 🔐 ログインユーザー取得
+        if (principal == null) {
+            model.addAttribute("error", "ログインしてから予約を完了してください。");
+            return "redirect:/login";
+        }
+
+        // ユーザー情報取得
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("ユーザーが存在しません。"));
+
         // 予約番号を生成
         String bookingNumber = "FL-" + System.currentTimeMillis();
 
-        // DBに保存
+        // ✈ FlightBookingを作成
         FlightBooking booking = new FlightBooking();
         booking.setDeparture(departure.getName());
         booking.setDestination(destination.getName());
@@ -159,9 +177,13 @@ public class FlightController {
         booking.setPrice(price);
         booking.setBookingNumber(bookingNumber);
 
+        // ✅ ユーザーを紐づけ
+        booking.setUser(user);
+
+        // 保存
         bookingRepo.save(booking);
 
-        // 完了画面へ渡す
+        // 完了画面へ
         model.addAttribute("bookingNumber", bookingNumber);
         model.addAttribute("departure", departure);
         model.addAttribute("destination", destination);
@@ -171,4 +193,5 @@ public class FlightController {
 
         return "flight/flight-complete";
     }
+
 }

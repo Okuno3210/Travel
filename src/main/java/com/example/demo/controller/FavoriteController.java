@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Favorite;
+import com.example.demo.entity.FlightBooking;
 import com.example.demo.entity.User;
+import com.example.demo.repository.FlightBookingRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.FavoriteService;
 
@@ -22,6 +24,7 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
     private final UserRepository userRepository;
+    private final FlightBookingRepository flightBookingRepository;
 
     // お気に入り登録
     @PostMapping("/favorites/add/{countryId}")
@@ -48,15 +51,19 @@ public class FavoriteController {
     // お気に入り一覧（/list で直接アクセス可能）
     @GetMapping("/list")
     public String favoritesList(Model model, Principal principal) {
-        List<Favorite> favorites;
+        List<Favorite> favorites = List.of();
+        List<FlightBooking> bookings = List.of();
+
         if (principal != null) {
             User user = userRepository.findByUsername(principal.getName())
                     .orElseThrow(() -> new RuntimeException("User not found"));
             favorites = favoriteService.getFavorites(user);
-        } else {
-            favorites = List.of(); // 空リスト
+            bookings = flightBookingRepository.findByUserId(user.getId());
         }
+
         model.addAttribute("favorites", favorites);
-        return "list"; // list.html を表示
+        model.addAttribute("bookings", bookings);
+        return "list";
     }
+
 }

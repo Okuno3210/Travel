@@ -59,12 +59,10 @@
       <input type="hidden" name="price" th:value="${price}">
 
       <button type="submit" class="btn">✅ この内容で予約する</button>
-      <a href="/flight/result" class="btn back-btn">戻る</a>
+      <a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
     </form>
   </main>
 
-  <footer>
-    <p>© 2025 TravelMap</p>
-  </footer>
+ <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

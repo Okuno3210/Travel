@@ -6,13 +6,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "flight_bookings")
+@Table(name = "bookings")
 public class FlightBooking {
 
     @Id
@@ -42,4 +44,9 @@ public class FlightBooking {
 
     // 予約番号（例：FL-1730792012345）
     private String bookingNumber;
+    
+    // ユーザー
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
