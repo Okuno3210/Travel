@@ -232,54 +232,45 @@
   </div>
 </header>
 
-  <main>
-    <!-- お気に入り一覧 -->
-    <div id="favorites-box" class="fixed-box">
-      <h2>お気に入り一覧</h2>
-      <div class="scroll-area">
-		<ul th:if="${favorites != null and !#lists.isEmpty(favorites)}">
-		  <li th:each="fav : ${favorites}">
-		    <a th:href="@{/country/{id}/regions(id=${fav.country.id})}" 
-		       th:text="${fav.country.name}">日本</a>
-		    <form th:action="@{/favorites/remove/{id}(id=${fav.id})}" method="post">
-		      <button type="submit">削除</button>
-		    </form>
-		  </li>
-		</ul>	
-        <p th:if="${favorites == null or #lists.isEmpty(favorites)}">お気に入りはありません。</p>
-      </div>
-    </div>
+<!-- メイン -->
+<main>
+  <h1>お気に入り一覧</h1>
 
-    <!-- 航空券予約一覧 -->
-    <div id="bookings-box" class="fixed-box">
-      <h2>航空券予約一覧</h2>
-      <div class="scroll-area">
-        <table th:if="${bookings != null and !#lists.isEmpty(bookings)}">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>予約番号</th>
-              <th>出発日</th>
-              <th>出発地</th>
-              <th>到着地</th>
-              <th>料金</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="b : ${bookings}">
-              <td th:text="${b.id}">1</td>
-              <td th:text="${b.bookingNumber}">FL-1762401744774</td>
-              <td th:text="${b.date}">2025-11-07</td>
-              <td th:text="${b.departure}">東京</td>
-              <td th:text="${b.destination}">大阪</td>
-              <td th:text="${b.price}">12,000円</td>
-            </tr>
-          </tbody>
-        </table>
-        <p th:if="${bookings == null or #lists.isEmpty(bookings)}">現在、予約はありません。</p>
+  <!-- お気に入りがある場合 -->
+  <div th:if="${favorites != null and !#lists.isEmpty(favorites)}">
+    <!-- ✅ グリッドレイアウト -->
+    <div class="favorites-grid">
+      <div class="favorite-card" th:each="fav : ${favorites}">
+        <h3 th:text="${fav.country != null ? fav.country.name : '国情報なし'}"></h3>
+
+        <!-- ✈️ ご予約内容 -->
+		<div th:if="${bookings != null and !#lists.isEmpty(bookings)}">
+		    <div class="bookings-grid">
+		      <div class="booking-card" th:each="b : ${bookings}">
+		        <h3 th:text="'予約番号: ' + ${b.bookingNumber}"></h3>
+		        <p th:text="'出発地: ' + ${b.departureName} + ' (' + ${b.departureCode} + ')'"></p>
+		        <p th:text="'目的地: ' + ${b.destinationName} + ' (' + ${b.destinationCode} + ')'"></p>
+		        <p th:text="'出発日: ' + ${b.date}"></p>
+		        <p th:text="'人数: ' + ${b.passenger} + '名'"></p>
+		        <p th:text="'合計金額: ' + ${b.price} + '円'"></p>
+		      </div>
+		    </div>
+		  </div>
+
+        <!-- 削除ボタン -->
+        <form th:action="@{/favorites/remove/{countryId}(countryId=${fav.country != null ? fav.country.id : fav.id})}" 
+              method="post" class="inline">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <button type="submit">削除</button>
+        </form>
       </div>
     </div>
-  </main>
+  </div>
+
+  <!-- お気に入りがない場合 -->
+  <div th:if="${favorites == null or #lists.isEmpty(favorites)}" class="no-favorites">
+    <p>お気に入りはまだ登録されていません。</p>
+  </div>
 
   <!-- トップリンク -->
   <a th:href="@{/}" class="btn-map">トップへ</a>

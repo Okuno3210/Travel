@@ -1,0 +1,282 @@
+/* --- 全体共通 --- */
+ body {
+   margin: 0;
+   font-family: 'Noto Sans JP', 'メイリオ', sans-serif;
+   text-align: center;
+   color: #202340;
+ }
+
+ a {
+   text-decoration: none;
+   color: inherit;
+ }
+
+ /* --- 上部白帯（ヘッダー） --- */
+ header {
+   background-color: #ffffff;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 15px 50px;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+   position: relative;
+   z-index: 10;
+ }
+
+ .logo-img {
+   height: 55px;
+ }
+
+ .right-buttons {
+   display: flex;
+   gap: 15px;
+ }
+
+ /* --- ボタン共通 --- */
+ .btn {
+   font-weight: bold;
+   padding: 12px 30px;
+   border-radius: 30px;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+   transition: transform 0.2s, box-shadow 0.2s;
+   font-size: 16px;
+   cursor: pointer;
+ }
+
+ .btn:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 5px 12px rgba(0,0,0,0.18);
+ }
+
+ .login-btn {
+   background-color: #FFC93C;
+   color: #202340;
+ }
+
+ .mypage-btn {
+   background-color: #FF6B81;
+   color: white;
+ }
+
+ /* --- メイン --- */
+ main {
+   position: relative;
+   /* 🗺️ 背景を2枚重ねる！ */
+   background: 
+     url('/images/map_background.png') no-repeat center top / contain,
+     url('/images/background-sky.png') no-repeat center top / cover;
+   overflow: hidden;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 40px 0;
+   min-height: 700px;
+ }
+
+
+ /* 中央のボタン群 */
+ .center-buttons {
+   display: flex;
+   gap: 20px;
+   margin: 40px 0 30px;
+ }
+
+ .center-btn {
+   color: white;
+   font-weight: bold;
+   padding: 18px 50px;
+   border-radius: 30px;
+   font-size: 20px;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+   transition: transform 0.2s, box-shadow 0.2s;
+ }
+
+ .map-btn { background: #FF6B81; color: #202340; }
+ .select-btn { background: #80C2FF; color: #202340; }
+ .plan-btn { background: #FFC93C; color: #202340; }
+
+ /* 中央イラスト */
+ .landmarks-img {
+   display: block;
+   margin: 0 auto;
+   position: relative;
+   z-index: 2; /* 飛行機より下 */
+   max-width: 700px;
+   width: 80%;
+ }
+
+ /* キャッチコピー */
+ .catch-copy h1 {
+   font-size: 50px;
+   font-weight: bold;
+   color: #202340;
+   margin-bottom: 10px;
+ }
+
+ .catch-copy p {
+   font-size: 30px;
+   color: #202340;
+ }
+
+ /* --- 横スクロールバナー --- */
+ .banner-container {
+   width: 100%;
+   overflow: hidden;
+   position: relative;
+   background: rgba(255,255,255,0.3); 
+   backdrop-filter: blur(8px);
+   border-top: 2px solid #eee;
+   border-bottom: 2px solid #eee;
+   padding: 10px 0;
+   margin-top: -40px;
+ }
+
+ .banner-slide {
+   display: flex;
+   width: calc(250px * 13); 
+   animation: scrollBanner 15s linear infinite;
+ }
+
+ .banner-slide img {
+   width: 250px;
+   height: 200px;
+   object-fit: cover;
+   border-radius: 12px;
+   margin: 0 10px;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+   transition: transform 0.3s, box-shadow 0.3s;
+ }
+
+ .banner-slide img:hover {
+   transform: scale(1.05);
+   box-shadow: 0 8px 15px rgba(0,0,0,0.25);
+ }
+
+ @keyframes scrollBanner {
+   0% { transform: translateX(0); }
+   100% { transform: translateX(-50%); }
+ }
+
+ /* --- 下部緑帯（フッター） --- */
+ footer {
+   background-color: #A8E6CF;
+   display: flex;
+   justify-content: center;
+   gap: 30px;
+   padding: 35px 0;
+   flex-wrap: wrap;
+ }
+
+ .footer-btn {
+   font-size: 18px;
+   font-weight: bold;
+   color: white;
+   padding: 15px 40px;
+   border-radius: 25px;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+   transition: transform 0.2s, box-shadow 0.2s;
+ }
+
+ .footer-btn:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+ }
+
+ .gourmet-btn { background: #FF6B81; color: #202340;}
+ .scenic-btn { background: #80C2FF; color: #202340;}
+ .activity-btn { background: #FFC93C; color: #202340; }
+ .foods-btn { background: #3c3c; color: #202340; }
+
+ /* --- レスポンシブ --- */
+ @media (max-width: 768px) {
+   .center-buttons {
+     flex-direction: column;
+     gap: 15px;
+   }
+   .footer-btn {
+     font-size: 16px;
+     padding: 12px 30px;
+   }
+   .catch-copy h1 {
+     font-size: 28px;
+   }
+ }
+ 
+ .google_translate_element{
+position: absolute;
+left: 20px;
+top: 20px;
+ }
+ 
+ .translate-box {
+   position: absolute;
+   top: 20px;
+   right: 40px; /* ← 左でなく右に配置するのが自然 */
+   z-index: 9999; /* ✅ 前面に出す */
+ }
+
+ 
+ /* 空の背景を透明で配置 */
+ .sky {
+   display: none;
+ }
+
+ /* 飛行機アイコンを動かすアニメーション */
+ .airplane {
+   position: absolute;
+   width: 100px;
+   bottom: 0;
+   left: -120px;
+   animation: flyAcross 10s linear infinite;
+ }
+
+ @keyframes flyAcross {
+   0% {
+     transform: translate(0, 0) rotate(5deg);
+   }
+   50% {
+     transform: translate(60vw, -100px) rotate(0deg);
+   }
+   100% {
+     transform: translate(110vw, -200px) rotate(-10deg);
+   }
+ }
+ 
+ /* 🌍 地図の上で飛行するエリア */
+ .map-flight-area {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 400px;
+   overflow: visible;
+   z-index: 0; /* ✅ 3 → 0 に変更して背面へ */
+   pointer-events: none; /* ✅ クリックを透過させる */
+ }
+
+ /* ✈️ 飛行機アニメーション全体 */
+ .map-flight {
+   width: 100%;
+   height: auto;
+   position: absolute;
+   top: 0;
+   left: 0;
+   max-width: none;
+   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+ }
+
+ /* ✨ 飛行機が少し浮いてるような感じに */
+ /* ✨ 飛行機の見た目だけ（浮遊アニメ）にして、回転はしない */
+ .map-flight image {
+   opacity: 0.95;
+   transform-origin: center;
+   animation: float 2s ease-in-out infinite alternate;
+   /* ← ここに scaleX(-1) や rotate(...) は入れない！ */
+ }
+
+
+ @keyframes float {
+   from { transform: translateY(0px); }
+   to { transform: translateY(-8px); }
+ }
