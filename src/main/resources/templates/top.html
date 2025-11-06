@@ -128,8 +128,38 @@
       <h1>世界のワクワク、覗いてみよう！</h1>
       <p>さあ、次の冒険へ出発！</p>
     </div>
+	<!-- 🌄 ランダム観光スポットスライドショー -->
+	<div class="slideshow-container" th:if="${randomImages}">
+	  <div th:each="img, iterStat : ${randomImages}"
+	       class="slide"
+	       th:classappend="${iterStat.index == 0} ? ' active' : ''">
+	    <img th:src="${img}" alt="観光スポット" class="slide-img">
+	  </div>
+	</div>
+	<!-- スライドショー制御用スクリプト -->
+<!--	<script>-->
+<!--	  document.addEventListener("DOMContentLoaded", function () {-->
+<!--	    let currentSlide = 0;-->
+<!--	    const slides = document.querySelectorAll('.slide');-->
 
+<!--	    function showSlide(index) {-->
+<!--	      slides.forEach((slide, i) => {-->
+<!--	        slide.classList.toggle('active', i === index);-->
+<!--	      });-->
+<!--	    }-->
+
+<!--	    function nextSlide() {-->
+<!--	      currentSlide = (currentSlide + 1) % slides.length;-->
+<!--	      showSlide(currentSlide);-->
+<!--	    }-->
+
+<!--	    if (slides.length > 0) {-->
+<!--	      setInterval(nextSlide, 4000); // ⏱️ 4秒ごとに切り替え-->
+<!--	    }-->
+<!--	  });-->
+<!--	</script>-->
   </main>
+
 
   <!-- 下部緑帯 -->
   <footer>
@@ -138,6 +168,26 @@
     <a th:href="@{/activity}" class="btn footer-btn activity-btn">アクティビティ体験</a>
 	<a th:href="@{/foods}" class="btn footer-btn foods-btn">グルメ一覧</a>
   </footer>
+  <script>
+  	  document.addEventListener("DOMContentLoaded", function () {
+  	    let currentSlide = 0;
+  	    const slides = document.querySelectorAll('.slide');
 
+  	    function showSlide(index) {
+  	      slides.forEach((slide, i) => {
+  	        slide.classList.toggle('active', i === index);
+  	      });
+  	    }
+
+  	    function nextSlide() {
+  	      currentSlide = (currentSlide + 1) % slides.length;
+  	      showSlide(currentSlide);
+  	    }
+
+  	    if (slides.length > 0) {
+  	      setInterval(nextSlide, 4000); // ⏱️ 4秒ごとに切り替え
+  	    }
+  	  });
+  	</script>
 </body>
 </html>
