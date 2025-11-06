@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Food List by Region</title>
+  <title>グルメ一覧</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <style>
@@ -37,7 +37,7 @@
 		background-color: #fff;
 		border-radius: 10px; 
 		box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
-		width: 200px; 
+		width: 230px; 
 		padding: 15px; 
 		text-align: center; 
 		transition: transform 0.2s; 
@@ -55,7 +55,7 @@
 		margin-bottom: 10px; 
 	} 
 	
-	.food-card a { 
+	.food-card h3 { 
 		text-decoration: none; 
 		color: #333; 
 		font-weight: bold; 
@@ -83,17 +83,39 @@
 	body {
 	  margin: 0;
 	  padding-top: 100px;
-	  padding-bottom: 110px;
+	  padding-bottom: 100px;
 	  font-family: 'Nunito', 'Noto Sans JP', sans-serif;
-	  background: url('/images/map_background.png') no-repeat center center / cover;
+	  background: #6BCADB; 
 	  color: #333;
 	  text-align: center;
 	}
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 30px;
+	 }
+	 
   </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
+  
 </head>
 <body>
 
-<h1>Food List by Region</h1>
+<h1>グルメ一覧</h1>
 
 <header th:replace="fragments/header :: header"></header>
 
@@ -102,13 +124,15 @@
   <div class="region-block" th:each="entry : ${foodsByRegion}">
     <div class="region-title" th:text="${entry.key}">Region Name</div>
 
-  <div class = "food-list">
-    <div th:each="food : ${entry.value}" class="food-card">
-      <img th:src="@{${food.imageUrl}}" th:alt="${food.name}">
-      <a th:href="@{/region/{id}(id=${food.region.id})}" th:text="${food.name}"></a>
-      <p th:text="${food.description}"></p>
-    </div>
-  </div>
+	<div class="food-list">
+	  <a th:each="food : ${entry.value}"
+	     th:href="@{/region/{id}(id=${food.region.id})}"
+	     class="food-card">
+	    <img th:src="@{${food.imageUrl}}" th:alt="${food.name}">
+	    <h3 th:text="${food.name}"></h3>
+	    <p th:text="${food.description}"></p>
+	  </a>
+	</div>
 </div>
 </div>
 
