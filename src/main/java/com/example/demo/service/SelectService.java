@@ -90,7 +90,7 @@ public class SelectService {
                     region.setClimate(cols[6]);
                     region.setRiskLevel(cols[7]);
                     region.setDescription(cols[8]);
-      
+             
 
                     regionData.add(region);
                 }

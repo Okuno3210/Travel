@@ -53,7 +53,7 @@ public class SelectController {
             Model model) {
 
         List<Region> results = selectService.getFilteredRegions(budget, time, timezone, timezone);
-
+ 
         model.addAttribute("results", results);
         model.addAttribute("budget", budget);
         model.addAttribute("time", time);
