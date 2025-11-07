@@ -1,55 +1,35 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.demo.entity.TouristSpot;
+import com.example.demo.repository.TouristSpotRepository;
 
 
 @Controller
 public class TopController {
 	
+	@Autowired
+	private TouristSpotRepository touristSpotRepository;
+		
 	@GetMapping("/")
-	public String showTopPage(Model model) throws IOException, URISyntaxException {
+	public String showTopPage(Model model) {
 
-	    // resources/static/images/tourist_spot のパス取得
-	    Path path = Paths.get(getClass().getResource("/static/images/tourist_spot").toURI());
+	    List<TouristSpot> allSpots = touristSpotRepository.findAll();
 
-	    // 画像一覧を取得
-	    List<String> allImages = Files.list(path)
-	            .map(p -> p.getFileName().toString())
-	            .filter(name -> name.endsWith(".jpg") || name.endsWith(".png"))
-	            .collect(Collectors.toList());
+	    Collections.shuffle(allSpots);
+	    List<TouristSpot> randomSpots = allSpots.stream().limit(3).toList();
 
-	    // ランダムに3枚選択
-	    Collections.shuffle(allImages);
-	    List<String> randomImages = allImages.stream().limit(3).collect(Collectors.toList());
+	    model.addAttribute("randomSpots", randomSpots);
 
-	    // ★ 画像ファイル名から番号を取り出してIDに変換
-	    List<Integer> imageIds = randomImages.stream()
-	            .map(img -> Integer.parseInt(img.replaceAll("\\D", "")))  // 数字だけ抜き出す
-	            .collect(Collectors.toList());
-
-	    // Thymeleafへ渡す
-	    model.addAttribute("randomImages", randomImages);
-	    model.addAttribute("imageIds", imageIds);
-
-	    return "top";  // top.html を返す
+	    return "top";
 	}
-
-	
-//	@GetMapping("/list")
-//	public String mypageView() {
-//		return "list";
-//	}
 	
 	@GetMapping("/login")
 	public String loginView() {

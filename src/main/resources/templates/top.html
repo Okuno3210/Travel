@@ -133,12 +133,11 @@
 	    <h2>おすすめ観光スポット</h2>
 	    
 		<div class="random-images">
-		    <div th:each="img, stat : ${randomImages}">
-		        <a th:href="@{/region/{id}(id=${imageIds[stat.index]})}">
-		            <img th:src="@{'/images/tourist_spot/' + ${img}}" 
-		                 alt="tourist spot" class="tourist-img">
-		        </a>
-		    </div>
+			<div th:each="spot : ${randomSpots}">
+			    <a th:href="@{'/region/' + ${spot.region.id}}">
+			        <img th:src="@{${spot.imageUrl}}" alt="tourist spot" class="tourist-img">
+			    </a>
+			</div>
 		</div>
 
 	</div>

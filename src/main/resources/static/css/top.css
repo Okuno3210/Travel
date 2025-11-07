@@ -293,7 +293,9 @@ top: 20px;
  }
 
  .tourist-img {
-     width: 250px;
-     height: auto;
+     width: 400px;     /* 横を固定 */
+     height: 300px;    /* 高さも固定（好きに調整可） */
+     object-fit: cover; /* 画像を中央トリミングして揃える */
      border-radius: 10px;
  }
+
