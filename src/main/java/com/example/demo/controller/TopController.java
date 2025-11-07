@@ -35,11 +35,7 @@ public class TopController {
 	public String loginView() {
 		return "login";
 	}
-	
-	@GetMapping("/select")
-	public String selectView() {
-		return "select";
-	}
+
 	
 	@GetMapping("/maplink")
 	public String mapView() {
