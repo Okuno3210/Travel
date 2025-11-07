@@ -17,7 +17,8 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 15px 50px;
+   padding: 0 30px;
+   height: 100px;
    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
    position: relative;
    z-index: 10;
@@ -134,8 +135,8 @@
 
  .banner-slide {
    display: flex;
-   width: calc(250px * 13); 
-   animation: scrollBanner 15s linear infinite;
+   width: calc(250px * 26); 
+   animation: scrollBanner 20s linear infinite;
  }
 
  .banner-slide img {
@@ -205,14 +206,14 @@
  
  .google_translate_element{
 position: absolute;
-left: 20px;
+left: 50px;
 top: 20px;
  }
  
  .translate-box {
    position: absolute;
-   top: 20px;
-   right: 40px; /* ← 左でなく右に配置するのが自然 */
+   top: 40px;
+   right: 240px; /* ← 左でなく右に配置するのが自然 */
    z-index: 9999; /* ✅ 前面に出す */
  }
 
