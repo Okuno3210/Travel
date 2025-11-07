@@ -1,144 +1,163 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>絶景特集</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<style>
+
+  /* ベースデザイン */
+  body {
+    margin: 0;
+    padding: 0;
+	padding-top: 130px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: linear-gradient(180deg, #E0F7FA 0%, #FFFFFF 100%);
+    color: #333;
+  }
+
+  /* ページタイトル */
+  h1 {
+    margin: 60px 0 40px;
+    font-size: 48px;
+    font-weight: 800;
+    color: #00A2B8;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    letter-spacing: 0.05em;
+  }
+
+  /* 画像を並べるエリア */
+  .feature-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px; /* 画像の間隔を広くして高級感を */
+    margin-bottom: 60px;
+    padding: 0 40px;
+  }
+
+  /* 各画像カード */
+  .feature-gallery a {
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-gallery img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  /* ホバー時のアニメーション */
+  .feature-gallery a:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  }
+  .feature-gallery a:hover img {
+    transform: scale(1.08);
+  }
+
+  /* オーバーレイテキスト */
+  .feature-gallery a::after {
+    content: attr(alt-text);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0));
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    text-align: center;
+    border-radius: 0 0 16px 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+  }
+
+  .feature-gallery a:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 戻るボタン */
+  .back-button {
+    display: inline-block;
+    padding: 14px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #00A2B8;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 162, 184, 0.3);
+  }
+
+  .back-button:hover {
+    background-color: #008A9C;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 162, 184, 0.4);
+  }
+
+  /* フッター感覚で配置 */
+  .back-container {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 36px;
+      margin: 40px 0 30px;
+    }
+    .feature-gallery img {
+      width: 90vw;
+      height: 240px;
+    }
+    .feature-gallery {
+      gap: 25px;
+      padding: 0 10px;
+    }
+  }
+</style>
 </head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+  <h1>🍽️ グルメ特集</h1>
 
-<title>グルメ特集</title>
-</head>
-<body style="margin:0; padding:0; background-color:#A8E6CF;">
-
-<h1 style="text-align:center;">グルメ特集</h1>
-
-<!-- ===== 11/5 テスト ===== 
-タグの並び　<div style="display:～
- （左側配置）<div <h2 </h2 <a <svg <clipPath <rect </clipPath <image </svg </a <h4 </h4 </div  
- （右側配置）<div <h2 </h2 <a <svg <clipPath <rect </clipPath <image </svg </a <h4 </h4 </div 
- 	</div
- -->
-<div style="display: flex; justify-content:center; margin-bottom: 40px;">
-  <div style="text-align:center; margin-right: 30px;">
-    <h2>イン・アンド・アウト・バーガータコス</h2>
-    <a th:href="@{/region/001}">
-		<svg width="400" height="400" viewBox="0 0 400 400"
-		       xmlns="http://www.w3.org/2000/svg">
-		    <clipPath id="squareClip001">
-		      <rect x="0" y="0" width="400" height="400" />
-		    </clipPath>
-		<image th:href="@{/images/food/001.jpg}" width="400" height="400"
-			           preserveAspectRatio="xMidYMid slice"
-			           clip-path="url(#squareClip001)" />
-	</svg>
+  <div class="feature-gallery">
+    <a th:href="@{/grume/meat}" alt-text="🍗 肉料理">
+       <img th:src="@{/images/meat.png}" alt="肉料理">
     </a>
-    <h4>ロサンゼルスは本格的なメキシコ料理の宝庫。<br>
-		屋台やトラックで食べるタコスは格別です。</h4>
+    <a th:href="@{/grume/seafood}" alt-text="🐡 魚料理">
+       <img th:src="@{/images/ocean.png}" alt="魚料理">
+    </a>
+    <a th:href="@{/grume/grains}" alt-text="😶‍🌫️ 穀物料理">
+       <img th:src="@{/images/WorldHeritageSite.png}" alt="穀物料理">
+    </a>
+	<a th:href="@{/grume/vegetable}" alt-text="🥬 野菜料理">
+	   <img th:src="@{/images/ocean.png}" alt="野菜料理">
+    </a>
+	   <a th:href="@{/grume/ohters}" alt-text="🐄 乳製品料理">
+	   <img th:src="@{/images/WorldHeritageSite.png}" alt="乳製品料理">
+	   </a>
   </div>
 
-  <div style="text-align:center; margin-right: 30px;">
-    <h2>フードトラック料理</h2>
-    <a th:href="@{/region/002}">
-		<svg width="400" height="400" viewBox="0 0 400 400"
-				       xmlns="http://www.w3.org/2000/svg">
-				    <clipPath id="squareClip001">
-				      <rect x="0" y="0" width="400" height="400" />
-				    </clipPath>
-      <image th:href="@{/images/food/002.jpg}" width="400" height="400"
-								           preserveAspectRatio="xMidYMid slice"
-								           clip-path="url(#squareClip001)" /></svg>
-    </a>
-    <h4>様々な国の料理を提供するフードトラックが街中にあり、<br>
-		手軽に多様な味が楽しめます。</h4>
+  <div class="back-container">
+    <button class="back-button" onclick="history.back()">← 前のページに戻る</button>
   </div>
-</div>
-<!--テストここまで-->
-
-
-<!-- ===== 1段目 ===== -->
-<div style="display: flex; justify-content:center; margin-bottom: 40px;">
-  <div style="text-align:center; margin-right: 30px;">
-    <h1>イン・アンド・アウト・バーガータコス</h1>
-    <a th:href="@{/region/001}">
-      <img th:src="@{/images/food/001.jpg}" width="400" height="400">
-    </a>
-    <h2>ロサンゼルスは本格的なメキシコ料理の宝庫。屋台やトラックで食べるタコスは格別です。</h2>
-  </div>
-
-  <div style="text-align:center;">
-    <h1>フードトラック料理</h1>
-    <a th:href="@{/region/002}">
-      <img th:src="@{/images/food/002.jpg}" width="400" height="400">
-    </a>
-    <h2>様々な国の料理を提供するフードトラックが街中にあり、手軽に多様な味が楽しめます。</h2>
-  </div>
-</div>
-
-<!-- ===== 2段目 ===== -->
-<div style="display: flex; justify-content:center; margin-bottom: 40px;">
-  <div style="text-align:center; margin-right: 30px;">
-    <h1>サワードウブレッド</h1>
-    <a th:href="@{/region/003}">
-      <img th:src="@{/images/food/003.jpg}" width="400" height="400">
-    </a>
-    <h2>サンフランシスコ発祥の酸味のあるパン。現地のカフェでは人気の定番です。</h2>
-  </div>
-
-  <div style="text-align:center;">
-    <h1>高級ステーキ</h1>
-    <a th:href="@{/region/004}">
-      <img th:src="@{/images/food/004.jpg}" width="400" height="400">
-    </a>
-    <h2>ラスベガスの一流ステーキハウスで味わう、熟成肉と和牛の極上ステーキ。</h2>
-  </div>
-</div>
-
-<!-- ===== 3段目 ===== -->
-<div style="display: flex; justify-content:center; margin-bottom: 80px;">
-  <div style="text-align:center; margin-right: 30px;">
-    <h1>セレブシェフの創作料理</h1>
-    <a th:href="@{/region/005}">
-      <img th:src="@{/images/food/005.jpg}" width="400" height="400">
-    </a>
-    <h2>著名シェフが手掛ける洗練された一皿。五感で楽しむグルメ体験です。</h2>
-  </div>
-
-  <div style="text-align:center;">
-    <h1>ファインダイニング</h1>
-    <a th:href="@{/region/006}">
-      <img th:src="@{/images/food/006.jpg}" width="400" height="400">
-    </a>
-    <h2>世界のトップホテルにある、洗練された雰囲気の中で楽しむ極上料理。</h2>
-  </div>
-</div>
-
-<!-- ===== footer（壁紙的背景） ===== -->
-<footer style="
-  background-color: #A8E6CF;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 35px 0;
-  flex-wrap: wrap;
-  text-align: center;
-">
-  <p style="font-size: 20px; color: #333;">© 2025 Gourmet Travel</p>
-</footer>
-
-<!-- ===== 戻るボタン（固定） ===== -->
-<div style="
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 100;
-">
-  <button onclick="history.back()" 
-          style="font-size: 24px; padding: 15px 40px; background-color: #ffffff; border: none; border-radius: 8px;">
-    戻る
-  </button>
-</div>
-
+  
+  <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
