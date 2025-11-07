@@ -1,10 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<title>世界のチーズ料理</title>
+<link rel="stylesheet" th:href="@{/css/common.css}">
 
+<style>
+/* ===============================
+   背景（木目＋ブロンズグロッシー）
+================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+  background: linear-gradient(145deg, #5a3b28, #7d5235, #b87b46);
+  background-attachment: fixed;
+  color: #fff;
+  position: relative;
+}
+
+/* 背景光沢層 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* タイトル */
+h1.page-title {
+  text-align: center;
+  font-size: 2.8em;
+  margin-top: 100px;
+  color: #fdf3e6;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 5;
+}
+
+/* 画像グリッド */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 60px;
+  justify-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* 各料理カード（透明ガラス調） */
+.food-item {
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 18px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px) brightness(1.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 90%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+.food-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* 料理タイトル */
+.food-item h3 {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1.3em;
+  color: #ffeedd;
+}
+
+/* コンテンツ部分 */
+.food-content {
+  text-align: center;
+  padding: 15px;
+}
+
+.food-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.food-content h2 {
+  font-size: 1.1em;
+  margin-top: 10px;
+  color: #fff4e8;
+}
+
+/* ===============================
+   フッター＋戻るボタン
+================================ */
+footer {
+  position: relative;
+  background: linear-gradient(135deg, #4b2e1e, #6e3c25);
+  color: #f5e9d3;
+  text-align: center;
+  padding: 70px 0 30px 0;
+  font-size: 14px;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.6);
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+/* 「戻る」ボタン（footer右下） */
+.back-button {
+  position: absolute;
+  bottom: 25px;
+  right: 35px;
+  background: linear-gradient(145deg, #c08b55, #8b5a2b);
+  color: #fff8f0;
+  padding: 12px 26px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* ホバー時の金属反射 */
+.back-button:hover {
+  background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.5);
+}
+
+/* 共通修正（common.css干渉防止） */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header[th\\:replace], 
+div[th\\:replace] {
+  position: relative !important;
+  z-index: 10;
+}
+</style>
+</head>
+
+<body>
+  <!-- ヘッダー -->
+  <header th:replace="fragments/header :: header"></header>
+
+  <!-- 本文 -->
+  <main>
+    <h1 class="page-title">🌍 世界のチーズ料理</h1>
+
+    <div class="grid-container">
+
+      <!-- 1 -->
+      <div class="food-item">
+        <h3>ソノラン・ホットドッグ (Sonoran Hot Dog)</h3>
+        <div class="food-content">
+          <a th:href="@{/region/003}">
+            <img th:src="@{/images/food/008.jpg}" alt="ソノラン・ホットドッグ (Sonoran Hot Dog)">
+          </a>
+          <h2>ベーコンで巻いたホットドッグに豆や玉ねぎ、サルサなどのトッピングを乗せた、ソノラ砂漠地域（メキシコ北部とアリゾナ南部）の名物。</h2>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="food-item">
+        <h3>ニューヨークチーズケーキ</h3>
+        <div class="food-content">
+          <a th:href="@{/region/004}">
+            <img th:src="@{/images/food/011.jpg}" alt="ニューヨークチーズケーキ">
+          </a>
+          <h2>濃厚でクリーミーな味わいが特徴のベイクドチーズケーキ。しっかりした土台とボリューム感が魅力です。</h2>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="food-item">
+        <h3>デルーミニア (Delizia al Limone)</h3>
+        <div class="food-content">
+          <a th:href="@{/region/015}">
+            <img th:src="@{/images/food/043.jpg}" alt="デルーミニア (Delizia al Limone)">
+          </a>
+          <h2>レモンの香りが爽やかなスポンジケーキ。この地方を代表する人気のあるドルチェ（デザート）です。</h2>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="food-item">
+        <h3>ニョッキ (Gnocchi)</h3>
+        <div class="food-content">
+          <a th:href="@{/region/020}">
+            <img th:src="@{/images/food/060.jpg}" alt="ニョッキ (Gnocchi)">
+          </a>
+          <h2>ジャガイモを主原料とした、イタリアの影響を受けた団子状のパスタ。ソースと絡めて食べます。</h2>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="food-item">
+        <h3>チーズフォンデュ (Käsefondue)</h3>
+        <div class="food-content">
+          <a th:href="@{/region/027}">
+            <img th:src="@{/images/food/079.jpeg}" alt="チーズフォンデュ (Käsefondue)">
+          </a>
+          <h2>チーズをワインで溶かした鍋に、パンなどを浸して食べるスイスの国民的なチーズ料理。</h2>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="food-item">
+        <h3>ラクレット (Raclette)</h3>
+        <div class="food-content">
+          <a th:href="@{/region/030}">
+            <img th:src="@{/images/food/088.jpg}" alt="ラクレット (Raclette)">
+          </a>
+          <h2>チーズの表面を温め、溶けた部分を削ってジャガイモやピクルスにかけて食べるヴァレー州発祥の料理。</h2>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <a href="javascript:history.back()" class="back-button">← 戻る</a>
+    <p>© 2025 TRAVEL POP!</p>
+  </footer>
 </body>
 </html>
