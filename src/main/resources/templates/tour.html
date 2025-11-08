@@ -4,14 +4,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ツアー特集</title>
-
+	
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<!--↑外部cssにあるフッターのレイアウト用-->
 
 </head>
 
 <body>
-
+	<a id="top"></a><!-- このページの最上部へ の到達地点 -->
 	<div class="container"><!--クラス名、css用-->
 		<header>
 			<h1>
@@ -19,26 +19,16 @@
 					色々国内一周ツアー特集</a>
 			</h1>
 			<p>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</p>
+			
 		</header>
 
 		<main>
-			<!-- ここにツアー一覧（画像・国名）を入れる -->
-			<section id="tours" class="grid"><!--ツアー一覧表示場所(html用)-->
-				<div id="tourContainer1"></div><!--JS用-->
+			<!-- ここにツアー一覧（画像・国名）を入れる 消したら画面何も出ない-->
+			<section id="tours" class="grid"><!--ツアー一覧表示場所(html用クラス名)-->
+				<div id="tourContainer1"></div><!--JS用クラス名-->
 			</section>
 
-			<script> //上部リンク用（小画像＋国名だけ
-			const linkCard = document.createElement("div");
-			linkCard.innerHTML = `
-			  <a href="#${tour2.id}">
-			    <img src="${tour2.imgUrl}" alt="${tour2.title}の画像">
-			  </a>
-			  <span>${tour2.title}</span>
-			`;
-			container.appendChild(linkCard); //title,idはcountryNameに変える
-			</script>
-			
-			<script> //ページ上部ツアー一覧？
+			<script> //ページ上部ツアー一覧、消したらページに中身が表示されない
 				fetch("/api/tour/options") //TourApiControllerのGetmapping
 					.then(res => res.json())
 					.then(data => {
@@ -47,81 +37,53 @@
 							const card = document.createElement("div");
 							card.className = "card";
 							card.innerHTML = `
-						          <a href="#${tour2.id}">
-						            <img src="${tour2.imgUrl}" alt="${tour2.title}の画像">
-								</a>
-									 <h3>${tour2.title}</h3>
-									 <p aria-label="${tour2.description}"></p>
-									<p>${tour2.description}</p>
-									 <span>交通費: ${tour2.basePrice}万円（概算）</span>
-						          `;
-							//.nameなどはcontrollerで書くcsvの項目名
+						          <a href="#${tour2.countryName}">
+						            <img src="${tour2.imageUrl}" alt="${tour2.title}の画像">
+								</a> `; //.titleなどはcontrollerで書くcsvの項目名
 							container.appendChild(card);
 						});
 					});
 			</script>
-			<!--//紹介コーナー用（別のコンテナに詳細を表示）？
-			const detailCard = document.createElement("div");
-			detailCard.id = tour2.id;
-			detailCard.innerHTML = `
-			  <h3>${tour2.title}</h3>
-			  <p>${tour2.description}</p>
-			  <span>交通費: ${tour2.basePrice}万円（概算）</span>
-			`;
-			document.getElementById("tourDetailContainer").appendChild(detailCard);-->
-			
-			<script>
-				</script>
 
-			<!-- 個別紹介セクション（同ページ内移動） -->
+			<!-- 個別紹介セクション（同ページ内移動）消したらページがエラー -->
 			<!-- 背景色は data-bg 属性で区分け（CSSで後から上書き） -->
-			<section th:each="tour2 : ${to}" th:id="${tour2.id}" class="section">
-	<!--bgはバックグラウンド、cssで色指定に使う、${to(controllerでListに入れた時の変数名)}-->
+			<section th:each="tour2 : ${to}" th:id="${tour2.countryName}" class="section">
+				<!--bgはバックグラウンド、cssで色指定に使う、${to(controllerでListに入れた時の変数名)}-->
 				<div class="section-inner">
 					<!-- 表示の順番：ページ内移動リンクは画像、文章ごとdivでグループ化-->
-						<img th:src="@{${tour2.imgUrl}}" th:alt="${tour2.title}" />
-						<h3 th:text="${tour2.title}"></h3>
-						<p th:text="${tour2.description}"></p>
-						<span th:text="${tour2.basePrice}"></span>
-					</div>
+					<img th:src="@{${tour2.imageUrl}}" th:alt="${tour2.title}" />
+					<h3 th:text="${tour2.title}"></h3>
+					<p th:text="${tour2.description}"></p>
+					<span th:text="${tour2.basePrice}"></span>
+				</div>
 
-
-					<!-- 説明文・申し込みボタン レイアウト用、フレックスボックス -->
-					<div style="flex:1;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-						<p class="desc" th:utext="${tour2.description}"> </p>
-						<div class="apply-wrap"><!--css用クラス名-->
-							<form th:action="@{/apply}" method="post" (post送信を指定) th:object="${tour2}">
-								<!--formにtour2のデータを紐付け-->
-								<input type="hidden" th:name="code" th:value="${tour2.id}" />
-								<button type="submit" class="apply-btn">このツアーを申し込む</button>
-							</form>
-						</div>
+				<!-- 説明文・申し込みボタン 並べて表示用-->
+				<div style="flex:1;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+				<!--↑横並びや余白を整えるフレックスボックス-->
+					<p class="desc" th:utext="${tour2.description}"> </p>
+					<div class="apply-wrap"><!--css用クラス名-->
+						
+						<form th:action="@{/apply}" method="post" (post送信を指定) th:object="${tour2}">
+						<!--申し込みボタン送信フォーム　formにtour2のデータを紐付け-->
+							<input type="hidden" th:name="code" th:value="${tour2.id}" />
+							<!--どのツアーが選ばれたかのidをサーバへ-->
+							<button type="submit" class="apply-btn">このツアーを申し込む</button>
+						</form>
 					</div>
 				</div>
-			</section>
+	</div>
+	</section>
 
-		</main>
+	</main>
 
-		<!-- 固定ナビ style= で上へボタンを常に右下指定-->
-		<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ" style="position:fixed; right:10px; bottom:10px;">
-			<a href="#top" id="btn-top">▲ このページの最上部へ</a>
-			<a th:href="@{/top}">トップページへ</a>
-		</div>
+	<!-- 固定ナビ style= で上へボタンを常に右下指定-->
+	<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ" style="position:fixed; right:10px; bottom:10px;">
+		<a href="#top" id="btn-top">▲ このページの最上部へ</a>
+		<a th:href="@{/}">トップページへ</a>
+	</div>
 
-		<a id="top"></a><!-- このページの最上部へ の到達地点 -->
-
-		<!-- 共通フッター -->
-		<div th:replace="fragments/footer :: footer"></div>
-
-
-
-
-
-
-
-
-
-
+	<!-- 共通フッター -->
+	<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 
