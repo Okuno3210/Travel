@@ -25,6 +25,7 @@ public class TourEntity {
     private Long basePrice;
     private Long schedule;
     private String imageUrl;
+    private String imageUrl2;
     
     
     }

@@ -46,6 +46,7 @@ public class TourDataLoader implements ApplicationRunner {
 	                        to.setBasePrice(Long.parseLong(arr[5]));
 	                        to.setSchedule(Long.parseLong(arr[6]));
 	                        to.setImageUrl(arr[7]);
+	                        to.setImageUrl2(arr[8]);
 	                        tourRepo.save(to);
 	                        
 	                    });

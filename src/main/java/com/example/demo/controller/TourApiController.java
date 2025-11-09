@@ -35,6 +35,7 @@ public class TourApiController {
     			m.put("basePrice", to.getBasePrice());
     			m.put("schedule", to.getSchedule());
     			m.put("imageUrl", to.getImageUrl());
+    			m.put("imageUrl2", to.getImageUrl2());
     			return m;
     				
     			})
