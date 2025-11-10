@@ -148,12 +148,24 @@ public class FlightController {
             tour = tourRepo.findByCountryName(countryName).orElse(null);
         }
 
-        // 価格計算
-        if (tour != null) {
+        List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
+        Region region = regions.isEmpty() ? null : regions.get(0);  // とりあえず最初のを採用
+
+
+        if (region != null && region.getBudget() != null) {
+            try {
+                int budget = Integer.parseInt(region.getBudget()); // budgetはCSVで数値文字列
+                int half = budget / 2;
+                totalPrice = half * passenger;
+            } catch (NumberFormatException e) {
+                totalPrice = 12 * passenger; // 数字に変換できないときの fallback
+            }
+        } else if (tour != null) {
             totalPrice = tour.getBasePrice().intValue() * passenger;
         } else {
-            totalPrice = 12 * passenger; // デフォルト価格
+            totalPrice = 12 * passenger;
         }
+
 
         model.addAttribute("price", totalPrice);
         model.addAttribute("tour", tour);
@@ -268,12 +280,24 @@ public class FlightController {
             tour = tourRepo.findByCountryName(countryName).orElse(null);
         }
 
-        // 価格計算
-        if (tour != null) {
+        List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
+        Region region = regions.isEmpty() ? null : regions.get(0);  // とりあえず最初のを採用
+
+
+        if (region != null && region.getBudget() != null) {
+            try {
+                int budget = Integer.parseInt(region.getBudget()); // budgetはCSVで数値文字列
+                int half = budget / 2;
+                totalPrice = half * passenger;
+            } catch (NumberFormatException e) {
+                totalPrice = 12 * passenger; // 数字に変換できないときの fallback
+            }
+        } else if (tour != null) {
             totalPrice = tour.getBasePrice().intValue() * passenger;
         } else {
-            totalPrice = 12 * passenger; // デフォルト価格
+            totalPrice = 12 * passenger;
         }
+
 
         // 予約番号生成
         String bookingNumber = "FL-" + System.currentTimeMillis();

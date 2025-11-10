@@ -15,4 +15,8 @@ public interface RegionAirportRepository extends JpaRepository<RegionAirport, Lo
     
     @Query("SELECT ra.airport FROM RegionAirport ra WHERE ra.region.id = :regionId")
     List<Airport> findAirportsByRegionId(@Param("regionId") Long regionId);
+
+    @Query("SELECT ra.region FROM RegionAirport ra WHERE ra.airport.code = :code")
+    List<Region> findRegionByAirportCode(@Param("code") String code);
+
 }
