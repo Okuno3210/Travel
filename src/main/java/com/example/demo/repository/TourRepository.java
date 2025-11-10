@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.TourEntity;
@@ -7,5 +9,6 @@ import com.example.demo.entity.TourEntity;
 
 
 public interface TourRepository extends JpaRepository<TourEntity, Long> {
-
+    Optional<TourEntity> findByCountryName(String countryName);
 }
+

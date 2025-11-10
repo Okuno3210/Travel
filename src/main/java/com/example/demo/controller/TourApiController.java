@@ -28,7 +28,7 @@ public class TourApiController {
     	return tourRepo.findAll().stream()
     			.map(to ->{Map<String, Object> m = new HashMap<>();
     			//m.put("id", to.getId()); 自動生成用にエンティティに@GeneratedValue
-    			m.put("countryId", to.getCountryId());
+    			//m.put("countryId", to.getCountryId());
     			m.put("countryName", to.getCountryName());
     			m.put("title", to.getTitle());
     			m.put("description", to.getDescription());

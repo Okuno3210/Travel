@@ -106,45 +106,59 @@
 	
 	<header th:replace="fragments/header :: header"></header>
     <h1>✈️ 航空券検索</h1>
-    <p th:if="${selectedRegion != null and selectedRegion != ''}"
-       th:text="'地域: ' + ${selectedRegion}"></p>
- 
-
+    <p th:if="${selectedRegion != null and selectedRegion != ''}" th:text="'地域: ' + ${selectedRegion}"></p>
   <main class="flight-search">
     <form th:action="@{/flight/result}" method="get" class="search-form">
-
-      <label>出発地:</label>
-      <select name="departureCode" required>
-        <option value="">選択してください</option>
-		<option th:each="a : ${japanAirports}" 
-		        th:value="${a.code}" 
-		        th:text="${a.name + ' (' + a.code + ')'}">
-		</option>
-      </select>
-
-      <label>目的地:</label>
-      <select name="destinationCode" required>
-        <option value="">選択してください</option>
-        <option th:each="a : ${airports}"
-                th:value="${a.code}"
-                th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
-        </option>
-      </select>
-
-      <label>出発日:</label>
+	
+		<label>出発地:</label>
+		<select id="departure" name="departureCode" required>
+		  <option value="">選択してください</option>
+		  <option th:each="a : ${japanAirports}" 
+		          th:value="${a.code}" 
+		          th:text="${a.name + ' (' + a.code + ')'}">
+		  </option>
+		</select>
+		
+		<label>目的地:</label>
+		<select id="destination" name="destinationCode" required>
+		  <option value="">選択してください</option>
+		  <option th:each="a : ${airports}"
+		          th:value="${a.code}"
+		          th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
+		  </option>
+		</select>
+      
+		<label>出発日:</label>
       <input type="date" name="date" required>
-
       <label>人数:</label>
       <input type="number" name="passenger" min="1" value="1">
-
+	  <button type="button" onclick="swapSelects()">⟷ 出発地・目的地を入れ替え</button>
       <button type="submit" class="btn">検索する</button>
     </form>
   </main>
+  
   <div>
     <a href="/" class="btn back-btn">🏠 トップへ戻る</a>
 	<a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
   </div>
 	<div th:replace="fragments/footer :: footer"></div>
+	
+	<script>
+	function swapSelects() {
+	  const dep = document.getElementById('departure');
+	  const dest = document.getElementById('destination');
+
+	  // innerHTMLを入れ替える（選択肢全体を交換）
+	  const temp = dep.innerHTML;
+	  dep.innerHTML = dest.innerHTML;
+	  dest.innerHTML = temp;
+
+	  // 現在の選択状態も入れ替えたい場合（任意）
+	  const depValue = dep.value;
+	  dep.value = dest.value;
+	  dest.value = depValue;
+	}
+	</script>
+	
 </body>
-</html>
 </html>

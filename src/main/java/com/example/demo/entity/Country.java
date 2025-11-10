@@ -21,10 +21,11 @@ public class Country {
     private Long id;          // CSVのid（DB管理用PK）
 
     //private Long regionId;    // RegionとのJOIN用
-
+    
     private String code; // AUS, USA, EGY など
 
     private String name;
     private String description;
     private String imageUrl; //11/4修正
+    
     }

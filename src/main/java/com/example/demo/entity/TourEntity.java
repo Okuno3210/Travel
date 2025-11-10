@@ -27,5 +27,10 @@ public class TourEntity {
     private String imageUrl;
     private String imageUrl2;
     
+//    @ManyToOne
+//    @JoinColumn(name = "country_id")
+//    private Country country;
+
+    
     
     }
