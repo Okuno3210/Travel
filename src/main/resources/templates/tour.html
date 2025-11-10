@@ -7,8 +7,31 @@
 	<!--外部css-->
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<!--<link rel="stylesheet" th:href="@{/css/top.css}" /> 2つかいたら背景が二重になる-->
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com"><!--説明文見出し用書体-->
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
 
 	<style>
+		header {
+			  background-color: #ffffff;
+			  display: flex;
+			  justify-content: space-between;
+			  align-items: center;
+			  padding: 15px 50px;
+			  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			  position: fixed;
+			  top: 0;
+			  left: 0;
+			  height: 67px;
+			  width: 95%;
+			  z-index: 10;
+			}
+			/*言語を選択用
+			.gengosentaku {  position: absolute;  left: 400px; top: 50px;}*/
+						 
+		
 		main {
 			/* 🗺️ 背景を2枚重ねる！ */
 			position: relative;
@@ -23,10 +46,11 @@
 			padding: 40px 0;
 			min-height: 700px;
 		}
+		
 
 		h1 {
 			/* ページタイトル */
-			margin: 60px 0 40px;
+			margin: -10px 0 10px;
 			font-size: 48px;
 			font-weight: 800;
 			color: #00A2B8;
@@ -101,6 +125,8 @@
 		}
 
 		/* 説明コーナー */
+		/*ページ内ジャンプ先の画像がヘッダーに隠れないよう位置調整*/
+		.setumei-section { scroll-margin-top: 100px; }
 		/* setumei-wrapper: 画像とコンテンツを横並びにする親要素 */
 		.setumei-wrapper {
 			display: flex;
@@ -113,29 +139,39 @@
 		}
 
 		.setumei-img {
-			margin-left: 60px;/* 画像のスタイル (左側) */
-			width: 50%;/* 幅を全体の40%に設定 (調整可能) */
-			max-width: 450px;/* 画像の最大サイズ */
+			margin-left: 60px;
+			/* 画像のスタイル (左側) */
+			width: 50%;
+			/* 幅を全体の40%に設定 (調整可能) */
+			max-width: 450px;
+			/* 画像の最大サイズ */
 			height: auto;
 			object-fit: cover;
-			border-radius: 8px;/* 角丸 */
+			border-radius: 8px;
+			/* 角丸 */
 			border: 3px solid #fff;
 		}
 
 		/* 右側の情報とボタンのコンテナ */
 		.setumei-content {
-			width: 50%;/* 残りの幅 (調整可能) */
+			width: 50%;
+			/* 残りの幅 (調整可能) */
 			display: flex;
-			flex-direction: column;/* 内部の要素 (タイトル、pタグ、ボタン群) を縦に並べる */
-			gap: 10px;/* 縦方向の要素間の間隔 */
+			flex-direction: column;
+			/* 内部の要素 (タイトル、pタグ、ボタン群) を縦に並べる */
+			gap: 10px;
+			/* 縦方向の要素間の間隔 */
 			/*justify-content: center;*/
 		}
 
 		.button-group {
-			display: inline-block; /*ボタン3つ中心揃え*/	
-			gap: 3px;/*ボタン同士の間隔*/
+			display: inline-block;
+			/*ボタン3つ中心揃え*/
+			gap: 3px;
+			/*ボタン同士の間隔*/
 			/*justify-content: flex-start; 左寄せ　いる？*/
-			margin-top: 8px;/* 写真の下、タイトルとの間にスペースを空ける */
+			margin-top: 8px;
+			/* 写真の下、タイトルとの間にスペースを空ける */
 			font-size: 85%;
 		}
 
@@ -168,23 +204,37 @@
 		}
 
 		/* 説明文の上下の余白を削除、.setumei-content内の真ん中に配置したい */
-		.setumei-content h4,
-		.setumei-content h3 {
-			margin-top: 4px;
-			margin-bottom: 4px;
+		.setumei-content h2 {
+			margin-top: 2px;
+			margin-bottom: 2px;
 			text-align: center;
-		}/* 説明コーナー　ここまで */
+			font-family: 'Yusei Magic', sans-serif;
+			font-size: 1.7em;
+		}
+
+		.setumei-content h4 {
+			margin-top: 2px;
+			margin-bottom: 2px;
+			text-align: center;
+		}
+
+		/* 説明コーナー　ここまで */
 
 		/* ページ上部へボタン、fixed-nav: 画面右下に固定するコンテナ */
 		.fixed-nav {
-			position: fixed; /* 画面に対して位置を固定する */
-			bottom: 20px; /* 画面の下端から20px上に配置 */
-			right: 20px; /* 画面の右端から20px左に配置 */
-			z-index: 1000; /* ページのコンテンツに埋もれないように最前面に表示 */
+			position: fixed;
+			/* 画面に対して位置を固定する */
+			bottom: 25px;
+			/* 画面の下端から20px上に配置 */
+			right: 20px;
+			/* 画面の右端から20px左に配置 */
+			z-index: 1100;
+			/* ページのコンテンツに埋もれないように最前面に表示 */
 			/* ボタンを縦に並べる（初期設定のHTMLから変更がない場合） */
 			display: flex;
 			flex-direction: column;
-			gap: 10px;/* ボタン間の間隔 */
+			gap: 10px;}/* ボタン間の間隔 */
+			.footer-spacer {height: 80px;}/*韓国がフッターに隠れたので上にあげる*/
 
 			.fixed-btn {
 				background: #fff;
@@ -192,7 +242,7 @@
 				color: #333;
 				/* テキストの色を見やすいように濃い色（例: 黒っぽい色）に設定 */
 				/* 他の.btnのスタイル（width: 80%やmargin: 0 auto;）が固定ボタンに不要であれば解除 */
-				font-size: 80%;
+				font-size: 100%;
 				width: auto;
 				/* 幅をテキストに合わせて自動調整 */
 				margin: 0;
@@ -209,20 +259,36 @@
 				display: inline-block;
 				margin-left: 10px;
 			}
-		}
 	</style>
+	
+	<!-- <script> //言語を選択用、左上にしか出ない
+	   function googleTranslateElementInit() {
+	     new google.translate.TranslateElement({pageLanguage: 'ja'}, 
+		 'google_translate_element');
+	   }
+	 </script>
+	 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+	 </script>
+	  <script defer type="text/javascript" src="/js/script.js"></script> -->
+
 </head>
 
 <body>
 	<a id="top"></a><!-- 「このページの最上部へ」の到達地点 -->
-	<!-- 共通ヘッダー -->
-	<header th:replace="fragments/header :: header"></header>
+	<!-- 共通ヘッダー-->
+	<header th:insert="fragments/header :: header"> </header>
+	
+	<!--言語を選択用　意図した位置に出ない
+		<header><div th:insert="fragments/header :: header"></div>
+		 <div class="gengosentaku">
+		<div id="google_translate_element"></div></div>-->
+	 
 	<main>
 		<h1><a href="/api/tour/plantrip">🌏 各国一周ツアー特集</a></h1>
-		<p>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</p>
+		<h3>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</h3>
 
 		<!-- ツアー一覧（丸画像・国名）-->
-		<section id="tours" class="namaemitei">
+		<section id="tours">
 			<table>
 				<tr>
 					<td th:each="tour2 : ${to}" style="text-align: center;">
@@ -231,20 +297,20 @@
 								<img th:src="@{${tour2.imageUrl}}" `th:alt="|${tour2.countryName} の画像|" `>
 							</div>
 						</a>
-							<span class="countryName" th:text="${tour2.countryName}"></span>
+						<span class="countryName" th:text="${tour2.countryName}"></span>
 					</td>
 				</tr>
 			</table>
-		</section>
+		</section><br><br>
 
 		<!-- 丸画像からジャンプ、説明コーナー -->
-		<section th:each="tour2 : ${to}" th:id="|${tour2.countryName}-section|">
+		<section th:each="tour2 : ${to}" th:id="|${tour2.countryName}-section|" class="setumei-section">
 
 			<div class="setumei-wrapper">
 				<img th:src="@{${tour2.imageUrl2}}" th:alt="|${tour2.countryName}の画像|" class="setumei-img">
 
 				<div class="setumei-content">
-					<h3 th:text="${tour2.title}"></h3>
+					<h2 th:text="${tour2.title}"></h2>
 
 					<h4>旅程</h4>
 					<h4 th:utext="${tour2.description}"></h4>
@@ -263,13 +329,13 @@
 					<!-- どんな国？、航空券、お気に入りボタン -->
 					<div class="button-group">
 
-						<a th:href="@{|#${tour2.countryId}-detail-section|}" class="btn detail-btn">
+						<a th:href="@{/country/{id}/regions(id=${tour2.countryId})}" class="btn detail-btn">
 							🗺️ どんな国？ </a>
 
 						<a th:href="@{/flight/search(region=${tour2.countryId})}" class="btn next-btn">
 							✈️ <span th:text="|${tour2.countryName}への航空券を探す|">
 							</span></a>
-						<a class="btn favorite-btn">⭐️ お気に入り登録</a>
+						<!-- 一応消しとく　<a class="btn favorite-btn">⭐️ お気に入り登録</a> -->
 						<!--リンク先未設定 @PostMapping("/favorites/add/{countryId}") -->
 					</div>
 					<!-- <a th:href="@{/favorites/add/${tour2.countryId}}" class="btn favorite-btn">⭐️ お気に入り登録</a> -->
@@ -286,9 +352,10 @@
 	</main>
 
 	<!-- 固定ナビ style= で上へボタンを常に右下指定-->
+	<div class="footer-spacer"></div> <!--韓国がフッターに隠れたので上にあげる-->
 	<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ">
 		<a href="#top" id="btn-top" class="fixed-btn">🔼 このページの最上部へ</a>
-		<a href="/" class="fixed-btn">🏠 トップページへ戻る</a>
+		<!--<a href="/" class="fixed-btn">🏠 トップページへ戻る</a> 「ヘッダーにトップへ」あるので不要-->
 	</div>
 
 	<!-- 共通フッター -->
