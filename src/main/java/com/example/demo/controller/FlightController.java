@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.FlightBooking;
+import com.example.demo.entity.JpAirport;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.User;
 import com.example.demo.repository.AirportRepository;
 import com.example.demo.repository.FlightBookingRepository;
+import com.example.demo.repository.JpAirportRepository;
 import com.example.demo.repository.RegionAirportRepository;
 import com.example.demo.repository.RegionRepository;
+import com.example.demo.repository.TourRepository;
 import com.example.demo.repository.UserRepository;
 
 /**
@@ -48,6 +51,12 @@ public class FlightController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private JpAirportRepository jpAirportRepo;
+    
+    @Autowired
+    private TourRepository tourRepo;
 
 
     /**
@@ -63,6 +72,7 @@ public class FlightController {
             Model model) {
 
         List<Airport> airports;
+        List<JpAirport> jpAirport  = jpAirportRepo.findAll();;
 
         if (regionId != null) {
             airports = regionAirportRepo.findAirportsByRegionId(regionId);
@@ -75,6 +85,8 @@ public class FlightController {
         model.addAttribute("airports", airports);
         model.addAttribute("country", country);
         model.addAttribute("region", region);
+        model.addAttribute("japanAirports", jpAirport);
+
         return "flight/flight-search";
     }
 
@@ -90,8 +102,9 @@ public class FlightController {
             @RequestParam(required = false) Integer passenger,
             Model model) {
 
-        Airport departure = airportRepo.findByCode(departureCode).orElse(null);
+        JpAirport departure = jpAirportRepo.findByCode(departureCode).orElse(null);
         Airport destination = airportRepo.findByCode(destinationCode).orElse(null);
+        
 
         if (departure == null || destination == null) {
             model.addAttribute("error", "出発地または目的地の空港情報が見つかりません。");
@@ -102,7 +115,7 @@ public class FlightController {
         model.addAttribute("destination", destination);
         model.addAttribute("date", date);
         model.addAttribute("passenger", passenger != null ? passenger : 1);
-        model.addAttribute("price", 98000); // ダミー価格
+        model.addAttribute("price", 12); // ダミー価格
         return "flight/flight-result";
     }
 
@@ -118,7 +131,7 @@ public class FlightController {
             @RequestParam Integer price,
             Model model) {
 
-        Airport departure = airportRepo.findByCode(departureCode).orElse(null);
+        JpAirport departure = jpAirportRepo.findByCode(departureCode).orElse(null);
         Airport destination = airportRepo.findByCode(destinationCode).orElse(null);
 
         model.addAttribute("departure", departure);
@@ -145,7 +158,7 @@ public class FlightController {
             Model model,
             Principal principal) {  // ← 追加
 
-        Airport departure = airportRepo.findByCode(departureCode).orElse(null);
+        JpAirport departure = jpAirportRepo.findByCode(departureCode).orElse(null);
         Airport destination = airportRepo.findByCode(destinationCode).orElse(null);
 
         if (departure == null || destination == null) {

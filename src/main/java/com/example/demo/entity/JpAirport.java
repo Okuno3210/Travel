@@ -6,19 +6,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
-@Table(name = "airports")
-public class Airport {
+@Table(name = "japan-airports")
+@Getter
+@Setter
+public class JpAirport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;   // 成田国際空港など
-    private String code;   // NRT, LAXなど
-
-    private String country;
+    private String name;
+    private String code;
+    private Long countryId;
 }
-

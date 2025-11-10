@@ -116,10 +116,10 @@
       <label>出発地:</label>
       <select name="departureCode" required>
         <option value="">選択してください</option>
-        <option th:each="a : ${airports}"
-                th:value="${a.code}"
-                th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
-        </option>
+		<option th:each="a : ${japanAirports}" 
+		        th:value="${a.code}" 
+		        th:text="${a.name + ' (' + a.code + ')'}">
+		</option>
       </select>
 
       <label>目的地:</label>

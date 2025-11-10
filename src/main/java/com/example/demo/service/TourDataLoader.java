@@ -39,7 +39,7 @@ public class TourDataLoader implements ApplicationRunner {
 	                        // if (arr.length < 7) return;
 
 	                        TourEntity to = new TourEntity();
-	                        to.setCountryId(Long.parseLong(arr[1]));
+	                        //to.setCountryId(Long.parseLong(arr[1]));
 	                        to.setCountryName(arr[2]);
 	                        to.setTitle(arr[3]);
 	                        to.setDescription(arr[4]);
