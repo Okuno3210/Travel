@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ScenicController {
 
     @GetMapping("")
-    public String showScenic1Page() {
-        return "scenic/scenic1"; // テンプレート: templates/scenic/scenic1.html
+    public String showScenicPage() {
+        return "scenic/scenic"; // テンプレート: templates/scenic/scenic1.html
     }
 
-    @GetMapping("/scenic2")
-    public String showScenic2Page() {
-        return "scenic/scenic2";
+    @GetMapping("/mountain")
+    public String showMountainPage() {
+        return "scenic/mountain";
     }
 
-    @GetMapping("/scenic3")
-    public String showScenic3Page() {
-        return "scenic/scenic3";
+    @GetMapping("/sea")
+    public String showSeaPage() {
+        return "scenic/sea";
     }
 
-    @GetMapping("/scenic4")
-    public String showScenic4Page() {
-        return "scenic/scenic4";
+    @GetMapping("/world heitage")
+    public String showworldHeitagePage() {
+        return "scenic/world heitage";
     }
 }

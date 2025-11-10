@@ -10,21 +10,21 @@ public class ActivityController {
 
     @GetMapping("")
     public String showActivityPage() {
-        return "activity/activity1"; // テンプレート: templates/scenic/scenic1.html
+        return "activity/activity"; // テンプレート: templates/scenic/scenic1.html
     }
 
-    @GetMapping("/activity2")
-    public String showActivity2Page() {
-        return "activity/activity2";
+    @GetMapping("/theme park")
+    public String showthemeParkPage() {
+        return "activity/theme park";
     }
 
-    @GetMapping("/activity3")
-    public String showActivity3Page() {
-        return "activity/activity3";
+    @GetMapping("/museum")
+    public String showMuseumPage() {
+        return "activity/museum";
     }
 
-    @GetMapping("/activity4")
-    public String showActivity4Page() {
-        return "activity/activity4";
+    @GetMapping("/leisure")
+    public String showLeisurePage() {
+        return "activity/leisure";
     }
 }
