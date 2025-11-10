@@ -17,9 +17,9 @@ public class GourmetController {
         return "grume/meat"; // ← templates/grume/meat.html に対応
     }
     // /grume/meat にアクセスしたら templates/grume/meat.html を表示
-    @GetMapping("/grume/ohters")
-    public String showOhtersPage() {
-        return "grume/ohters"; // ← templates/grume/meat.html に対応
+    @GetMapping("/grume/cheese")
+    public String showCheesePage() {
+        return "grume/cheese"; // ← templates/grume/meat.html に対応
     }
     // /grume/meat にアクセスしたら templates/grume/meat.html を表示
     @GetMapping("/grume/seafood")
