@@ -19,11 +19,13 @@ public class TourEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;          // CSVのid（DB管理用PK）
     private Long countryId;
+    private String countryName;
     private String title;
     private String description;
-    private String basePrice;
-    private String schedule;
-    private String imgUrl;
+    private Long basePrice;
+    private Long schedule;
+    private String imageUrl;
+    private String imageUrl2;
     
     
     }

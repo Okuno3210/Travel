@@ -29,11 +29,13 @@ public class TourApiController {
     			.map(to ->{Map<String, Object> m = new HashMap<>();
     			//m.put("id", to.getId()); 自動生成用にエンティティに@GeneratedValue
     			m.put("countryId", to.getCountryId());
+    			m.put("countryName", to.getCountryName());
     			m.put("title", to.getTitle());
     			m.put("description", to.getDescription());
     			m.put("basePrice", to.getBasePrice());
     			m.put("schedule", to.getSchedule());
-    			m.put("imgUrl", to.getImgUrl());
+    			m.put("imageUrl", to.getImageUrl());
+    			m.put("imageUrl2", to.getImageUrl2());
     			return m;
     				
     			})

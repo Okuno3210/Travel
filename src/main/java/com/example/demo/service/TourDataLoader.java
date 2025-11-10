@@ -40,11 +40,13 @@ public class TourDataLoader implements ApplicationRunner {
 
 	                        TourEntity to = new TourEntity();
 	                        to.setCountryId(Long.parseLong(arr[1]));
-	                        to.setTitle(arr[2]);
-	                        to.setDescription(arr[3]);
-	                        to.setBasePrice(arr[4]);
-	                        to.setSchedule(arr[5]);
-	                        to.setImgUrl(arr[6]);
+	                        to.setCountryName(arr[2]);
+	                        to.setTitle(arr[3]);
+	                        to.setDescription(arr[4]);
+	                        to.setBasePrice(Long.parseLong(arr[5]));
+	                        to.setSchedule(Long.parseLong(arr[6]));
+	                        to.setImageUrl(arr[7]);
+	                        to.setImageUrl2(arr[8]);
 	                        tourRepo.save(to);
 	                        
 	                    });

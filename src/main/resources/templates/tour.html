@@ -4,124 +4,295 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ツアー特集</title>
-
+	<!--外部css-->
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
-	<!--↑外部cssにあるフッターのレイアウト用-->
+	<!--<link rel="stylesheet" th:href="@{/css/top.css}" /> 2つかいたら背景が二重になる-->
 
+	<style>
+		main {
+			/* 🗺️ 背景を2枚重ねる！ */
+			position: relative;
+			background:
+				url('/images/map_background.png') no-repeat center top / contain,
+				url('/images/background-sky.png') no-repeat center top / cover;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 40px 0;
+			min-height: 700px;
+		}
+
+		h1 {
+			/* ページタイトル */
+			margin: 60px 0 40px;
+			font-size: 48px;
+			font-weight: 800;
+			color: #00A2B8;
+			text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+			letter-spacing: 0.05em;
+		}
+
+		#tours table {
+			/* 丸画像一覧部分、 <table> のCSSは<table>タグ自体に適用*/
+			border-collapse: separate;
+			border-spacing: 20px 0;
+			width: 95%;
+			table-layout: fixed;
+			margin: 0 auto;
+			/* テーブル自体を中央寄せする場合 */
+		}
+
+		#tours td {
+			/* <td>内のアイテムを中央寄せ */
+			text-align: center;
+		}
+
+		/* リンク全体をブロック要素にし、子要素（画像と国名）を縦に並べる */
+		#tours td a {
+			display: block;
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.image-wrapper {
+			position: relative;
+			width: 90px;
+			/* 画像の表示幅 */
+			height: 90px;
+			/* 画像の表示高 */
+			overflow: hidden;
+			border-radius: 50%;
+			/* 画像を丸くトリミング */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border: 2px solid #ccc;
+			display: block;
+			/* 中央配置用 */
+			margin: 0 auto;
+		}
+
+		.image-wrapper img {
+			/* 画像自体のスタイル */
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			/* 画像を歪ませずに要素全体を覆う */
+			display: block;
+		}
+
+		.countryName {
+			/*国名テキストのスタイル*/
+			position: static;
+			display: inline-block;
+			background-color: rgba(0, 0, 0, 0.5);
+			color: white;
+			width: 100%;
+			/* 箱は丸画像の幅いっぱい */
+			margin: 8px 0 0 0;
+			/* 画像との間に少しスペース */
+			padding: 3px 8px;
+			text-align: center;
+			border-radius: 5px;
+			/* 箱の角丸 */
+			font-size: 0.9em;
+			font-weight: bold;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+		}
+
+		/* 説明コーナー */
+		/* setumei-wrapper: 画像とコンテンツを横並びにする親要素 */
+		.setumei-wrapper {
+			display: flex;
+			/* Flexboxを有効にして横並びにする */
+			gap: 30px;
+			/* 画像と右側コンテンツの間隔 */
+			align-items: center;
+			/* コンテンツの上端を揃える */
+			padding: 20px 0;
+		}
+
+		.setumei-img {
+			margin-left: 60px;/* 画像のスタイル (左側) */
+			width: 50%;/* 幅を全体の40%に設定 (調整可能) */
+			max-width: 450px;/* 画像の最大サイズ */
+			height: auto;
+			object-fit: cover;
+			border-radius: 8px;/* 角丸 */
+			border: 3px solid #fff;
+		}
+
+		/* 右側の情報とボタンのコンテナ */
+		.setumei-content {
+			width: 50%;/* 残りの幅 (調整可能) */
+			display: flex;
+			flex-direction: column;/* 内部の要素 (タイトル、pタグ、ボタン群) を縦に並べる */
+			gap: 10px;/* 縦方向の要素間の間隔 */
+			/*justify-content: center;*/
+		}
+
+		.button-group {
+			display: inline-block; /*ボタン3つ中心揃え*/	
+			gap: 3px;/*ボタン同士の間隔*/
+			/*justify-content: flex-start; 左寄せ　いる？*/
+			margin-top: 8px;/* 写真の下、タイトルとの間にスペースを空ける */
+			font-size: 85%;
+		}
+
+		/* フォーム要素の調整: Flexアイテムとして正しく扱う */
+		.button-group form {
+			width: auto;
+			display: inline-block;
+			text-align: left;
+			margin: 0;
+			padding: 0;
+		}
+
+		/* フォーム内のボタンのマージンもリセット */
+		.button-group form .btn {
+			margin-left: 0;
+		}
+
+		/* 航空券ボタン style.cssからリンクさせて白フチだけ追加*/
+		.next-btn {
+			border: 1px solid #fff;
+		}
+
+		.detail-btn {
+			background-color: #ffaa00;
+			/* オレンジ色 */
+			color: #fff;
+			/* テキストの色を白に（視認性のため） */
+			/* 他のボタン（.next-btn）と同じように白フチを付ける場合 */
+			border: 1px solid #fff;
+		}
+
+		/* 説明文の上下の余白を削除、.setumei-content内の真ん中に配置したい */
+		.setumei-content h4,
+		.setumei-content h3 {
+			margin-top: 4px;
+			margin-bottom: 4px;
+			text-align: center;
+		}/* 説明コーナー　ここまで */
+
+		/* ページ上部へボタン、fixed-nav: 画面右下に固定するコンテナ */
+		.fixed-nav {
+			position: fixed; /* 画面に対して位置を固定する */
+			bottom: 20px; /* 画面の下端から20px上に配置 */
+			right: 20px; /* 画面の右端から20px左に配置 */
+			z-index: 1000; /* ページのコンテンツに埋もれないように最前面に表示 */
+			/* ボタンを縦に並べる（初期設定のHTMLから変更がない場合） */
+			display: flex;
+			flex-direction: column;
+			gap: 10px;/* ボタン間の間隔 */
+
+			.fixed-btn {
+				background: #fff;
+				/* 背景白ベタにする */
+				color: #333;
+				/* テキストの色を見やすいように濃い色（例: 黒っぽい色）に設定 */
+				/* 他の.btnのスタイル（width: 80%やmargin: 0 auto;）が固定ボタンに不要であれば解除 */
+				font-size: 80%;
+				width: auto;
+				/* 幅をテキストに合わせて自動調整 */
+				margin: 0;
+				text-align: center;
+				/* テキストを中央寄せ */
+				border: 1px solid #ccc;
+				/* 白ベタで目立たせるため、薄い境界線を追加することも検討 */
+				padding: 7px 15px;
+				/* 角丸 */
+				border-radius: 20px;
+				font-weight: 700;
+				text-decoration: none;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+				display: inline-block;
+				margin-left: 10px;
+			}
+		}
+	</style>
 </head>
 
 <body>
+	<a id="top"></a><!-- 「このページの最上部へ」の到達地点 -->
+	<!-- 共通ヘッダー -->
+	<header th:replace="fragments/header :: header"></header>
+	<main>
+		<h1><a href="/api/tour/plantrip">🌏 各国一周ツアー特集</a></h1>
+		<p>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</p>
 
-	<div class="container"><!--クラス名、css用-->
-		<header>
-			<h1>
-				<a th:href="@{/api/tour/plantrip}" class="btn center-btn plan-btn">
-					色々国内一周ツアー特集</a>
-			</h1>
-			<p>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</p>
-		</header>
+		<!-- ツアー一覧（丸画像・国名）-->
+		<section id="tours" class="namaemitei">
+			<table>
+				<tr>
+					<td th:each="tour2 : ${to}" style="text-align: center;">
+						<a th:href="@{|#${tour2.countryName}-section|}">
+							<div class="image-wrapper">
+								<img th:src="@{${tour2.imageUrl}}" `th:alt="|${tour2.countryName} の画像|" `>
+							</div>
+						</a>
+							<span class="countryName" th:text="${tour2.countryName}"></span>
+					</td>
+				</tr>
+			</table>
+		</section>
 
-		<main>
-			<!-- ここにツアー一覧（画像・国名）を入れる -->
-			<section id="tours" class="grid"><!--ツアー一覧表示場所(html用)-->
-				<div id="tourContainer1"></div><!--JS用-->
-			</section>
+		<!-- 丸画像からジャンプ、説明コーナー -->
+		<section th:each="tour2 : ${to}" th:id="|${tour2.countryName}-section|">
 
-			<script> //上部リンク用（小画像＋国名だけ
-			const linkCard = document.createElement("div");
-			linkCard.innerHTML = `
-			  <a href="#${tour2.id}">
-			    <img src="${tour2.imgUrl}" alt="${tour2.title}の画像">
-			  </a>
-			  <span>${tour2.title}</span>
-			`;
-			container.appendChild(linkCard); //title,idはcountryNameに変える
-			</script>
-			
-			<script> //ページ上部ツアー一覧？
-				fetch("/api/tour/options") //TourApiControllerのGetmapping
-					.then(res => res.json())
-					.then(data => {
-						const container = document.getElementById("tourContainer1");
-						data.forEach(tour2 => {
-							const card = document.createElement("div");
-							card.className = "card";
-							card.innerHTML = `
-						          <a href="#${tour2.id}">
-						            <img src="${tour2.imgUrl}" alt="${tour2.title}の画像">
-								</a>
-									 <h3>${tour2.title}</h3>
-									 <p aria-label="${tour2.description}"></p>
-									<p>${tour2.description}</p>
-									 <span>交通費: ${tour2.basePrice}万円（概算）</span>
-						          `;
-							//.nameなどはcontrollerで書くcsvの項目名
-							container.appendChild(card);
-						});
-					});
-			</script>
-			<!--//紹介コーナー用（別のコンテナに詳細を表示）？
-			const detailCard = document.createElement("div");
-			detailCard.id = tour2.id;
-			detailCard.innerHTML = `
-			  <h3>${tour2.title}</h3>
-			  <p>${tour2.description}</p>
-			  <span>交通費: ${tour2.basePrice}万円（概算）</span>
-			`;
-			document.getElementById("tourDetailContainer").appendChild(detailCard);-->
-			
-			<script>
-				</script>
+			<div class="setumei-wrapper">
+				<img th:src="@{${tour2.imageUrl2}}" th:alt="|${tour2.countryName}の画像|" class="setumei-img">
 
-			<!-- 個別紹介セクション（同ページ内移動） -->
-			<!-- 背景色は data-bg 属性で区分け（CSSで後から上書き） -->
-			<section th:each="tour2 : ${to}" th:id="${tour2.id}" class="section">
-	<!--bgはバックグラウンド、cssで色指定に使う、${to(controllerでListに入れた時の変数名)}-->
-				<div class="section-inner">
-					<!-- 表示の順番：ページ内移動リンクは画像、文章ごとdivでグループ化-->
-						<img th:src="@{${tour2.imgUrl}}" th:alt="${tour2.title}" />
-						<h3 th:text="${tour2.title}"></h3>
-						<p th:text="${tour2.description}"></p>
-						<span th:text="${tour2.basePrice}"></span>
+				<div class="setumei-content">
+					<h3 th:text="${tour2.title}"></h3>
+
+					<h4>旅程</h4>
+					<h4 th:utext="${tour2.description}"></h4>
+					<h4 th:text="|交通費（概算） ${tour2.basePrice} 万円～|"></h4>
+
+
+					<!--<div class="apply-wrap">-->
+					<!--<form th:action="@{/flight/flight-search.html}" method="get">
+		<input type="hidden" th:name="${tour2.countryId}" th:value="${tour2.Id}">
+		hidden＝画面に表示しない指定、
+		name＝サーバ側でこのデータを受け取るキー（変数名）
+	value＝サーバに送信したい値、主キー-->
+					<!--<button type="submit" class="apply-btn">このツアーを申し込む</button>
+		航空券ページに行くなら↑これ不要-->
+
+					<!-- どんな国？、航空券、お気に入りボタン -->
+					<div class="button-group">
+
+						<a th:href="@{|#${tour2.countryId}-detail-section|}" class="btn detail-btn">
+							🗺️ どんな国？ </a>
+
+						<a th:href="@{/flight/search(region=${tour2.countryId})}" class="btn next-btn">
+							✈️ <span th:text="|${tour2.countryName}への航空券を探す|">
+							</span></a>
+						<a class="btn favorite-btn">⭐️ お気に入り登録</a>
+						<!--リンク先未設定 @PostMapping("/favorites/add/{countryId}") -->
 					</div>
+					<!-- <a th:href="@{/favorites/add/${tour2.countryId}}" class="btn favorite-btn">⭐️ お気に入り登録</a> -->
+					<!-- <form th:action="@{/favorites/add/{countryId}(countryId=${tour2.countryId})}" 
+					method="post" style="display: inline;">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"
+					th:if="${_csrf}" />
+					<button type="submit" class="btn favorite-b-->
 
 
-					<!-- 説明文・申し込みボタン レイアウト用、フレックスボックス -->
-					<div style="flex:1;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-						<p class="desc" th:utext="${tour2.description}"> </p>
-						<div class="apply-wrap"><!--css用クラス名-->
-							<form th:action="@{/apply}" method="post" (post送信を指定) th:object="${tour2}">
-								<!--formにtour2のデータを紐付け-->
-								<input type="hidden" th:name="code" th:value="${tour2.id}" />
-								<button type="submit" class="apply-btn">このツアーを申し込む</button>
-							</form>
-						</div>
-					</div>
 				</div>
-			</section>
+			</div>
+		</section>
+	</main>
 
-		</main>
+	<!-- 固定ナビ style= で上へボタンを常に右下指定-->
+	<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ">
+		<a href="#top" id="btn-top" class="fixed-btn">🔼 このページの最上部へ</a>
+		<a href="/" class="fixed-btn">🏠 トップページへ戻る</a>
+	</div>
 
-		<!-- 固定ナビ style= で上へボタンを常に右下指定-->
-		<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ" style="position:fixed; right:10px; bottom:10px;">
-			<a href="#top" id="btn-top">▲ このページの最上部へ</a>
-			<a th:href="@{/top}">トップページへ</a>
-		</div>
-
-		<a id="top"></a><!-- このページの最上部へ の到達地点 -->
-
-		<!-- 共通フッター -->
-		<div th:replace="fragments/footer :: footer"></div>
-
-
-
-
-
-
-
-
-
-
+	<!-- 共通フッター -->
+	<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 
