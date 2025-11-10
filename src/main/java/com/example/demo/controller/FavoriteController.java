@@ -13,6 +13,7 @@ import com.example.demo.entity.Favorite;
 import com.example.demo.entity.FlightBooking;
 import com.example.demo.entity.User;
 import com.example.demo.repository.FlightBookingRepository;
+import com.example.demo.repository.RegionRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.FavoriteService;
 
@@ -25,6 +26,7 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
     private final UserRepository userRepository;
     private final FlightBookingRepository flightBookingRepository;
+    private final RegionRepository regionRepository;
 
     // お気に入り登録
     @PostMapping("/favorites/add/{countryId}")

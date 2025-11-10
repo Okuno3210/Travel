@@ -265,7 +265,7 @@ function googleTranslateElementInit() {
             <td th:text="${b.departure}">東京</td>
             <td th:text="${b.destination}">大阪</td>
             <td th:text="${b.price}">12,000円</td>
-          </tr>
+		  </tr>
         </tbody>
       </table>
       <p th:if="${bookings == null or #lists.isEmpty(bookings)}">現在、予約はありません。</p>

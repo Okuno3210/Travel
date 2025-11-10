@@ -19,6 +19,7 @@ import com.example.demo.entity.Airport;
 import com.example.demo.entity.Concept;
 import com.example.demo.entity.Country;
 import com.example.demo.entity.Food;
+import com.example.demo.entity.JpAirport;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.RegionAirport;
 import com.example.demo.entity.TouristSpot;
@@ -26,6 +27,7 @@ import com.example.demo.repository.AirportRepository;
 import com.example.demo.repository.ConceptRepository;
 import com.example.demo.repository.CountryRepository;
 import com.example.demo.repository.FoodRepository;
+import com.example.demo.repository.JpAirportRepository;
 import com.example.demo.repository.RegionAirportRepository;
 import com.example.demo.repository.RegionRepository;
 import com.example.demo.repository.TouristSpotRepository;
@@ -46,6 +48,7 @@ public class DataLoader implements ApplicationRunner {
     private final ConceptRepository conceptRepo;
     private final AirportRepository airportRepo;
     private final RegionAirportRepository regionAirportRepo;
+    private final JpAirportRepository jpAirportRepo;
 
     // ===== コンストラクタ =====
     public DataLoader(
@@ -55,7 +58,8 @@ public class DataLoader implements ApplicationRunner {
             FoodRepository foodRepo,
             ConceptRepository conceptRepo,
             AirportRepository airportRepo,
-            RegionAirportRepository regionAirportRepo) {
+            RegionAirportRepository regionAirportRepo,
+            JpAirportRepository jpAirportRepo) {
 
         this.countryRepo = countryRepo;
         this.regionRepo = regionRepo;
@@ -64,6 +68,7 @@ public class DataLoader implements ApplicationRunner {
         this.conceptRepo = conceptRepo;
         this.airportRepo = airportRepo;
         this.regionAirportRepo = regionAirportRepo;
+        this.jpAirportRepo = jpAirportRepo;
     }
 
     // ===== CSVリソース設定 =====
@@ -90,6 +95,10 @@ public class DataLoader implements ApplicationRunner {
 
     @Value("classpath:data/region_airports.csv")
     private Resource regionAirportsCsv;
+    
+    @Value("classpath:data/japan_airports.csv")
+    private Resource japanAirportsCsv;
+
 
     // ==========================
     // 全ロード制御
@@ -108,6 +117,7 @@ public class DataLoader implements ApplicationRunner {
         loadRegionConcepts();
         loadAirports();
         loadRegionAirports(regions);
+        loadJpAirports();
     }
 
     // ==========================
@@ -308,6 +318,37 @@ public class DataLoader implements ApplicationRunner {
 
         } catch (IOException e) { e.printStackTrace(); }
     }
+    
+    private void loadJpAirports() {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                japanAirportsCsv.getInputStream(), StandardCharsets.UTF_8))) {
+
+            br.lines()
+              .skip(1) // ヘッダーをスキップ
+              .filter(line -> !line.trim().isEmpty())
+              .forEach(line -> {
+                  String[] arr = line.split(",");
+                  if (arr.length < 4) return;
+
+                  try {
+                	  JpAirport a = new JpAirport();
+                      //a.setId(Long.parseLong(arr[0].trim()));  // IDを指定
+                      a.setName(arr[1].trim());
+                      a.setCode(arr[2].trim());
+                      a.setCountryId(Long.parseLong(arr[3].trim()));
+
+                      jpAirportRepo.save(a);
+                  } catch (NumberFormatException e) {
+                      System.err.println("⚠ 数値変換エラー: " + line);
+                  }
+              });
+
+            System.out.println("✅ airports.csv 読み込み完了");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // ==========================
     // アプリ起動時処理
@@ -323,6 +364,7 @@ public class DataLoader implements ApplicationRunner {
         spotRepo.deleteAllInBatch();
         regionRepo.deleteAllInBatch();
         countryRepo.deleteAllInBatch();
+        jpAirportRepo.deleteAllInBatch();
 
         loadCsv();
         System.out.println("🌍 全CSVの読み込み完了 ✅");
