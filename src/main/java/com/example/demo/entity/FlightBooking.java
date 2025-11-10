@@ -22,7 +22,7 @@ public class FlightBooking {
     private Long id; // 自動採番
 
     // 出発地
-    private String departure;
+	private String departure;
 
     // 到着地
     private String destination;
@@ -49,4 +49,9 @@ public class FlightBooking {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+
 }
