@@ -1,15 +1,337 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+	<meta charset="UTF-8">
+	<!DOCTYPE html>
+	<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>世界のアクティビティ特集</title>
+		<link rel="stylesheet" th:href="@{/css/common.css}">
+
+		<style>
+			/* ===============================
+	   背景（木目＋ブロンズグロッシー）
+	================================ */
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+				background: linear-gradient(145deg, #5a3b28, #7d5235, #b87b46);
+				background-attachment: fixed;
+				color: #fff;
+				position: relative;
+			}
+
+			/* 背景光沢層 */
+			body::before {
+				content: "";
+				position: fixed;
+				inset: 0;
+				background:
+					radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+					radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+				mix-blend-mode: screen;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			/* タイトル */
+			h1.page-title {
+				text-align: center;
+				font-size: 2.8em;
+				margin-top: 100px;
+				color: #fdf3e6;
+				text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+				position: relative;
+				z-index: 5;
+			}
+
+			/* 画像グリッド */
+			.grid-container {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(300px, 1fr));
+				/* 横2列固定・レスポンシブ対応 */
+				gap: 40px;
+				/* 各カード間の余白 */
+				padding: 60px;
+				justify-items: center;
+				align-items: start;
+				position: relative;
+				z-index: 5;
+			}
+
+			/* 各絶景カード（透明ガラス調） */
+			.scenic-item {
+				background: rgba(255, 255, 255, 0.13);
+				border-radius: 18px;
+				box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(8px) brightness(1.1);
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				width: 100%;
+				max-width: 520px;
+				/* ★ 横2列でバランスよく配置 */
+				overflow: hidden;
+			}
+
+			.scenic-item:hover {
+				transform: translateY(-6px);
+				box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+			}
+
+			/* 画像調整 */
+			.scenic-content img {
+				width: 100%;
+				height: 350px;
+				/* ★ 高さを統一して整える */
+				object-fit: cover;
+				/* 画像の縦横比を保ちつつトリミング */
+				border-radius: 10px;
+			}
+
+
+			/* アクティビティタイトル */
+			.scenic-item h3 {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1.3em;
+				color: #ffeedd;
+			}
+
+			/* コンテンツ部分 */
+			.scenic-content {
+				text-align: center;
+				padding: 15px;
+			}
+
+			.scenic-content img {
+				width: 100%;
+				height: auto;
+				border-radius: 10px;
+			}
+
+			.scenic-content h2 {
+				font-size: 1.1em;
+				margin-top: 10px;
+				color: #fff4e8;
+			}
+
+			/* ===============================
+	   フッター＋戻るボタン
+	================================ */
+			footer {
+				position: relative;
+				background: linear-gradient(135deg, #4b2e1e, #6e3c25);
+				color: #f5e9d3;
+				text-align: center;
+				padding: 70px 0 30px 0;
+				font-size: 14px;
+				box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+				border-top: 1px solid rgba(255, 255, 255, 0.2);
+			}
+
+			/* 「戻る」ボタン（footer右下） */
+			.back-button {
+				position: absolute;
+				bottom: 25px;
+				right: 35px;
+				background: linear-gradient(145deg, #c08b55, #8b5a2b);
+				color: #fff8f0;
+				padding: 12px 26px;
+				border-radius: 30px;
+				text-decoration: none;
+				font-weight: bold;
+				font-size: 15px;
+				box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				transition: all 0.3s ease;
+				z-index: 10;
+			}
+
+			/* ホバー時の金属反射 */
+			.back-button:hover {
+				background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+				color: #fff;
+				transform: translateY(-4px);
+				box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+			}
+
+			/* 共通修正（common.css干渉防止） */
+			a {
+				text-decoration: none;
+				color: inherit;
+			}
+
+			header[th\:replace],
+			div[th\:replace] {
+				position: relative !important;
+				z-index: 10;
+			}
+		</style>
+	</head>
+
 <body>
-	<h1>4</h1>
+	<!-- ヘッダー -->
+	<header th:replace="fragments/header :: header"></header>
+
+	<!-- 本文 -->
+	<main>
+		<h1 class="page-title">🌍 レジャー特集</h1>
+
+		<div class="grid-container">
+
+			<!-- 1 -->
+			<div class="scenic-item">
+				<h3>ラスベガス</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/002}">
+						<img th:src="@{/images/tourist_spot/001.jpg}" alt="ラスベガス">
+					</a>
+					<h2>夜空を焦がすネオンの光、世界最高峰のエンターテイメントが集結する「不夜城」。 豪華絢爛なカジノで一攫千金を夢見たり、一流シェフのグルメに舌鼓を打ったり。
+						息をのむようなシルク・ドゥ・ソレイユのショーや、有名DJの熱狂的なパフォーマンス。 ベネチアのゴンドラやパリのエッフェル塔を再現したホテル街を歩けば、世界旅行気分に。
+						刺激と非日常に満ちた、大人のための最高の遊び場があなたを待っています。 一晩で人生が変わるかもしれない、究極の興奮を体験してみませんか。</h2>
+				</div>
+			</div>
+
+			<!-- 2 -->
+			<div class="scenic-item">
+				<h3>ハリウッド</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/001}">
+						<img th:src="@{/images/tourist_spot/003.jpg}" alt="ハリウッド">
+					</a>
+					<h2>夢を追いかける人々の街、世界の映画産業の中心地。 「ハリウッド・サイン」を背景に記念写真を撮り、スターの仲間入り気分を味わいましょう。
+						ハリウッド大通りでは、有名俳優たちの手形やサインが刻まれた「ウォーク・オブ・フェーム」を散策。 TCLチャイニーズ・シアターで、お気に入りのスターの足跡を見つけるのも楽しみの一つです。
+						映画史の栄光と、現代のエンターテイメントが交差するこの場所で、あなただけのストーリーを見つけてください。 誰もが知る“あの”場所で、きらめく才能の気配を感じましょう。</h2>
+				</div>
+			</div>
+
+			<!-- 3 -->
+			<div class="scenic-item">
+				<h3>ブロードウェイ</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/004}">
+						<img th:src="@{/images/tourist_spot/006.jpg}" alt="ブロードウェイ">
+					</a>
+					<h2>世界中から才能が集う、演劇・ミュージカルの最高峰。 華やかな舞台セット、迫力ある歌声とダンスに、観客は瞬く間に別世界へと引き込まれます。
+						誰もが知る名作から最新の話題作まで、連日熱い感動を届けるショーの数々。 劇場街の賑わいや、幕間に飛び交う興奮の声も、すべてが特別な思い出になります。
+						人生で一度は体験したい、本場のミュージカルの圧倒的なライブパフォーマンス。 忘れられない一夜の感動と興奮を、ぜひその目で、耳で感じてください。</h2>
+				</div>
+			</div>
+
+			<!-- 4 -->
+			<div class="scenic-item">
+				<h3>キーウェスト</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/006}">
+						<img th:src="@{/images/tourist_spot/011.jpg}" alt="キーウェスト">
+					</a>
+					<h2>フロリダ半島の最南端に位置する、カリブ海のような雰囲気を持つ美しい島。 文豪ヘミングウェイが愛したこの地は、独特ののんびりとした時間が流れています。
+						カラフルな家並みが並ぶ旧市街を散策し、島の歴史とアートを感じましょう。 特に、毎夕開催される「サンセット・フェスティバル」で見る夕陽は感動的。
+						新鮮なシーフードと名物「キーライムパイ」を味わいながら、至福のひとときを。 アメリカ本土にいながら、まるで異国に来たかのような自由なスピリットを感じてください。</h2>
+				</div>
+			</div>
+
+			<!-- 5 -->
+			<div class="scenic-item">
+				<h3>青の洞窟</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/014}">
+						<img th:src="@{/images/tourist_spot/043.jpg}" alt="青の洞窟">
+					</a>
+					<h2>太陽光が洞窟の奥から差し込み、水面が神秘的な青い光を放つ絶景の洞窟。 小舟に乗って狭い入り口をくぐり抜ける瞬間は、まるで別世界への入り口のようです。
+						船頭さんの歌声が響く中、水面が輝く様子は、言葉にできない美しさ。 天候や波の状況によって入洞できないため、限られた幸運な人だけが出会える光景。
+						カプリ島の自然が作り出した、幻想的な光のショーを体験しませんか。 世界中を魅了する、神秘的な青の輝きをその目で確かめてください。</h2>
+				</div>
+			</div>
+
+			<!-- 6 -->
+			<div class="scenic-item">
+				<h3>ベンタイン市場</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/026}">
+						<img th:src="@{/images/tourist_spot/086.jpg}" alt="ベンタイン市場">
+					</a>
+					<h2>ホーチミン市の中心に位置する、活気あふれる巨大な市場。 食料品から衣料品、お土産まで、あらゆるものが手に入るカオスな空間。 市場の周囲には屋台が並び、安くて美味しいベトナム料理を楽しめます。
+						ベトナムの日常生活と、商売のエネルギーを肌で感じられます。 交渉しながら買い物をするのも、市場ならではの醍醐味です。 ホーチミンの「今」の活気を体感できる、エキサイティングな場所です。
+					</h2>
+				</div>
+			</div>
+
+			<!-- 7 -->
+			<div class="scenic-item">
+				<h3>バーンホフ通り</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/028}">
+						<img th:src="@{/images/tourist_spot/090.jpg}" alt="バーンホフ通り">
+					</a>
+					<h2>チューリッヒ中央駅からチューリッヒ湖まで続く、世界屈指の高級ショッピングストリート。 高級ブランド店や宝石店、時計店が軒を連ねる、エレガントな通りです。 路面電車が通り、ヨーロッパらしい落ち着いた雰囲気を持っています。 スイスの高品質な製品と、洗練された都会の雰囲気を味わえる場所。 買い物だけでなく、美しい街並みを散策するだけでも楽しめます。 世界的な金融都市チューリッヒのエレガンスを感じてみましょう。</h2>
+				</div>
+			</div>
+
+			<!-- 8 -->
+			<div class="scenic-item">
+				<h3>フィリップ島</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/034}">
+						<img th:src="@{/images/tourist_spot/116.jpg}" alt="フィリップ島">
+					</a>
+					<h2>メルボルン近郊にあり、野生のペンギンやコアラに出会える自然豊かな島。 夜になると、小さなフェアリーペンギンたちが海から戻ってくる「パレード」は感動的。 コアラを間近で見られる保護センターなど、野生動物との出会いが豊富です。 南極海から打ち寄せる波が荒々しい、自然の力強さも感じられます。 オーストラリアならではの、可愛らしい野生動物との触れ合いを体験。 自然と動物好きにはたまらない、メルボルンからの日帰りスポットです。</h2>
+				</div>
+			</div>
+
+			<!-- 9 -->
+			<div class="scenic-item">
+				<h3>カオサン通り</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/036}">
+						<img th:src="@{/images/tourist_spot/123.jpg}" alt="カオサン通り">
+					</a>
+					<h2>世界中のバックパッカーが集まる、自由で活気あふれるストリート。 安宿、屋台、バー、旅行会社などがひしめき合い、独特の雰囲気。 マッサージやヘナタトゥーなど、安価なサービスも楽しめます。 夜になるとネオンが輝き、音楽が鳴り響く、国際色豊かな賑わいを見せます。 タイのローカルな雰囲気と、世界中の旅人が交差する場所。 アジアの熱気と自由な空気を感じながら、賑わいを楽しみましょう。</h2>
+				</div>
+			</div>
+
+
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<a href="javascript:history.back()" class="back-button">← 戻る</a>
+		<p>© 2025 TRAVEL POP!</p>
+	</footer>
+</body>
+
+</html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>2</h1>
 	<div>
-	  <button class="back-button" onclick="history.back()">← 前に戻る</button>
-	  <a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+		<button class="back-button" onclick="history.back()">← 前に戻る</button>
+		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
 	</div>
 
 </body>
+
+</html>
+<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>3</h1>
+	<div>
+		<button class="back-button" onclick="history.back()">← 前に戻る</button>
+		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+	</div>
+
+</body>
+
 </html>
