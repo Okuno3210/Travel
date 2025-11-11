@@ -6,7 +6,13 @@
     <style>
 		 body {
 		            font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
-		            background: #fffaf0;
+					background-image: url('/images/select_background.png');
+					            background-size: cover;
+					            background-position: center;
+					            background-repeat: no-repeat;
+					            background-attachment: fixed;
+					            background-color: #f4f4f9;
+
 		            margin: 0;
 		            padding: 0;
 		        }
@@ -21,15 +27,10 @@
 		            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 		        }
 
-		        .logo {
-		            font-size: 30px;
-		            font-weight: 700;
-		            color: #3B68FF;
-		        }
-
-		        .logo span {
-		            color: #FFD800;
-		        }
+				.logo-img {
+				    height: 40px; /* または top.html と同じサイズに合わせる */
+				    width: auto;
+				}
 
 		        nav {
 		            display: flex;
@@ -154,7 +155,9 @@
 		<body>
 			
 			<header>
-			    <div class="logo">TRAVEL<span>POP!</span></div>
+			    <div class="logo-container">
+			        <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+			    </div>
 			    <nav>
 			        <button class="nav-btn btn-map">地図検索</button>
 			       
@@ -221,17 +224,22 @@
 
     <!-- 検索結果 -->
 	<div class="result-grid">
-	       <div class="result-card" th:each="r : ${results}">
-	           <img th:src="@{/images/{name}.jpg(name=${r.name})}" alt="地域画像">
-	           <div class="result-info">
-	               <h3 th:text="${r.name}"></h3>
-	               <p th:text="${r.description}"></p>
-	               <div>
-	                   <span th:each="c : ${r.concepts}" th:text="${c.name}" class="concept-tag"></span>
-	               </div>
-	           </div>
-	       </div>
-	   </div>
-    </div>
+	    <a th:each="r : ${results}" 
+	       th:if="${r != null}" th:href="@{/region/+(id=${r.id})}" 
+	       class="result-card-link" 
+	       style="text-decoration: none; color: inherit;"> 
+	        
+	        <div class="result-card"> 
+	            <img th:src="${r.imageUrl}" alt="地域画像">
+	            <div class="result-info">
+	                <h3 th:text="${r.name}"></h3>
+	                <p th:text="${r.description}"></p>
+	                <div>
+	                    <span th:each="c : ${r.concepts}" th:text="${c.name}" class="concept-tag"></span>
+	                </div>
+	            </div>
+	        </div>
+	    </a>
+	</div>
 </body>
 </html>					

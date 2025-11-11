@@ -95,7 +95,7 @@ public class SelectService {
                     region.setClimate(cols[6]);
                     region.setRiskLevel(cols[7]);
                     region.setDescription(cols[8]);
-              
+                    region.setImageUrl(cols[9]);
 
                     region.setConcepts(new ArrayList<>());
                     
@@ -359,4 +359,5 @@ public class SelectService {
         } catch (NumberFormatException e) {
             return region.getTimezone();
         }
-    }}
+    }
+ }
