@@ -23,12 +23,12 @@
 		            display: flex;
 		            justify-content: space-between;
 		            align-items: center;
-		            padding: 15px 50px;
+		            padding: 20px 23px;
 		            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 		        }
 
 				.logo-img {
-				    height: 40px; /* または top.html と同じサイズに合わせる */
+				    height: 55px; /* または top.html と同じサイズに合わせる */
 				    width: auto;
 				}
 
@@ -40,7 +40,7 @@
 		        .nav-btn {
 		            border: none;
 		            border-radius: 30px;
-		            font-size: 16px;
+		            font-size: 24px;
 		            padding: 10px 25px;
 		            cursor: pointer;
 		            color: white;
@@ -75,14 +75,16 @@
 		            margin-bottom: 20px;
 		        }
 
-		        .search-card {
-		            display: inline-block;
-		            background: white;
-		            padding: 30px 50px;
-		            border-radius: 20px;
-		            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-		            margin-bottom: 40px;
-		        }
+				.search-card {
+				    display: block; 
+				    width: fit-content; 
+				  
+				    background: white;
+				    padding: 30px 50px;
+				    border-radius: 20px;
+				    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+				    margin: 0 auto 40px auto;
+				}
 
 		        .search-card select {
 		            border: 2px solid #ccc;
@@ -121,11 +123,15 @@
 		            background: white;
 		            width: 250px;
 		            border-radius: 15px;
+					min-height: 430px;
 		            overflow: hidden;
 		            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 		            text-align: left;
 		            transition: transform 0.2s;
+					padding:2px ;
 		        }
+				
+				
 
 		        .result-card:hover {
 		            transform: translateY(-5px);
@@ -137,18 +143,36 @@
 		            object-fit: cover;
 		        }
 
-		        .result-info {
-		            padding: 15px;
-		        }
+				.result-info p {
+				 
+				    overflow: hidden;
+				    display: -webkit-box;
+				    -webkit-box-orient: vertical;
+				    -webkit-line-clamp: 3; /* 3行に制限 */
+				    text-overflow: ellipsis;
+				    white-space: normal;
+				    margin-bottom: 10px; /* 必要に応じて調整 */
+					padding:15px;
+				}
+				
+				.result-info h3 {
+				    margin: 10px;
+					scroll-margin-bottom:5px;
+				}
+
+				.result-info h5 {
+				    margin: 10px; 
+					color: #0078FF;
+				}
 
 		        .concept-tag {
 		            display: inline-block;
 		            background: #EAF5FF;
 		            color: #0078FF;
 		            font-size: 12px;
-		            padding: 4px 8px;
+		            padding: 4px 12px;
 		            border-radius: 10px;
-		            margin: 2px;
+		            margin: 5px;
 		        }
 		    </style>
 		</head>
@@ -156,23 +180,23 @@
 			
 			<header>
 			    <div class="logo-container">
+					<a th:href="@{/}">
 			        <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+					</a>
 			    </div>
 			    <nav>
-			        <button class="nav-btn btn-map">地図検索</button>
 			       
-			        <button class="nav-btn btn-tour">ツアープラン一覧</button>
 			    </nav>
-			    <button class="login-btn">Login</button>
+			    <a th:href="@{/login}" class="login-btn">Login</a>
 			</header>
-    <h1>国/地域と地域を検索！</h1>
-
-    <div class="filters">
-        <h2>条件を選択</h2>
+    
 
         <!-- 検索フォーム -->
 		<!-- 追加予定→コンセプト、 -->
+		<br><br>
         <form action="/select/filter" method="GET"class="search-card">
+		
+			        <h3>条件を選択</h3>
             <label for="budget">予算:</label>
             <select id="budget" name="budget">
                 <option value="" th:selected="${budget == ''}">全て</option>
@@ -223,16 +247,17 @@
     </div>
 
     <!-- 検索結果 -->
+	
+
 	<div class="result-grid">
-	    <a th:each="r : ${results}" 
-	       th:if="${r != null}" th:href="@{/region/+(id=${r.id})}" 
-	       class="result-card-link" 
-	       style="text-decoration: none; color: inherit;"> 
-	        
-	        <div class="result-card"> 
+	    <a th:each="r : ${results}"
+	       th:if="${r != null}" th:href="@{'/region/' + ${r.id}}"
+	       class="result-card-link"
+	       style="text-decoration: none; color: inherit;">
+	        <div class="result-card">
 	            <img th:src="${r.imageUrl}" alt="地域画像">
 	            <div class="result-info">
-	                <h3 th:text="${r.name}"></h3>
+	                <h3 th:text="${r.name}"></h3><h5 th:text="${r.country.name}"></h5>
 	                <p th:text="${r.description}"></p>
 	                <div>
 	                    <span th:each="c : ${r.concepts}" th:text="${c.name}" class="concept-tag"></span>
@@ -241,5 +266,6 @@
 	        </div>
 	    </a>
 	</div>
+	<br>
 </body>
 </html>					
