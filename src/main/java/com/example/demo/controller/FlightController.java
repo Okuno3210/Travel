@@ -59,7 +59,7 @@ public class FlightController {
             Model model) {
 
         List<Airport> airports;
-        List<JpAirport> jpAirport  = jpAirportRepo.findAll();;
+        List<JpAirport> jpAirport  = jpAirportRepo.findAll();
 
         if (regionId != null) {
             airports = regionAirportRepo.findAirportsByRegionId(regionId);
@@ -119,26 +119,38 @@ public class FlightController {
 
         // destinationCode から国名を判定
         String countryName = switch (destinationCode) {
-            case "LAX", "LAS", "JFK", "HNL" -> "USA";
-            case "CDG" -> "France";
-            case "FCO" -> "Italy";
-            case "SYD" -> "Australia";
-            case "CAI" -> "Egypt";
-            case "BJS", "PEK" -> "China";
-            case "ICN" -> "Korea";
-            default -> null;
+        case "LAX", "LAS", "JFK", "HNL","PHX", "IAD", "MIA" -> "USA";
+        case "CDG", "NCE" -> "France";
+        case "FCO", "FLR", "VCE", "MXP","NAP","CTA","PAS" -> "Italy";
+        case "SYD","CNS" -> "Australia";
+        case "CAI", "LXR" -> "Egypt";
+        case "PEK", "PVG" -> "China";
+        case "ICN", "PUS", "CJU" -> "Korea";
+        case "ZRH" -> "Switzerland";
+        //case "BKK", "HKT" -> "THAI";
+        case "IKA" -> "Iran";
+        case "DEL" -> "India";
+        case "HAN", "DAD", "SGN" -> "Vietnam";
+        //case "LED", "SVO" -> "ROSHI";
+        default -> null;
         };
 
         // 出発地が海外の場合（destinationCode が日本）にも対応
         if (countryName == null) {
             countryName = switch (departureCode) {
-                case "LAX", "LAS", "JFK", "HNL" -> "USA";
-                case "CDG" -> "France";
-                case "FCO" -> "Italy";
-                case "SYD" -> "Australia";
-                case "CAI" -> "Egypt";
-                case "BJS", "PEK" -> "China";
-                case "ICN" -> "Korea";
+                case "LAX", "LAS", "JFK", "HNL","PHX", "IAD", "MIA" -> "USA";
+                case "CDG", "NCE" -> "France";
+                case "FCO", "FLR", "VCE", "MXP","NAP","CTA","PAS" -> "Italy";
+                case "SYD","CNS" -> "Australia";
+                case "CAI", "LXR" -> "Egypt";
+                case "PEK", "PVG" -> "China";
+                case "ICN", "PUS", "CJU" -> "Korea";
+                case "ZRH" -> "Switzerland";
+                //case "BKK", "HKT" -> "THAI";
+                case "IKA" -> "Iran";
+                case "DEL" -> "India";
+                case "HAN", "DAD", "SGN" -> "Vietnam";
+                //case "LED", "SVO" -> "ROSHI";
                 default -> null;
             };
         }
@@ -249,27 +261,39 @@ public class FlightController {
 
         // countryName を destinationCode から判定
         String countryName = switch (destinationCode) {
-            case "LAX", "LAS", "JFK", "HNL" -> "USA";
-            case "CDG" -> "France";
-            case "FCO" -> "Italy";
-            case "SYD" -> "Australia";
-            case "CAI" -> "Egypt";
-            case "BJS", "PEK" -> "China";
-            case "ICN" -> "Korea";
-            default -> null;
+        case "LAX", "LAS", "JFK", "HNL","PHX", "IAD", "MIA" -> "USA";
+        case "CDG", "NCE" -> "France";
+        case "FCO", "FLR", "VCE", "MXP","NAP","CTA","PAS" -> "Italy";
+        case "SYD","CNS" -> "Australia";
+        case "CAI", "LXR" -> "Egypt";
+        case "PEK", "PVG" -> "China";
+        case "ICN", "PUS", "CJU" -> "Korea";
+        case "ZRH" -> "Switzerland";
+        //case "BKK", "HKT" -> "THAI";
+        case "IKA" -> "Iran";
+        case "DEL" -> "India";
+        case "HAN", "DAD", "SGN" -> "Vietnam";
+        //case "LED", "SVO" -> "ROSHI";
+        default -> null;
         };
 
         // 出発地が海外の場合（destinationCode が日本）にも対応
         if (countryName == null) {
             countryName = switch (departureCode) {
-                case "LAX", "LAS", "JFK", "HNL" -> "USA";
-                case "CDG" -> "France";
-                case "FCO" -> "Italy";
-                case "SYD" -> "Australia";
-                case "CAI" -> "Egypt";
-                case "BJS", "PEK" -> "China";
-                case "ICN" -> "Korea";
-                default -> null;
+            case "LAX", "LAS", "JFK", "HNL","PHX", "IAD", "MIA" -> "USA";
+            case "CDG", "NCE" -> "France";
+            case "FCO", "FLR", "VCE", "MXP","NAP","CTA","PAS" -> "Italy";
+            case "SYD","CNS" -> "Australia";
+            case "CAI", "LXR" -> "Egypt";
+            case "PEK", "PVG" -> "China";
+            case "ICN", "PUS", "CJU" -> "Korea";
+            case "ZRH" -> "Switzerland";
+            //case "BKK", "HKT" -> "THAI";
+            case "IKA" -> "Iran";
+            case "DEL" -> "India";
+            case "HAN", "DAD", "SGN" -> "Vietnam";
+            //case "LED", "SVO" -> "ROSHI";
+            default -> null;
             };
         }
 
