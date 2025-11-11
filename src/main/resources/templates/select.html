@@ -4,42 +4,199 @@
     <meta charset="UTF-8">
     <title>海外旅行先 検索</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-image: url('/images/select_background.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-color: #f4f4f9;
-        }
+		 body {
+		            font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
+					background-image: url('/images/select_background.png');
+					            background-size: cover;
+					            background-position: center;
+					            background-repeat: no-repeat;
+					            background-attachment: fixed;
+					            background-color: #f4f4f9;
 
-        h1 { color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
-        h2 { color: #555; margin-top: 30px; }
-        .filters, .country-list {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        select { padding: 8px; margin-right: 20px; border-radius: 4px; border: 1px solid #ccc; }
-        #results { list-style-type: none; padding: 0; }
-        #results li { background: #e9ecef; margin-bottom: 5px; padding: 10px; border-radius: 4px; border-left: 5px solid #007bff; }
-    </style>
-</head>
+		            margin: 0;
+		            padding: 0;
+		        }
 
-<body>
-    <h1>国/地域と地域を検索！</h1>
+		        /* === ヘッダー === */
+		        header {
+		            background-color: white;
+		            display: flex;
+		            justify-content: space-between;
+		            align-items: center;
+		            padding: 20px 23px;
+		            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		        }
 
-    <div class="filters">
-        <h2>条件を選択</h2>
+				.logo-img {
+				    height: 55px; /* または top.html と同じサイズに合わせる */
+				    width: auto;
+				}
+
+		        nav {
+		            display: flex;
+		            gap: 20px;
+		        }
+
+		        .nav-btn {
+		            border: none;
+		            border-radius: 30px;
+		            font-size: 24px;
+		            padding: 10px 25px;
+		            cursor: pointer;
+		            color: white;
+		            font-weight: 600;
+		            transition: 0.2s;
+		        }
+
+		        .btn-map { background: #FF5C8D; }
+		        .btn-condition { background: #6EC1E4; }
+		        .btn-tour { background: #FFD43B; color: #333; }
+
+		        .nav-btn:hover { opacity: 0.8; }
+
+		        .login-btn {
+		            background: #FFD43B;
+		            border-radius: 25px;
+		            padding: 8px 20px;
+		            font-weight: 600;
+		            border: none;
+		            cursor: pointer;
+		        }
+
+		        /* === メイン === */
+		        .main-container {
+		            text-align: center;
+		            padding: 50px 20px;
+		        }
+
+		        h1 {
+		            color: #333;
+		            font-size: 28px;
+		            margin-bottom: 20px;
+		        }
+
+				.search-card {
+				    display: block; 
+				    width: fit-content; 
+				  
+				    background: white;
+				    padding: 30px 50px;
+				    border-radius: 20px;
+				    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+				    margin: 0 auto 40px auto;
+				}
+
+		        .search-card select {
+		            border: 2px solid #ccc;
+		            border-radius: 10px;
+		            padding: 10px;
+		            margin: 10px;
+		            width: 200px;
+		            font-size: 15px;
+		        }
+
+		        .search-btn {
+		            background: #FF5C8D;
+		            border: none;
+		            color: white;
+		            padding: 12px 30px;
+		            border-radius: 30px;
+		            font-size: 16px;
+		            margin-top: 15px;
+		            cursor: pointer;
+		            transition: 0.2s;
+		        }
+
+		        .search-btn:hover {
+		            background: #ff79a6;
+		        }
+
+		        /* === 結果カード === */
+		        .result-grid {
+		            display: flex;
+		            flex-wrap: wrap;
+		            justify-content: center;
+		            gap: 20px;
+		        }
+
+		        .result-card {
+		            background: white;
+		            width: 250px;
+		            border-radius: 15px;
+					min-height: 430px;
+		            overflow: hidden;
+		            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+		            text-align: left;
+		            transition: transform 0.2s;
+					padding:2px ;
+		        }
+				
+				
+
+		        .result-card:hover {
+		            transform: translateY(-5px);
+		        }
+
+		        .result-card img {
+		            width: 100%;
+		            height: 160px;
+		            object-fit: cover;
+		        }
+
+				.result-info p {
+				 
+				    overflow: hidden;
+				    display: -webkit-box;
+				    -webkit-box-orient: vertical;
+				    -webkit-line-clamp: 3; /* 3行に制限 */
+				    text-overflow: ellipsis;
+				    white-space: normal;
+				    margin-bottom: 10px; /* 必要に応じて調整 */
+					padding:15px;
+				}
+				
+				.result-info h3 {
+				    margin: 10px;
+					scroll-margin-bottom:5px;
+				}
+
+				.result-info h5 {
+				    margin: 10px; 
+					color: #0078FF;
+				}
+
+		        .concept-tag {
+		            display: inline-block;
+		            background: #EAF5FF;
+		            color: #0078FF;
+		            font-size: 12px;
+		            padding: 4px 12px;
+		            border-radius: 10px;
+		            margin: 5px;
+		        }
+		    </style>
+		</head>
+		<body>
+			
+			<header>
+			    <div class="logo-container">
+					<a th:href="@{/}">
+			        <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
+					</a>
+			    </div>
+			    <nav>
+			       
+			    </nav>
+			    <a th:href="@{/login}" class="login-btn">Login</a>
+			</header>
+    
 
         <!-- 検索フォーム -->
 		<!-- 追加予定→コンセプト、 -->
-        <form action="/select/filter" method="GET">
+		<br><br>
+        <form action="/select/filter" method="GET"class="search-card">
+		
+			        <h3>条件を選択</h3>
             <label for="budget">予算:</label>
             <select id="budget" name="budget">
                 <option value="" th:selected="${budget == ''}">全て</option>
@@ -70,6 +227,17 @@
                 <option value="-9_12" th:selected="${timezone == '-9_12'}">-9～12時間</option>
                 <option value="-12_minus" th:selected="${timezone == '-12_minus'}">-12時間～</option>
             </select>
+			
+			<label for="concept">コンセプト:</label>
+			<select id="concept" name="concept">
+			    <option value="" th:selected="${concept == ''}">全て</option>
+			    <option value="美術" th:selected="${concept == '美術'}">美術</option>
+			    <option value="グルメ" th:selected="${concept == 'グルメ'}">グルメ</option>
+			    <option value="絶景" th:selected="${concept == '絶景'}">絶景</option>
+				<option value="歴史・文化" th:selected="${concept == '歴史・文化'}">歴史・文化</option>
+				<option value="体験" th:selected="${concept == '体験'}">体験</option>
+			    <option value="ショッピング" th:selected="${concept == 'ショッピング'}">ショッピング</option>
+			</select>
 
             <br>
             <button type="submit" style="margin-top: 20px; padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
@@ -79,22 +247,25 @@
     </div>
 
     <!-- 検索結果 -->
-    <div class="country-list">
-        <h2>検索結果</h2>
-        <ul id="results">
-            <li th:if="${#lists.isEmpty(results)}" style="border-left: 5px solid #ccc; color: #777;">
-                該当する国はありません。条件を変更してください。
-            </li>
+	
 
-            <li th:each="region : ${results}">
-                <a th:href="@{'/region/' + ${region.id}}" style="text-decoration:none; color:inherit;">
-                    <span th:text="${region.name}"></span>
-                </a>
-                <a th:href="@{'/country/' + ${region.country.id} + '/regions'}" style="text-decoration:none; color:inherit;">
-                    <span>（</span><span th:text="${region.country.name}"></span><span>）</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+	<div class="result-grid">
+	    <a th:each="r : ${results}"
+	       th:if="${r != null}" th:href="@{'/region/' + ${r.id}}"
+	       class="result-card-link"
+	       style="text-decoration: none; color: inherit;">
+	        <div class="result-card">
+	            <img th:src="${r.imageUrl}" alt="地域画像">
+	            <div class="result-info">
+	                <h3 th:text="${r.name}"></h3><h5 th:text="${r.country.name}"></h5>
+	                <p th:text="${r.description}"></p>
+	                <div>
+	                    <span th:each="c : ${r.concepts}" th:text="${c.name}" class="concept-tag"></span>
+	                </div>
+	            </div>
+	        </div>
+	    </a>
+	</div>
+	<br>
 </body>
-</html>						
+</html>					
