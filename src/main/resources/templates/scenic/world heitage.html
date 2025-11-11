@@ -2,329 +2,314 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>世界の絶景スポット</title>
-    <link rel="stylesheet" th:href="@{/css/common.css}">
-    <style>
-        /* ===============================
-           背景（木目＋ブロンズグロッシー）
-        ================================= */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-            background: linear-gradient(145deg, #5a3b28, #7d5235, #b87b46);
-            background-attachment: fixed;
-            color: #fff;
-            position: relative;
-        }
+	<meta charset="UTF-8">
+	<title>世界の絶景スポット</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<style>
+		/* ===============================
+		   世界遺産（荘厳・歴史・神秘）
+		================================ */
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+			background: linear-gradient(145deg, #ba8b02, #181818);
+			background-attachment: fixed;
+			color: #fff8dc;
+			position: relative;
+		}
 
-        /* 背景光沢層 */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
-                radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
-            mix-blend-mode: screen;
-            pointer-events: none;
-            z-index: 0;
-        }
 
-        /* タイトル */
-        h1.page-title {
-            text-align: center;
-            font-size: 2.8em;
-            margin-top: 100px;
-            color: #fdf3e6;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-            position: relative;
-            z-index: 5;
-        }
+		/* 背景光沢層 */
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			background:
+				radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+				radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+			mix-blend-mode: screen;
+			pointer-events: none;
+			z-index: 0;
+		}
 
-        /* 画像グリッド */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(300px, 1fr));
-            gap: 40px;
-            padding: 60px;
-            justify-items: center;
-            align-items: start;
-            position: relative;
-            z-index: 5;
-        }
+		/* タイトル */
+		h1.page-title {
+			text-align: center;
+			font-size: 2.8em;
+			margin-top: 100px;
+			color: #fdf3e6;
+			text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+			position: relative;
+			z-index: 5;
+		}
 
-        /* 各絶景カード（透明ガラス調） */
-        .scenic-item {
-            background: rgba(255, 255, 255, 0.13);
-            border-radius: 18px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px) brightness(1.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 100%;
-            max-width: 520px;
-            overflow: visible; /* 説明文が隠れないように */
-        }
+		/* 画像グリッド */
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(300px, 1fr));
+			gap: 40px;
+			padding: 60px;
+			justify-items: center;
+			align-items: start;
+			position: relative;
+			z-index: 5;
+		}
 
-        .scenic-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
-        }
+		/* 各絶景カード（透明ガラス調） */
+		.scenic-item {
+			background: rgba(255, 255, 255, 0.13);
+			border-radius: 18px;
+			box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(8px) brightness(1.1);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			width: 100%;
+			max-width: 520px;
+			overflow: visible;
+			/* 説明文が隠れないように */
+		}
 
-        .scenic-content {
-            text-align: center;
-            padding: 15px;
-            overflow: visible; /* 説明文が切れない */
-        }
+		.scenic-item:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+		}
 
-        .scenic-content img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
+		.scenic-content {
+			text-align: center;
+			padding: 15px;
+			overflow: visible;
+			/* 説明文が切れない */
+		}
 
-        .scenic-item h3 {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1.3em;
-            color: #ffeedd;
-        }
+		.scenic-content img {
+			width: 100%;
+			height: 350px;
+			object-fit: cover;
+			border-radius: 10px;
+		}
 
-        .scenic-content h2 {
-            font-size: 1.1em;
-            margin-top: 10px;
-            color: #fff4e8;
-            line-height: 1.6;
-            white-space: normal;  /* 折り返して全表示 */
-            word-wrap: break-word; /* 長文も改行 */
-            overflow: visible;     /* 高さ制限解除 */
-            max-height: none;
-            text-overflow: unset;
-        }
+		.scenic-item h3 {
+			text-align: center;
+			margin-top: 15px;
+			font-size: 1.3em;
+			color: #ffeedd;
+		}
 
-        /* ===============================
+		.scenic-content h2 {
+			font-size: 1.1em;
+			margin-top: 10px;
+			color: #fff4e8;
+			line-height: 1.6;
+			white-space: normal;
+			/* 折り返して全表示 */
+			word-wrap: break-word;
+			/* 長文も改行 */
+			overflow: visible;
+			/* 高さ制限解除 */
+			max-height: none;
+			text-overflow: unset;
+		}
+
+		/* ===============================
            フッター＋戻るボタン
         ================================= */
-        footer {
-            position: relative;
-            background: linear-gradient(135deg, #4b2e1e, #6e3c25);
-            color: #f5e9d3;
-            text-align: center;
-            padding: 70px 0 30px 0;
-            font-size: 14px;
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
+		footer {
+			position: relative;
+			background: linear-gradient(135deg, #4b2e1e, #6e3c25);
+			color: #f5e9d3;
+			text-align: center;
+			padding: 70px 0 30px 0;
+			font-size: 14px;
+			box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+			border-top: 1px solid rgba(255, 255, 255, 0.2);
+		}
 
-        .back-button {
-            position: absolute;
-            bottom: 25px;
-            right: 35px;
-            background: linear-gradient(145deg, #c08b55, #8b5a2b);
-            color: #fff8f0;
-            padding: 12px 26px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 15px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
+		.back-button {
+			position: absolute;
+			bottom: 25px;
+			right: 35px;
+			background: linear-gradient(145deg, #c08b55, #8b5a2b);
+			color: #fff8f0;
+			padding: 12px 26px;
+			border-radius: 30px;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 15px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			transition: all 0.3s ease;
+			z-index: 10;
+		}
 
-        .back-button:hover {
-            background: linear-gradient(145deg, #d9a66b, #9a6b3a);
-            color: #fff;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
-        }
+		.back-button:hover {
+			background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+			color: #fff;
+			transform: translateY(-4px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+		}
 
-        /* 共通修正（common.css干渉防止） */
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+		/* 共通修正（common.css干渉防止） */
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
 
-        header[th\:replace],
-        div[th\:replace] {
-            position: relative !important;
-            z-index: 10;
-        }
+		header[th\:replace],
+		div[th\:replace] {
+			position: relative !important;
+			z-index: 10;
+		}
 
-        @media (max-width: 800px) {
-            /* スマホは1列表示 */
-            .grid-container {
-                grid-template-columns: 1fr;
-                padding: 30px;
-            }
-        }
-    </style>
+		@media (max-width: 800px) {
+
+			/* スマホは1列表示 */
+			.grid-container {
+				grid-template-columns: 1fr;
+				padding: 30px;
+			}
+		}
+	</style>
 </head>
 
 <body>
-    <!-- ヘッダー -->
-    <header th:replace="fragments/header :: header"></header>
+	<!-- ヘッダー -->
+	<header th:replace="fragments/header :: header"></header>
 
-    <!-- 本文 -->
-    <main>
-        <h1 class="page-title">🌍 世界遺産特集</h1>
+	<!-- 本文 -->
+	<main>
+		<h1 class="page-title">🌍 世界遺産特集</h1>
 
-        <div class="grid-container">
+		<div class="grid-container">
 
-            <!-- 1 -->
-            <div class="scenic-item">
-                <h3>自由の女神</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/001}">
-                        <img th:src="@{/images/tourist_spot/002.jpg}" alt="自由の女神">
-                    </a>
-                    <h2>アメリカの自由と民主主義の象徴として、100年以上にわたりニューヨーク港を見守る巨大な女神像。自由を求める移民たちの希望の光でもある。</h2>
-                </div>
-            </div>
+			<!-- 1 -->
+			<div class="scenic-item">
+				<h3>自由の女神</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/001}">
+						<img th:src="@{/images/tourist_spot/002.jpg}" alt="自由の女神">
+					</a>
+					<h2>アメリカの自由と民主主義の象徴として、100年以上にわたりニューヨーク港を見守る巨大な女神像。自由を求める移民たちの希望の光でもある。</h2>
+				</div>
+			</div>
+			
+			<!-- 2 -->
+			<div class="scenic-item">
+				<h3>フォロ・ロマーノ</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/008}">
+						<img th:src="@{/images/tourist_spot/020.jpg}" alt="フォロ・ロマーノ">
+					</a>
+					<h2>かつて古代ローマの政治・商業の中心地として栄えた広場。神殿や記念碑が立ち並び、古代ローマ文明の息吹を感じられる場所。</h2>
+				</div>
+			</div>
+			
+			<!-- 3 -->
+			<div class="scenic-item">
+				<h3>凱旋門</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/018}">
+						<img th:src="@{/images/tourist_spot/057.jpg}" alt="凱旋門">
+					</a>
+					<h2>ナポレオンがフランス軍の勝利を記念して建設させた、パリを象徴する巨大な門。 シャンゼリゼ通りの起点に堂々とそびえ立ち、その迫力に圧倒されます。
+						屋上展望台からは、放射状に広がるパリの街路を一望できます。 特に、シャンゼリゼ通りを見下ろす景観は格別で、パリの華やかさを感じられます。
+						夜にはライトアップされ、その威厳ある姿はより一層荘厳な雰囲気に。 パリの歴史と栄光を感じられる、シャンゼリゼのシンボルを訪れましょう。</h2>
+				</div>
+			</div>
 
-            <!-- 2 -->
-            <div class="scenic-item">
-                <h3>コロッセオ</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/008}">
-                        <img th:src="@{/images/tourist_spot/019.jpg}" alt="コロッセオ">
-                    </a>
-                    <h2>古代ローマ帝国の栄光と悲劇の歴史が刻まれた、巨大な円形闘技場。数万人を収容できる構造で、剣闘士の戦いや公開処刑が行われた。</h2>
-                </div>
-            </div>
+			<!-- 4 -->
+			<div class="scenic-item">
+				<h3>オペラハウス</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/031}">
+						<img th:src="@{/images/tourist_spot/101.jpg}" alt="オペラハウス">
+					</a>
+					<h2>シドニー湾に浮かぶ、貝殻のようなユニークなデザインが特徴の世界遺産。 20世紀を代表する建築物として、シドニーのシンボルとなっています。
+						オペラやコンサート、演劇などが上演される、芸術と文化の発信地。 ハーバーブリッジを背景にしたその姿は、最高のフォトジェニックな景観です。
+						昼間の白く輝く姿も、夜のライトアップされた姿も感動的な美しさ。 シドニーのモダンな美しさと芸術の魂を感じられる場所です。</h2>
+				</div>
+			</div>
 
-            <!-- 3 -->
-            <div class="scenic-item">
-                <h3>フォロ・ロマーノ</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/008}">
-                        <img th:src="@{/images/tourist_spot/020.jpg}" alt="フォロ・ロマーノ">
-                    </a>
-                    <h2>かつて古代ローマの政治・商業の中心地として栄えた広場。神殿や記念碑が立ち並び、古代ローマ文明の息吹を感じられる場所。</h2>
-                </div>
-            </div>
+			<!-- 5 -->
+			<div class="scenic-item">
+				<h3>グレート・バリア・リーフ</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/033}">
+						<img th:src="@{/images/tourist_spot/109.jpg}" alt="グレート・バリア・リーフ">
+					</a>
+					<h2>世界最大のサンゴ礁地帯であり、宇宙からも見えると言われる巨大な自然遺産。 色とりどりのサンゴと、数千種の熱帯魚が生息する海洋生物の宝庫。
+						シュノーケリングやダイビングで、この幻想的な海中世界を探検できます。 セスナやヘリコプターからの「ハート・リーフ」の眺めもロマンチック。 地球が作り出した奇跡の海で、忘れられない感動体験を。
+						手つかずの自然の美しさと、海洋生物の多様性に触れてみませんか。</h2>
+				</div>
+			</div>
 
-            <!-- 4 -->
-            <div class="scenic-item">
-                <h3>サン・ピエトロ大聖堂</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/009}">
-                        <img th:src="@{/images/tourist_spot/024.jpg}" alt="サン・ピエトロ大聖堂">
-                    </a>
-                    <h2>カトリック教会の総本山として、世界中から巡礼者が訪れる壮麗な大聖堂。ミケランジェロの設計したドームが有名。</h2>
-                </div>
-            </div>
+			<!-- 6 -->
+			<div class="scenic-item">
+				<h3>イマーム広場</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/042}">
+						<img th:src="@{/images/tourist_spot/145.jpeg}" alt="イマーム広場">
+					</a>
+					<h2>世界で最も美しい広場の一つと称される、広大で壮麗な広場。 広場を囲むイマーム・モスク、シェイフ・ロトフォッラー・モスク、アリカプ宮殿が圧巻。
+						かつてはポロ競技が行われ、サファヴィー朝の栄華を今に伝えます。 夕暮れ時、広場が夕日に染まる光景は、息をのむ美しさです。 イラン・イスラム建築の粋を集めた、世界遺産の景観。
+						ペルシャの歴史と美意識が凝縮された、壮大な空間を歩きましょう。</h2>
+				</div>
+			</div>
+			
+			<!-- 7 -->
+			<div class="scenic-item">
+				<h3>フマユーン廟</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/045}">
+						<img th:src="@{/images/tourist_spot/160.jpg}" alt="フマユーン廟">
+					</a>
+					<h2>ムガル帝国第2代皇帝フマユーンの墓で、タージ・マハルの原型となった壮麗な建築。 広大なペルシャ式庭園「チャールバーグ」の中心に、赤砂岩と白大理石のコントラストが美しい廟が建ちます。
+						ムガル建築とペルシャ建築が見事に融合した、インド・イスラム建築の傑作。 その後のムガル建築に大きな影響を与え、インドの世界遺産群の礎となりました。
+						静かで厳かな雰囲気の中で、ムガル帝国の栄華の始まりを感じられます。 インドにおけるイスラム文化の美を体感できる、デリーの重要な歴史的スポットです。</h2>
+				</div>
+			</div>
 
-            <!-- 5 -->
-            <div class="scenic-item">
-                <h3>モン・サン・ミッシェル修道院</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/019}">
-                        <img th:src="@{/images/tourist_spot/060.jpg}" alt="モン・サン・ミッシェル修道院">
-                    </a>
-                    <h2>海に浮かぶようにそびえ立つ、幻想的な世界遺産の修道院。満潮時には孤島のように見え、その景観は圧巻。</h2>
-                </div>
-            </div>
+			<!-- 8 -->
+			<div class="scenic-item">
+				<h3>タージ・マハル</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/046}">
+						<img th:src="@{/images/tourist_spot/161.jpg}" alt="タージ・マハル">
+					</a>
+					<h2>ムガル帝国第5代皇帝シャー・ジャハーンが愛する王妃のために建てた白大理石の霊廟。美と愛の象徴として世界的に有名。</h2>
+				</div>
+			</div>
+			
+			<!-- 9 -->
+			<div class="scenic-item">
+				<h3>万里の長城</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/048}">
+						<img th:src="@{/images/tourist_spot/169.jpg}" alt="万里の長城">
+					</a>
+					<h2>紀元前から続く、中国歴代王朝が北方民族の侵入を防ぐために築いた世界最大の軍事防衛施設です。その全長は数千キロにも及び、ユネスコ世界遺産に登録されています。山々の尾根に沿って連なる壮大な城壁と望楼は圧巻で、人類史上最大規模の建造物として、悠久の歴史と自然の絶景を体感できます。</h2>
+				</div>
+			</div>
 
-            <!-- 6 -->
-            <div class="scenic-item">
-                <h3>ユングフラウヨッホ</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/027}">
-                        <img th:src="@{/images/tourist_spot/087.jpg}" alt="ユングフラウヨッホ">
-                    </a>
-                    <h2>「ヨーロッパの頂上」と呼ばれる標高3,454mにある展望台。氷河と雪に覆われたアルプスの絶景を360度望める観光名所。</h2>
-                </div>
-            </div>
+			<!-- 10 -->
+			<div class="scenic-item">
+				<h3>景福宮</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/053}">
+						<img th:src="@{/images/tourist_spot/192.jpeg}" alt="景福宮">
+					</a>
+					<h2>朝鮮王朝の正宮であり、ソウルにある五大王宮の中で最大規模を誇ります。広大な敷地内に、優雅で壮麗な建築物が立ち並び、朝鮮時代の王室文化や歴史を体感できます。特に、正門である光化門前で行われる衛兵交代式は必見。チマチョゴリ（韓服）を着て散策する観光客が多く、伝統的な雰囲気を楽しめます。
+					</h2>
+				</div>
+			</div>
 
-            <!-- 7 -->
-            <div class="scenic-item">
-                <h3>ウルル</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/032}">
-                        <img th:src="@{/images/tourist_spot/106.jpg}" alt="ウルル">
-                    </a>
-                    <h2>オーストラリアの聖地であり、世界最大級の一枚岩。先住民アボリジニにとって神聖な場所で、赤い大地にそびえ立つ姿が壮観。</h2>
-                </div>
-            </div>
+		</div><!-- grid-container -->
+	</main>
 
-            <!-- 8 -->
-            <div class="scenic-item">
-                <h3>グレート・バリア・リーフ</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/033}">
-                        <img th:src="@{/images/tourist_spot/109.jpg}" alt="グレート・バリア・リーフ">
-                    </a>
-                    <h2>世界最大のサンゴ礁地帯であり、多様な海洋生物が生息。シュノーケリングやダイビングでその美しさを体感できる。</h2>
-                </div>
-            </div>
-
-            <!-- 9 -->
-            <div class="scenic-item">
-                <h3>アブ・シンベル神殿</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/040}">
-                        <img th:src="@{/images/tourist_spot/138.jpg}" alt="アブ・シンベル神殿">
-                    </a>
-                    <h2>ラムセス2世が建造させた、岩山を削って作られた巨大な神殿。太陽の光が神像に正確に差し込む構造が有名。</h2>
-                </div>
-            </div>
-
-            <!-- 10 -->
-            <div class="scenic-item">
-                <h3>タージ・マハル</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/046}">
-                        <img th:src="@{/images/tourist_spot/161.jpg}" alt="タージ・マハル">
-                    </a>
-                    <h2>ムガル帝国第5代皇帝シャー・ジャハーンが愛する王妃のために建てた白大理石の霊廟。美と愛の象徴として世界的に有名。</h2>
-                </div>
-            </div>
-
-            <!-- 11 -->
-            <div class="scenic-item">
-                <h3>万里の長城</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/048}">
-                        <img th:src="@{/images/tourist_spot/169.jpg}" alt="万里の長城">
-                    </a>
-                    <h2>紀元前から続く、中国歴代王朝が築いた世界最大の軍事防衛施設。長さは数千kmに及び、山々を縫う壮大な景観。</h2>
-                </div>
-            </div>
-
-            <!-- 12 -->
-            <div class="scenic-item">
-                <h3>兵馬俑（へいばよう）</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/049}">
-                        <img th:src="@{/images/tourist_spot/174.jpg}" alt="兵馬俑">
-                    </a>
-                    <h2>中国を初めて統一した秦の始皇帝の陵墓の東側に埋められていた、数千体の陶俑。古代の軍事・文化を知る貴重な史跡。</h2>
-                </div>
-            </div>
-
-            <!-- 13 -->
-            <div class="scenic-item">
-                <h3>万丈窟</h3>
-                <div class="scenic-content">
-                    <a th:href="@{/region/055}">
-                        <img th:src="@{/images/tourist_spot/204.jpg}" alt="万丈窟">
-                    </a>
-                    <h2>ユネスコ世界自然遺産に登録されている「済州の火山島と溶岩洞窟群」の一部。壮大な地下洞窟と自然の造形美が魅力。</h2>
-                </div>
-            </div>
-
-        </div><!-- grid-container -->
-    </main>
-
-    <!-- フッター -->
-    <footer>
-        <a href="javascript:history.back()" class="back-button">← 戻る</a>
-        <p>© 2025 TRAVEL POP!</p>
-    </footer>
+	<!-- フッター -->
+	<footer>
+		<a href="javascript:history.back()" class="back-button">← 戻る</a>
+		<p>© 2025 TRAVEL POP!</p>
+	</footer>
 </body>
 
 </html>
