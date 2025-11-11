@@ -1,15 +1,316 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+	<meta charset="UTF-8">
+	<!DOCTYPE html>
+	<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>世界のアクティビティ特集</title>
+		<link rel="stylesheet" th:href="@{/css/common.css}">
+
+		<style>
+			/* ===============================
+	   背景（木目＋ブロンズグロッシー）
+	================================ */
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+				background: linear-gradient(145deg, #5a3b28, #7d5235, #b87b46);
+				background-attachment: fixed;
+				color: #fff;
+				position: relative;
+			}
+
+			/* 背景光沢層 */
+			body::before {
+				content: "";
+				position: fixed;
+				inset: 0;
+				background:
+					radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+					radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+				mix-blend-mode: screen;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			/* タイトル */
+			h1.page-title {
+				text-align: center;
+				font-size: 2.8em;
+				margin-top: 100px;
+				color: #fdf3e6;
+				text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+				position: relative;
+				z-index: 5;
+			}
+
+			/* 画像グリッド */
+			.grid-container {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(300px, 1fr));
+				/* 横2列固定・レスポンシブ対応 */
+				gap: 40px;
+				/* 各カード間の余白 */
+				padding: 60px;
+				justify-items: center;
+				align-items: start;
+				position: relative;
+				z-index: 5;
+			}
+
+			/* 各絶景カード（透明ガラス調） */
+			.scenic-item {
+				background: rgba(255, 255, 255, 0.13);
+				border-radius: 18px;
+				box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(8px) brightness(1.1);
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				width: 100%;
+				max-width: 520px;
+				/* ★ 横2列でバランスよく配置 */
+				overflow: hidden;
+			}
+
+			.scenic-item:hover {
+				transform: translateY(-6px);
+				box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+			}
+
+			/* 画像調整 */
+			.scenic-content img {
+				width: 100%;
+				height: 350px;
+				/* ★ 高さを統一して整える */
+				object-fit: cover;
+				/* 画像の縦横比を保ちつつトリミング */
+				border-radius: 10px;
+			}
+
+
+			/* アクティビティタイトル */
+			.scenic-item h3 {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1.3em;
+				color: #ffeedd;
+			}
+
+			/* コンテンツ部分 */
+			.scenic-content {
+				text-align: center;
+				padding: 15px;
+			}
+
+			.scenic-content img {
+				width: 100%;
+				height: auto;
+				border-radius: 10px;
+			}
+
+			.scenic-content h2 {
+				font-size: 1.1em;
+				margin-top: 10px;
+				color: #fff4e8;
+			}
+
+			/* ===============================
+	   フッター＋戻るボタン
+	================================ */
+			footer {
+				position: relative;
+				background: linear-gradient(135deg, #4b2e1e, #6e3c25);
+				color: #f5e9d3;
+				text-align: center;
+				padding: 70px 0 30px 0;
+				font-size: 14px;
+				box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+				border-top: 1px solid rgba(255, 255, 255, 0.2);
+			}
+
+			/* 「戻る」ボタン（footer右下） */
+			.back-button {
+				position: absolute;
+				bottom: 25px;
+				right: 35px;
+				background: linear-gradient(145deg, #c08b55, #8b5a2b);
+				color: #fff8f0;
+				padding: 12px 26px;
+				border-radius: 30px;
+				text-decoration: none;
+				font-weight: bold;
+				font-size: 15px;
+				box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				transition: all 0.3s ease;
+				z-index: 10;
+			}
+
+			/* ホバー時の金属反射 */
+			.back-button:hover {
+				background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+				color: #fff;
+				transform: translateY(-4px);
+				box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+			}
+
+			/* 共通修正（common.css干渉防止） */
+			a {
+				text-decoration: none;
+				color: inherit;
+			}
+
+			header[th\:replace],
+			div[th\:replace] {
+				position: relative !important;
+				z-index: 10;
+			}
+		</style>
+	</head>
+
 <body>
-	<h1>3</h1>
+	<!-- ヘッダー -->
+	<header th:replace="fragments/header :: header"></header>
+
+	<!-- 本文 -->
+	<main>
+		<h1 class="page-title">🖼️ ミュージアム特集</h1>
+
+		<div class="grid-container">
+
+			<!-- 1 -->
+			<div class="scenic-item">
+				<h3>メトロポリタン美術館</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/004}">
+						<img th:src="@{/images/tourist_spot/005.jpg}" alt="メトロポリタン美術館">
+					</a>
+					<h2>古代から現代まで、世界中の文明と芸術を網羅する巨大な殿堂。 エジプトの神殿や、ヨーロッパの巨匠たちの絵画、アジアの美術品など、膨大なコレクションを所蔵しています。
+						一日では回りきれないほどの至宝の数々が、時を超えた感動を与えてくれます。 ルーフガーデンからのマンハッタンの眺めもまた、特別なアート体験の一つです。
+						世界最高峰の美と歴史に触れる知的興奮を、この「The Met」で味わいましょう。 知識と感性を刺激する、ニューヨークの文化の心臓部へようこそ。
+
+					</h2>
+				</div>
+			</div>
+
+			<!-- 2 -->
+			<div class="scenic-item">
+				<h3>バチカン美術館（システィーナ礼拝堂）</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/009}">
+						<img th:src="@{/images/tourist_spot/025.jpg}" alt="バチカン美術館（システィーナ礼拝堂）">
+					</a>
+					<h2>歴代ローマ教皇が集めた、膨大な美術品と工芸品のコレクションを誇る美術館。 ハイライトは、ミケランジェロの『最後の審判』が描かれたシスティーナ礼拝堂。
+						天井画の壮大な迫力と色彩美は、まさに人類史上最高の芸術体験の一つです。 ラファエロの間など、他にも見どころが多く、人類の英知の結晶に触れられます。
+						長蛇の列に並んででも見る価値のある、世界屈指の至宝の数々がここに。 神に捧げられた美の空間で、時を超えた感動に浸りましょう。</h2>
+				</div>
+			</div>
+
+			<!-- 3 -->
+			<div class="scenic-item">
+				<h3>ルーヴル美術館</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/018}">
+						<img th:src="@{/images/tourist_spot/056.jpg}" alt="ルーヴル美術館">
+					</a>
+					<h2>世界最大級の美術館であり、人類の芸術的遺産が詰まった宝庫。 レオナルド・ダ・ヴィンチの『モナ・リザ』や『ミロのヴィーナス』など、名作がずらり。
+						かつては王宮だった建物自体が芸術品であり、その広大さに圧倒されます。 ガラスのピラミッドから入る瞬間から、芸術の旅が始まります。
+						一日では回りきれないほどの至宝の数々に、感性を刺激されること間違いなし。 芸術の都パリが誇る、世界最高の美の殿堂へ。</h2>
+				</div>
+			</div>
+
+			<!-- 4 -->
+			<div class="scenic-item">
+				<h3>ギザのピラミッドとスフィンクス</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/038}">
+						<img th:src="@{/images/tourist_spot/130.jpg}" alt="ギザのピラミッドとスフィンクス">
+					</a>
+					<h2>人類史上最大の謎とロマンを秘めた、世界七不思議の一つ。 クフ王、カフラー王、メンカウラー王の巨大なピラミッドが砂漠にそびえ立ちます。
+						ファラオの永遠の眠りを守るように、巨大なスフィンクスがたたずみます。 紀元前の巨大な建築物に、人類の知恵と力の壮大さを感じさせられます。
+						エジプト文明のシンボルであり、世界中の人々を魅了し続ける遺跡。 砂漠の壮大な景色の中で、古代のロマンに思いを馳せましょう。</h2>
+				</div>
+			</div>
+
+			<!-- 5 -->
+			<div class="scenic-item">
+				<h3>大エジプト博物館 (GEM)</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/038}">
+						<img th:src="@{/images/tourist_spot/131.jpg}" alt="大エジプト博物館 (GEM)">
+					</a>
+					<h2>世界中の期待を集める、エジプト考古学の最新かつ最大の博物館。 ツタンカーメン王の黄金の秘宝など、貴重な遺産が多数展示される予定です。
+						最新の技術を駆使した展示方法で、古代エジプト文明を深く学べます。 ギザのピラミッドのすぐ近くに位置し、観光の拠点としても最適。 古代の至宝が一同に会する、エジプト文明の新たな殿堂。
+						人類の歴史を塗り替えるかもしれない、世紀の発見に触れましょう。</h2>
+				</div>
+			</div>
+
+			<!-- 6 -->
+			<div class="scenic-item">
+				<h3>上海博物館</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/050}">
+						<img th:src="@{/images/tourist_spot/181.jpg}" alt="上海博物館">
+					</a>
+					<h2>人民広場に面して建つ、中国古代美術の傑作を収蔵・展示する大規模な博物館です。上部が円形、下部が方形という「天円地方」の古代中国の宇宙観を反映した特徴的な外観を持ちます。青銅器、陶磁器、書画など、中国の悠久の歴史と文化を物語る12万点以上の貴重な文物を鑑賞できます。入場は無料です。
+					</h2>
+				</div>
+			</div>
+
+			<!-- 7 -->
+			<div class="scenic-item">
+				<h3>エルミタージュ美術館</h3>
+				<div class="scenic-content">
+					<a th:href="@{/region/051}">
+						<img th:src="@{/images/tourist_spot/183.jpg}" alt="エルミタージュ美術館">
+					</a>
+					<h2>世界三大美術館の一つに数えられる、サンクトペテルブルクの至宝です。ロマノフ朝の歴代皇帝の宮殿だった冬の宮殿を本館とし、豪華絢爛な内装そのものが芸術作品となっています。エカテリーナ2世のコレクションを基に、レオナルド・ダ・ヴィンチやレンブラントなど、西洋美術の膨大な傑作を約300万点所蔵しています。</h2>
+				</div>
+			</div>
+
+
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<a href="javascript:history.back()" class="back-button">← 戻る</a>
+		<p>© 2025 TRAVEL POP!</p>
+	</footer>
+</body>
+
+</html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>2</h1>
 	<div>
-	  <button class="back-button" onclick="history.back()">← 前に戻る</button>
-	  <a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+		<button class="back-button" onclick="history.back()">← 前に戻る</button>
+		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
 	</div>
 
 </body>
+
+</html>
+<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>3</h1>
+	<div>
+		<button class="back-button" onclick="history.back()">← 前に戻る</button>
+		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+	</div>
+
+</body>
+
 </html>
