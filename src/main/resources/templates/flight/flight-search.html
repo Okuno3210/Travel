@@ -23,7 +23,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 120px 20px;
+      padding: 100px 20px 0 50px;
     }
 
     .search-form {
@@ -106,7 +106,6 @@
 	
 	<header th:replace="fragments/header :: header"></header>
     <h1>✈️ 航空券検索</h1>
-    <p th:if="${selectedRegion != null and selectedRegion != ''}" th:text="'地域: ' + ${selectedRegion}"></p>
   <main class="flight-search">
     <form th:action="@{/flight/result}" method="get" class="search-form">
 	
@@ -148,17 +147,21 @@
 	  const dep = document.getElementById('departure');
 	  const dest = document.getElementById('destination');
 
-	  // innerHTMLを入れ替える（選択肢全体を交換）
-	  const temp = dep.innerHTML;
-	  dep.innerHTML = dest.innerHTML;
-	  dest.innerHTML = temp;
-
-	  // 現在の選択状態も入れ替えたい場合（任意）
+	  // 選択状態を一時保存
 	  const depValue = dep.value;
-	  dep.value = dest.value;
+	  const destValue = dest.value;
+
+	  // innerHTMLを入れ替え
+	  const tempHTML = dep.innerHTML;
+	  dep.innerHTML = dest.innerHTML;
+	  dest.innerHTML = tempHTML;
+
+	  // valueを元に選択状態を再設定
+	  dep.value = destValue;
 	  dest.value = depValue;
 	}
 	</script>
+
 	
 </body>
 </html>

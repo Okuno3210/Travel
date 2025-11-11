@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,7 +17,7 @@ import com.example.demo.service.SelectService;
 @Controller
 @RequestMapping("/select")
 public class SelectController {
-  
+
     private final SelectService selectService;
 
     public SelectController(SelectService selectService) {
@@ -50,14 +51,16 @@ public class SelectController {
             @RequestParam(defaultValue = "") String budget,
             @RequestParam(defaultValue = "") String time,
             @RequestParam(defaultValue = "") String timezone,
+            @RequestParam(defaultValue = "") String concept,
             Model model) {
 
-        List<Region> results = selectService.getFilteredRegions(budget, time, timezone, timezone);
+        List<Region> results = selectService.getFilteredRegions(budget, time, timezone,concept);
 
         model.addAttribute("results", results);
         model.addAttribute("budget", budget);
         model.addAttribute("time", time);
         model.addAttribute("timezone", timezone);
+        model.addAttribute("concept", concept);
 
         return "select"; // ← select.html に戻す
     }

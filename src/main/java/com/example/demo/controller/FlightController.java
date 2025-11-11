@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Airport;
+import com.example.demo.entity.Country;
 import com.example.demo.entity.FlightBooking;
 import com.example.demo.entity.JpAirport;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.TourEntity;
 import com.example.demo.entity.User;
 import com.example.demo.repository.AirportRepository;
+import com.example.demo.repository.CountryRepository;
 import com.example.demo.repository.FlightBookingRepository;
 import com.example.demo.repository.JpAirportRepository;
 import com.example.demo.repository.RegionAirportRepository;
@@ -47,6 +49,8 @@ public class FlightController {
     @Autowired private UserRepository userRepository;
     @Autowired private RegionRepository regionRepo;
     @Autowired private RegionAirportRepository regionAirportRepo;
+    @Autowired private CountryRepository countryRepo;
+
 
     // -----------------------------
     // ✈ 航空券検索画面
@@ -54,125 +58,123 @@ public class FlightController {
     @GetMapping("/search")
     public String showFlightSearch(
             @RequestParam(required = false) Long regionId,
-            @RequestParam(required = false) String country,
-            @RequestParam(required = false) String region,
+            @RequestParam(required = false) Long countryId,
             Model model) {
 
         List<Airport> airports;
-        List<JpAirport> jpAirport  = jpAirportRepo.findAll();;
+        List<JpAirport> jpAirports = jpAirportRepo.findAll();
 
         if (regionId != null) {
-            airports = regionAirportRepo.findAirportsByRegionId(regionId);
-            Region regionEntity = regionRepo.findById(regionId).orElse(null);
-            model.addAttribute("selectedRegion", regionEntity != null ? regionEntity.getName() : "");
+            // 地域IDから地域情報を取得
+            Region region = regionRepo.findById(regionId).orElse(null);
+
+            if (region != null && region.getCountry() != null) {
+                // 地域が属する国を取得
+                Country country = region.getCountry();
+
+                // その国に属する空港を取得
+                airports = airportRepo.findByCountry(country);
+
+                model.addAttribute("selectedRegion", 
+                    region.getName() + "（" + country.getName() + "）");
+            } else {
+                // 地域に国が紐づいていない場合
+                airports = airportRepo.findAll();
+                model.addAttribute("selectedRegion", "地域未指定");
+            }
+
+        } else if (countryId != null) {
+            // 国ID指定時
+            Country country = countryRepo.findById(countryId).orElse(null);
+            if (country != null) {
+                airports = airportRepo.findByCountry(country);
+                model.addAttribute("selectedRegion", country.getName());
+            } else {
+                airports = airportRepo.findAll();
+                model.addAttribute("selectedRegion", "全空港");
+            }
+
         } else {
+            // 両方指定なし
             airports = airportRepo.findAll();
+            model.addAttribute("selectedRegion", "全空港");
         }
 
         model.addAttribute("airports", airports);
-        model.addAttribute("country", country);
-        model.addAttribute("region", region);
-        model.addAttribute("japanAirports", jpAirport);
+        model.addAttribute("japanAirports", jpAirports);
 
         return "flight/flight-search";
     }
-    // -----------------------------
-    // 🔍 検索結果画面
-    // -----------------------------
-    @GetMapping("/result")
-    public String showFlightResult(
-            @RequestParam String departureCode,
-            @RequestParam String destinationCode,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-            @RequestParam(defaultValue = "1") Integer passenger,
-            @RequestParam(required = false) String bookingNumber,
-            Model model) {
-
-        // 出発地取得（日本 or 海外）
-        JpAirport jpDeparture = jpAirportRepo.findByCode(departureCode).orElse(null);
-        Airport airDeparture = airportRepo.findByCode(departureCode).orElse(null);
-        Object departure = (jpDeparture != null) ? jpDeparture : airDeparture;
-
-        // 目的地取得（日本 or 海外）
-        JpAirport jpDestination = jpAirportRepo.findByCode(destinationCode).orElse(null);
-        Airport airDestination = airportRepo.findByCode(destinationCode).orElse(null);
-        Object destination = (jpDestination != null) ? jpDestination : airDestination;
-
-        if (departure == null || destination == null) {
-            model.addAttribute("error", "出発地または目的地の空港情報が見つかりません。");
-            return "flight/flight-search";
-        }
-
-        model.addAttribute("departure", departure);
-        model.addAttribute("destination", destination);
-        model.addAttribute("date", date);
-        model.addAttribute("passenger", passenger);
-
-        FlightBooking booking = null;
-        TourEntity tour = null;
-        int totalPrice;
-
-        // bookingNumber があれば予約データから国を推測
-        if (bookingNumber != null && !bookingNumber.isEmpty()) {
-            booking = bookingRepo.findByBookingNumber(bookingNumber).orElse(null);
-        }
-
-        // destinationCode から国名を判定
-        String countryName = switch (destinationCode) {
-            case "LAX", "LAS", "JFK", "HNL" -> "USA";
-            case "CDG" -> "France";
-            case "FCO" -> "Italy";
-            case "SYD" -> "Australia";
-            case "CAI" -> "Egypt";
-            case "BJS", "PEK" -> "China";
-            case "ICN" -> "Korea";
-            default -> null;
-        };
-
-        // 出発地が海外の場合（destinationCode が日本）にも対応
-        if (countryName == null) {
-            countryName = switch (departureCode) {
-                case "LAX", "LAS", "JFK", "HNL" -> "USA";
-                case "CDG" -> "France";
-                case "FCO" -> "Italy";
-                case "SYD" -> "Australia";
-                case "CAI" -> "Egypt";
-                case "BJS", "PEK" -> "China";
-                case "ICN" -> "Korea";
-                default -> null;
-            };
-        }
-
-        // Tour 取得
-        if (countryName != null) {
-            tour = tourRepo.findByCountryName(countryName).orElse(null);
-        }
-
-        List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
-        Region region = regions.isEmpty() ? null : regions.get(0);  // とりあえず最初のを採用
 
 
-        if (region != null && region.getBudget() != null) {
-            try {
-                int budget = Integer.parseInt(region.getBudget()); // budgetはCSVで数値文字列
-                int half = budget / 2;
-                totalPrice = half * passenger;
-            } catch (NumberFormatException e) {
-                totalPrice = 12 * passenger; // 数字に変換できないときの fallback
-            }
-        } else if (tour != null) {
-            totalPrice = tour.getBasePrice().intValue() * passenger;
-        } else {
-            totalPrice = 12 * passenger;
-        }
+ // -----------------------------
+ // 🔍 検索結果画面
+ // -----------------------------
+ @GetMapping("/result")
+ public String showFlightResult(
+         @RequestParam String departureCode,
+         @RequestParam String destinationCode,
+         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+         @RequestParam(defaultValue = "1") Integer passenger,
+         @RequestParam(required = false) String bookingNumber,
+         Model model) {
 
+     // 出発地取得（日本 or 海外）
+     JpAirport jpDeparture = jpAirportRepo.findByCode(departureCode).orElse(null);
+     Airport airDeparture = airportRepo.findByCode(departureCode).orElse(null);
+     Object departure = (jpDeparture != null) ? jpDeparture : airDeparture;
 
-        model.addAttribute("price", totalPrice);
-        model.addAttribute("tour", tour);
-        model.addAttribute("booking", booking);
+     // 目的地取得（日本 or 海外）
+     JpAirport jpDestination = jpAirportRepo.findByCode(destinationCode).orElse(null);
+     Airport airDestination = airportRepo.findByCode(destinationCode).orElse(null);
+     Object destination = (jpDestination != null) ? jpDestination : airDestination;
 
-        return "flight/flight-result";
-    }
+     if (departure == null || destination == null) {
+         model.addAttribute("error", "出発地または目的地の空港情報が見つかりません。");
+         return "flight/flight-search";
+     }
+
+     model.addAttribute("departure", departure);
+     model.addAttribute("destination", destination);
+     model.addAttribute("date", date);
+     model.addAttribute("passenger", passenger);
+
+     // 国名判定
+     String countryName = getCountryByCode(destinationCode, departureCode);
+
+     // Tour 取得
+     TourEntity tour = null;
+     if (countryName != null) {
+         tour = tourRepo.findByCountryName(countryName).orElse(null);
+     }
+
+     // Region 取得（フォールバック用）
+     List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
+     Region region = regions.isEmpty() ? null : regions.get(0);
+
+     // -------------------
+     // 料金計算（Tour優先）
+     // -------------------
+     int totalPrice;
+     if (tour != null) {
+         totalPrice = tour.getBasePrice().intValue() * passenger;
+     } else if (region != null && region.getBudget() != null) {
+         try {
+             int budget = Integer.parseInt(region.getBudget());
+             int half = budget / 2;
+             totalPrice = half * passenger;
+         } catch (NumberFormatException e) {
+             totalPrice = 12 * passenger; // fallback
+         }
+     } else {
+         totalPrice = 12 * passenger; // デフォルト
+     }
+
+     model.addAttribute("price", totalPrice);
+     model.addAttribute("tour", tour);
+
+     return "flight/flight-result";
+ }
 
 
     // -----------------------------
@@ -208,126 +210,106 @@ public class FlightController {
         model.addAttribute("date", date);
         model.addAttribute("passenger", passenger);
         model.addAttribute("price", price);
+        
 
         return "flight/flight-confirm";
     }
 
-    // -----------------------------
-    // 💾 予約完了処理
-    // -----------------------------
-    @PostMapping("/complete")
-    public String completeBooking(
-            @RequestParam String departureCode,
-            @RequestParam String destinationCode,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-            @RequestParam(defaultValue = "1") Integer passenger,
-            Model model,
-            Principal principal) {
+ // -----------------------------
+ // 💾 予約完了処理
+ // -----------------------------
+ @PostMapping("/complete")
+ public String completeBooking(
+         @RequestParam String departureCode,
+         @RequestParam String destinationCode,
+         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+         @RequestParam(defaultValue = "1") Integer passenger,
+         Model model,
+         Principal principal) {
 
-        // 出発地取得（日本 or 海外）
-        JpAirport jpDeparture = jpAirportRepo.findByCode(departureCode).orElse(null);
-        Airport airDeparture = airportRepo.findByCode(departureCode).orElse(null);
-        Object departure = (jpDeparture != null) ? jpDeparture : airDeparture;
+     // 出発地取得（日本 or 海外）
+     JpAirport jpDeparture = jpAirportRepo.findByCode(departureCode).orElse(null);
+     Airport airDeparture = airportRepo.findByCode(departureCode).orElse(null);
+     Object departure = (jpDeparture != null) ? jpDeparture : airDeparture;
 
-        // 目的地取得（日本 or 海外）
-        JpAirport jpDestination = jpAirportRepo.findByCode(destinationCode).orElse(null);
-        Airport airDestination = airportRepo.findByCode(destinationCode).orElse(null);
-        Object destination = (jpDestination != null) ? jpDestination : airDestination;
+     // 目的地取得（日本 or 海外）
+     JpAirport jpDestination = jpAirportRepo.findByCode(destinationCode).orElse(null);
+     Airport airDestination = airportRepo.findByCode(destinationCode).orElse(null);
+     Object destination = (jpDestination != null) ? jpDestination : airDestination;
 
-        if (departure == null || destination == null) {
-            model.addAttribute("error", "予約情報に不備があります。");
-            return "flight/flight-search";
-        }
+     if (departure == null || destination == null) {
+         model.addAttribute("error", "予約情報に不備があります。");
+         return "flight/flight-search";
+     }
 
-        // ログインユーザー取得
-        if (principal == null) {
-            model.addAttribute("error", "ログインしてから予約を完了してください。");
-            return "redirect:/login";
-        }
-        User user = userRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new RuntimeException("ユーザーが存在しません。"));
+     // ログインユーザー取得
+     if (principal == null) {
+         model.addAttribute("error", "ログインしてから予約を完了してください。");
+         return "redirect:/login";
+     }
+     User user = userRepository.findByUsername(principal.getName())
+             .orElseThrow(() -> new RuntimeException("ユーザーが存在しません。"));
 
-        // countryName を destinationCode から判定
-        String countryName = switch (destinationCode) {
-            case "LAX", "LAS", "JFK", "HNL" -> "USA";
-            case "CDG" -> "France";
-            case "FCO" -> "Italy";
-            case "SYD" -> "Australia";
-            case "CAI" -> "Egypt";
-            case "BJS", "PEK" -> "China";
-            case "ICN" -> "Korea";
-            default -> null;
-        };
+     // 国名判定
+     String countryName = getCountryByCode(destinationCode, departureCode);
 
-        // 出発地が海外の場合（destinationCode が日本）にも対応
-        if (countryName == null) {
-            countryName = switch (departureCode) {
-                case "LAX", "LAS", "JFK", "HNL" -> "USA";
-                case "CDG" -> "France";
-                case "FCO" -> "Italy";
-                case "SYD" -> "Australia";
-                case "CAI" -> "Egypt";
-                case "BJS", "PEK" -> "China";
-                case "ICN" -> "Korea";
-                default -> null;
-            };
-        }
+     // Tour 取得
+     TourEntity tour = null;
+     if (countryName != null) {
+         tour = tourRepo.findByCountryName(countryName).orElse(null);
+     }
 
-        // Tour 取得
-        TourEntity tour = null;
-        int totalPrice;
-        if (countryName != null) {
-            tour = tourRepo.findByCountryName(countryName).orElse(null);
-        }
+     // Region 取得（フォールバック用）
+     List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
+     Region region = regions.isEmpty() ? null : regions.get(0);
 
-        List<Region> regions = regionAirportRepo.findRegionByAirportCode(destinationCode);
-        Region region = regions.isEmpty() ? null : regions.get(0);  // とりあえず最初のを採用
+     // -------------------
+     // 料金計算（Tour優先）
+     // -------------------
+     int totalPrice;
+     if (tour != null) {
+         totalPrice = tour.getBasePrice().intValue() * passenger;
+     } else if (region != null && region.getBudget() != null) {
+         try {
+             int budget = Integer.parseInt(region.getBudget());
+             int half = budget / 2;
+             totalPrice = half * passenger;
+         } catch (NumberFormatException e) {
+             totalPrice = 12 * passenger; // fallback
+         }
+     } else {
+         totalPrice = 12 * passenger; // デフォルト
+     }
 
+     // 予約番号生成
+     String bookingNumber = "FL-" + System.currentTimeMillis();
 
-        if (region != null && region.getBudget() != null) {
-            try {
-                int budget = Integer.parseInt(region.getBudget()); // budgetはCSVで数値文字列
-                int half = budget / 2;
-                totalPrice = half * passenger;
-            } catch (NumberFormatException e) {
-                totalPrice = 12 * passenger; // 数字に変換できないときの fallback
-            }
-        } else if (tour != null) {
-            totalPrice = tour.getBasePrice().intValue() * passenger;
-        } else {
-            totalPrice = 12 * passenger;
-        }
+     // FlightBooking 保存
+     FlightBooking booking = new FlightBooking();
+     booking.setDeparture((departure instanceof JpAirport jp ? jp.getName() : ((Airport) departure).getName()));
+     booking.setDestination((destination instanceof JpAirport jp ? jp.getName() : ((Airport) destination).getName()));
+     booking.setDepartureCode(departureCode);
+     booking.setDestinationCode(destinationCode);
+     booking.setDate(date);
+     booking.setPassenger(passenger);
+     booking.setPrice(totalPrice);
+     booking.setBookingNumber(bookingNumber);
+     booking.setUser(user);
+     bookingRepo.save(booking);
 
+     // Model に情報を追加
+     model.addAttribute("bookingNumber", bookingNumber);
+     model.addAttribute("departure", departure);
+     model.addAttribute("destination", destination);
+     model.addAttribute("date", date);
+     model.addAttribute("passenger", passenger);
+     model.addAttribute("price", totalPrice);
+     model.addAttribute("tour", tour);
+     model.addAttribute("booking", booking);
 
-        // 予約番号生成
-        String bookingNumber = "FL-" + System.currentTimeMillis();
-
-        // FlightBooking 作成・保存
-        FlightBooking booking = new FlightBooking();
-        booking.setDeparture((departure instanceof JpAirport jp ? jp.getName() : ((Airport) departure).getName()));
-        booking.setDestination((destination instanceof JpAirport jp ? jp.getName() : ((Airport) destination).getName()));
-        booking.setDepartureCode(departureCode);
-        booking.setDestinationCode(destinationCode);
-        booking.setDate(date);
-        booking.setPassenger(passenger);
-        booking.setPrice(totalPrice);
-        booking.setBookingNumber(bookingNumber);
-        booking.setUser(user);
-        bookingRepo.save(booking);
-
-        // Model に情報を追加
-        model.addAttribute("bookingNumber", bookingNumber);
-        model.addAttribute("departure", departure);
-        model.addAttribute("destination", destination);
-        model.addAttribute("date", date);
-        model.addAttribute("passenger", passenger);
-        model.addAttribute("price", totalPrice);
-        model.addAttribute("tour", tour);
-        model.addAttribute("booking", booking);
-
-        return "flight/flight-complete";
-    }
-
+     return "flight/flight-complete";
+ }
+ 
     // -----------------------------
     // 🛠 ヘルパー: 国名判定
     // -----------------------------

@@ -1,4 +1,5 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -47,8 +48,10 @@
 		/* 画像グリッド */
 		.grid-container {
 			display: grid;
-			grid-template-columns: repeat(2, minmax(300px, 1fr)); /* 横2列固定・レスポンシブ対応 */
-			gap: 40px; /* 各カード間の余白 */
+			grid-template-columns: repeat(2, minmax(300px, 1fr));
+			/* 横2列固定・レスポンシブ対応 */
+			gap: 40px;
+			/* 各カード間の余白 */
 			padding: 60px;
 			justify-items: center;
 			align-items: start;
@@ -64,7 +67,8 @@
 			backdrop-filter: blur(8px) brightness(1.1);
 			transition: transform 0.3s ease, box-shadow 0.3s ease;
 			width: 100%;
-			max-width: 520px; /* ★ 横2列でバランスよく配置 */
+			max-width: 520px;
+			/* ★ 横2列でバランスよく配置 */
 			overflow: hidden;
 		}
 
@@ -76,8 +80,10 @@
 		/* 画像調整 */
 		.scenic-content img {
 			width: 100%;
-			height: 350px; /* ★ 高さを統一して整える */
-			object-fit: cover; /* 画像の縦横比を保ちつつトリミング */
+			height: 350px;
+			/* ★ 高さを統一して整える */
+			object-fit: cover;
+			/* 画像の縦横比を保ちつつトリミング */
 			border-radius: 10px;
 		}
 
@@ -168,7 +174,7 @@
 
 	<!-- 本文 -->
 	<main>
-		<h1 class="page-title">🌍 アクティビティ特集</h1>
+		<h1 class="page-title">🎢 テーマパーク特集</h1>
 
 		<div class="grid-container">
 
@@ -179,125 +185,81 @@
 					<a th:href="@{/region/006}">
 						<img th:src="@{/images/tourist_spot/009.jpg}" alt="ウォルト・ディズニー・ワールド・リゾート">
 					</a>
-					<h2>世界最大の夢と魔法の王国。４つのテーマパークと２つのウォーターパークで構成される巨大リゾートです。 シンデレラ城やスペース・マウンテンなど、誰もが知る象徴的なアトラクションが勢揃い。 最先端の技術と心温まるストーリーテリングが融合した、究極の没入体験が待っています。 キャラクターとのグリーティングや、夜空を彩る壮大な花火ショーは感動必至。 大人も子供も、日頃の現実を忘れ、純粋な喜びと興奮に満たされる場所。 あなたの"心のスイッチ"をオフにして、最高のファンタジーの世界に飛び込みましょう。
-						
+					<h2>世界最大の夢と魔法の王国。４つのテーマパークと２つのウォーターパークで構成される巨大リゾートです。 シンデレラ城やスペース・マウンテンなど、誰もが知る象徴的なアトラクションが勢揃い。
+						最先端の技術と心温まるストーリーテリングが融合した、究極の没入体験が待っています。 キャラクターとのグリーティングや、夜空を彩る壮大な花火ショーは感動必至。
+						大人も子供も、日頃の現実を忘れ、純粋な喜びと興奮に満たされる場所。 あなたの"心のスイッチ"をオフにして、最高のファンタジーの世界に飛び込みましょう。
+
 					</h2>
 				</div>
 			</div>
 
 			<!-- 2 -->
 			<div class="scenic-item">
-				<h3>ダイヤモンドヘッド（オアフ島）</h3>
+				<h3>ユニバーサル・スタジオ・ハリウッド</h3>
 				<div class="scenic-content">
-					<a th:href="@{/region/007}">
-						<img th:src="@{/images/tourist_spot/016.jpg}" alt="ダイヤモンドヘッド（オアフ島）">
+					<a th:href="@{/region/001}">
+						<img th:src="@{/images/tourist_spot/013.jpg}" alt="ユニバーサル・スタジオ・ハリウッド">
 					</a>
-					<h2>ワイキキの景色を完成させる、オアフ島の象徴的なランドマークの火山。 頂上までは約1.5時間で登頂可能で、初心者でも挑戦しやすいハイキングコース。
-						山頂にたどり着けば、青い海とワイキキの美しい街並みが眼下に広がる絶景が待っています。 早朝の日の出に合わせて登れば、感動的な光景に出会えるでしょう。
-						この場所から見る景色は、あなたのハワイ旅行の最高の思い出になるはずです。 少し汗をかいた先に待つ、オアフ島随一のパノラマビューを体験してください。</h2>
+					<h2>世界最大の夢と魔法の王国。４つのテーマパークと２つのウォーターパークで構成される巨大リゾートです。 シンデレラ城やスペース・マウンテンなど、誰もが知る象徴的なアトラクションが勢揃い。
+						最先端の技術と心温まるストーリーテリングが融合した、究極の没入体験が待っています。 キャラクターとのグリーティングや、夜空を彩る壮大な花火ショーは感動必至。
+						大人も子供も、日頃の現実を忘れ、純粋な喜びと興奮に満たされる場所。 あなたの"心のスイッチ"をオフにして、最高のファンタジーの世界に飛び込みましょう。
+						映画の世界に入り込み、ハリウッドの魔法を体験できるテーマパーク。 世界的に有名な映画をテーマにした、最新技術を駆使したスリル満点のアトラクション。
+						特に、映画のセットや制作過程を巡る「スタジオ・ツアー」は本場ならではの醍醐味。 『ハリー・ポッター』や『スーパー・ニンテンドー・ワールド』など人気エリアも充実。
+						映画ファンはもちろん、誰もが楽しめるエンターテイメントが詰まっています。 スクリーンの中の興奮を、ぜひこの場所で体感してください。</h2>
 				</div>
 			</div>
 
 			<!-- 3 -->
 			<div class="scenic-item">
-				<h3>キラウエア火山（ハワイ島）</h3>
+				<h3>バナヒルズ</h3>
 				<div class="scenic-content">
-					<a th:href="@{/region/007}">
-						<img th:src="@{/images/tourist_spot/018.jpg}" alt="キラウエア火山（ハワイ島）">
+					<a th:href="@{/region/024}">
+						<img th:src="@{/images/tourist_spot/078.jpg}" alt="バナヒルズ">
 					</a>
-					<h2>世界で最も活発な火山の一つで、今もなお活動を続ける自然の驚異。 国立公園内では、溶岩台地を歩き、蒸気が噴き出すクレーターの近くまで接近可能。
-						黒く固まった溶岩の上を歩けば、地球のエネルギーを肌で感じることができます。 噴火活動が活発な時期には、赤く光る溶岩が海に流れ込む幻想的な光景も。
-						生命の誕生と破壊を同時に見せてくれる、まさに「生きている地球」を体感しましょう。 自然の圧倒的な力を前に、言葉を失う感動があなたを包み込みます。</h2>
-				</div>
-			</div>
-
-			<!-- 4 -->
-			<div class="scenic-item">
-				<h3>ベスビオ火山</h3>
-				<div class="scenic-content">
-					<a th:href="@{/region/013}">
-						<img th:src="@{/images/tourist_spot/040.jpg}" alt="ベスビオ火山">
-					</a>
-					<h2>ポンペイなど古代都市を飲み込んだ、今も活動を続けるイタリア本土唯一の活火山。 山頂の火口付近まで登ることができ、地球のエネルギーを感じられます。
-						山頂からの眺めは、ナポリ湾と遠くの街並みを見渡す絶景です。 豊かな土壌から生まれるワインなど、火山の恵みを感じることもできます。 大地の力強さと、自然の脅威を肌で感じられる貴重な体験。
-						イタリアの歴史と自然を語る上で欠かせない、象徴的な存在です。</h2>
-				</div>
-			</div>
-
-			<!-- 5 -->
-			<div class="scenic-item">
-				<h3>エトナ山</h3>
-				<div class="scenic-content">
-					<a th:href="@{/region/016}">
-						<img th:src="@{/images/tourist_spot/049.jpg}" alt="エトナ山">
-					</a>
-					<h2>ヨーロッパ最大の活火山であり、今もなお活動を続ける自然の驚異。 標高が高く、年間を通じて雪を抱く姿は、南国のシチリアで異彩を放ちます。
-						ツアーに参加して火口付近まで登れば、地球の息吹を間近に感じられます。 火山活動によって形成された独特の景観や、肥沃な土地が育むブドウ畑も魅力。
-						その壮大さと、時折噴煙を上げる姿は、訪れる者に畏敬の念を抱かせます。 シチリアの大自然の力を体感できる、忘れられない体験を。</h2>
-				</div>
-			</div>
-
-			<!-- 6 -->
-			<div class="scenic-item">
-				<h3>ピラトゥス山</h3>
-				<div class="scenic-content">
-					<a th:href="@{/region/029}">
-						<img th:src="@{/images/tourist_spot/097.jpg}" alt="ピラトゥス山">
-					</a>
-					<h2>ルツェルン市街のすぐ近くにそびえる、伝説に満ちた山。 世界一急勾配の登山鉄道や、ロープウェイで山頂まで登頂できます。 山頂からは、ルツェルン湖やアルプスの山々の大パノラマを一望できます。
-						伝説の龍が住んでいたと言われる、神秘的な雰囲気を持つ場所。 様々な乗り物を乗り継ぎながら、山頂の絶景を目指す楽しい体験。 スイスの自然と伝説、そして絶景が楽しめる人気の観光スポットです。
+					<h2>標高1,500mの山頂に広がる、フランス風のテーマパーク。 世界最長のケーブルカーに乗って、山頂までの絶景の空中散歩を体験。 巨大な手の彫刻が橋を支える「ゴールデンブリッジ」はSNSで大人気。
+						涼しい気候と、ヨーロッパの古城のような建築が非日常を演出します。 ダナンの海辺の暑さを忘れ、山の上でファンタジーの世界を満喫。 ベトナムの自然とヨーロッパの文化が融合した、ユニークな場所です。
 					</h2>
 				</div>
 			</div>
 
-			<!-- 7 -->
-			<div class="scenic-item">
-				<h3>マッターホルン</h3>
-				<div class="scenic-content">
-					<a th:href="@{/region/030}">
-						<img th:src="@{/images/tourist_spot/098.jpg}" alt="マッターホルン">
-					</a>
-					<h2>鋭いピラミッド型の山容を持つ、世界で最も有名な山の一つ。 その威厳ある姿は、スイスアルプスの象徴として人々を魅了し続けます。 朝焼けや夕焼けに染まる姿は特に美しく、感動的な光景です。
-						ツェルマットの街のどこからでも、その雄大な姿を眺めることができます。 人類の挑戦の歴史が詰まった、アルプスの孤高の美を体感してください。 見る者の魂を揺さぶる、山岳景観の最高傑作です。
-					</h2>
-				</div>
-			</div>
 
-			<!-- 8 -->
-			<div class="scenic-item">
-				<h3>カタ・ジュタ</h3>
-				<div class="scenic-content">
-					<a th:href="@{/region/032}">
-						<img th:src="@{/images/tourist_spot/107.jpg}" alt="カタ・ジュタ">
-					</a>
-					<h2>ウルルの近くに位置する、36の巨大な岩のドーム群からなる景勝地。 「多くの頭」を意味し、ウルルと同様にアボリジニにとって神聖な場所です。
-						「風の谷」などのウォーキングトレイルでは、岩の間を歩くことができます。 ウルルとは異なる、ゴツゴツとした力強い造形美が魅力。
-						ウルルとセットで訪れ、オーストラリアのもう一つの壮大な自然の驚異を体験。 大地の息吹と、雄大な景色の迫力を全身で感じてください。</h2>
-				</div>
-			</div>
-
-		</div>
 	</main>
 
-	<!-- フッター -->
-	<footer>
-		<a href="javascript:history.back()" class="back-button">← 戻る</a>
-		<p>© 2025 TRAVEL POP!</p>
-	</footer>
-</body>
+		<!-- フッター -->
+		<footer>
+			<a href="javascript:history.back()" class="back-button">← 戻る</a>
+			<p>© 2025 TRAVEL POP!</p>
+		</footer>
+	</body>
 
-</html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>2</h1>
-	<div>
-	  <button class="back-button" onclick="history.back()">← 前に戻る</button>
-	  <a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
-	</div>
+	</html>
+	<html>
 
-</body>
-</html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h1>2</h1>
+		<div>
+			<button class="back-button" onclick="history.back()">← 前に戻る</button>
+			<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+		</div>
+
+	</body>
+
+	</html>
+	<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h1>3</h1>
+		<div>
+			<button class="back-button" onclick="history.back()">← 前に戻る</button>
+			<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
+		</div>
+
+	</body>
+
+	</html>

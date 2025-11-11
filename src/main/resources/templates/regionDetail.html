@@ -167,7 +167,9 @@
 
     <!-- 航空券ボタン -->
     <div class="bottom-buttons">
-      <a th:href="@{/flight/search(region=${region.name})}" class="btn next-btn">✈️ この地域への航空券を探す</a>
+		<a th:href="@{/flight/search(regionId=${region.id})}" class="btn next-btn">
+		  ✈️ この地域への航空券を探す
+		</a>
     </div>
 
   </main>
