@@ -39,18 +39,40 @@ public class TourDataLoader implements ApplicationRunner {
 	                        // if (arr.length < 7) return;
 
 	                        TourEntity to = new TourEntity();
-	                        //to.setCountryId(Long.parseLong(arr[1]));
+	                        to.setCountryId(parseLongOrNull(arr[1]));
 	                        to.setCountryName(arr[2]);
 	                        to.setTitle(arr[3]);
 	                        to.setDescription(arr[4]);
-	                        to.setBasePrice(Long.parseLong(arr[5]));
-	                        to.setSchedule(Long.parseLong(arr[6]));
+	                        to.setBasePrice(parseLongOrNull(arr[5]));
+	                        to.setSchedule(parseLongOrNull(arr[6]));
 	                        to.setImageUrl(arr[7]);
 	                        to.setImageUrl2(arr[8]);
+	                        to.setJapanAirCode(arr[9]);
+	                        to.setAirCode(arr[10]);
 	                        tourRepo.save(to);
 	                        
-	                    });
+	                    });System.out.println("✅ tour.csv 読み込み完了");
+	                    
 	        } catch (IOException e) { e.printStackTrace(); }}
+	 
+	// null用
+	 private Long parseLongOrNull(String csvValue) {
+	     if (csvValue == null || csvValue.trim().isEmpty() || csvValue.equalsIgnoreCase("null")) {
+	         // "null"という文字列、または空、nullを検出した場合
+	         return null; 
+	     }
+	     try {
+	         return Long.parseLong(csvValue.trim());
+	         
+	         
+	         
+	     } catch (NumberFormatException e) {
+	         System.err.println("不正な数値データが見つかりました: " + csvValue);
+	         // 不正な値は null として処理を続行
+	         return null; 
+	     }
+	 }
+	 
 	 
 	// アプリ起動時処理
 	 @Transactional
