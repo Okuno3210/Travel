@@ -8,12 +8,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Concept;
 import com.example.demo.entity.Country;
 import com.example.demo.entity.Region;
 
@@ -24,6 +26,7 @@ public class SelectService {
 	
 	private List<Country> countryData = new ArrayList<>();
     private List<Region> regionData = new ArrayList<>();
+    private List<Concept> conceptData = new ArrayList<>();
    
     
     
@@ -32,7 +35,9 @@ public class SelectService {
     @PostConstruct
     public void inData() {
         loadCountryData();
+        loadConceptData();
         loadRegionData();
+        loadRegionConceptData();
     }
     
     
@@ -90,8 +95,10 @@ public class SelectService {
                     region.setClimate(cols[6]);
                     region.setRiskLevel(cols[7]);
                     region.setDescription(cols[8]);
-             
+              
 
+                    region.setConcepts(new ArrayList<>());
+                    
                     regionData.add(region);
                 }
             }
@@ -104,7 +111,44 @@ public class SelectService {
         }
     }
     
-  
+    public void loadConceptData() {
+        try (InputStream inputStream = getClass().getResourceAsStream("/data/concept.csv")) {
+            if (inputStream == null) {
+                throw new IllegalStateException("CSVファイルが見つかりません: /data/concept.csv");
+            }
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+
+                String line;
+                boolean isHeader = true;
+
+                while ((line = reader.readLine()) != null) {
+                    if (isHeader) {
+                        isHeader = false;
+                        continue;
+                    }
+
+                    String[] cols = line.split(",", -1);
+                    if (cols.length < 2) {
+                        System.err.println("⚠️ 無効なCSV行: " + line);
+                        continue;
+                    }
+
+                    Concept concept = new Concept();
+                    concept.setId(Long.parseLong(cols[0]));
+                    concept.setName(cols[1]);
+                    conceptData.add(concept);
+                }
+
+                System.out.println("✅ CSVから " + conceptData.size() + " 件のコンセプトデータを読み込みました。");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ concept.csv読み込み中にエラー: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
     public void loadCountryData(){
         try {
             // resources/data/region.csv を取得
@@ -152,6 +196,39 @@ public class SelectService {
         e.printStackTrace();
     }
     }
+    
+    public void loadRegionConceptData() {
+        try (InputStream inputStream = getClass().getResourceAsStream("/data/region_concept.csv")) {
+            if (inputStream == null) throw new IllegalStateException("region_concept.csv が見つかりません");
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                reader.lines().skip(1).forEach(line -> {
+                    String[] cols = line.split(",", -1);
+                    if (cols.length < 3) return;
+
+                    Long regionId = Long.parseLong(cols[1]);
+                    Long conceptId = Long.parseLong(cols[2]);
+
+                    Region region = regionData.stream()
+                            .filter(r -> r.getId().equals(regionId))
+                            .findFirst()
+                            .orElse(null);
+                    Concept concept = conceptData.stream()
+                            .filter(c -> c.getId().equals(conceptId))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (region != null && concept != null) {
+                        region.getConcepts().add(concept);
+                    }
+                });
+                System.out.println("✅ region_concept.csv から Region↔Concept 紐付け完了");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     // ✅ 全件取得
   public List<Region> getAllRegions() {
     	
@@ -162,6 +239,9 @@ public class SelectService {
 	    return countryData;
 	}
   
+  public List<Concept> getAllConcepts() {
+      return conceptData;
+  }
   
   /** 予算 (budgetInt) をフィルタリングカテゴリ (low, medium, high) に変換 */
   public String getRegionBudget(String budget) {
@@ -214,35 +294,55 @@ public class SelectService {
   
     
     // ✅ 条件でフィルタリング（予算・気候など）
-    public List<Region> getFilteredRegions(String budget, String time, String climate, String timezone) {
-        return regionData.stream()
-            .filter(region ->
-                (budget.isEmpty() || region.getBudget().equals(budget)) &&
-                (time.isEmpty() || region.getFlightTime().equals(time)) &&
-                (climate.isEmpty() || region.getClimate().equals(climate)) &&
-                (timezone.isEmpty() || matchTimezone(region.getTimezone(), timezone))
-            )
-            .toList();
+  public List<Region> getFilteredRegions(String budget, String time, String timezone, String concept) {
+      return regionData.stream()
+              .filter(region ->
+                      (budget.isEmpty() || region.getBudget().equals(budget)) &&
+                      (time.isEmpty() || region.getFlightTime().equals(time)) &&
+                      (timezone.isEmpty() || matchTimezone(region.getTimezone(), timezone)) &&
+                      (concept.isEmpty() || hasConcept(region, concept))
+              )
+              .collect(Collectors.toList());
+  }
+    
+    private boolean hasConcept(Region region, String conceptName) {
+        if (region.getConcepts() == null) return false;
+        return region.getConcepts().stream()
+            .anyMatch(c -> c.getName().equalsIgnoreCase(conceptName));
     }
 
     // ✅ 時差フィルタ（数値で比較）
     private boolean matchTimezone(String tzStr, String selectedRange) {
-        if (selectedRange.isEmpty()) return true;
+        if (selectedRange == null || selectedRange.isEmpty()) return true;
+        if (tzStr == null || tzStr.isEmpty()) return false;
+
         try {
-            double tz = Double.parseDouble(tzStr);
+            // ✅ 数字部分だけ抽出（例: "UTC+9" → "9"、"GMT-3" → "-3"）
+            String cleaned = tzStr.replaceAll("[^0-9\\-\\.]", "");
+            if (cleaned.isEmpty()) return false;
+
+            double tz = Double.parseDouble(cleaned);
+
+            // ✅ 特殊値対応
             if (selectedRange.endsWith("_plus")) return tz >= 12;
             if (selectedRange.endsWith("_minus")) return tz <= -12;
 
+            // ✅ 範囲値をパース
             boolean isPositive = selectedRange.startsWith("+");
             String[] parts = selectedRange.substring(1).split("_");
+            if (parts.length != 2) return true;
+
             double start = Double.parseDouble(parts[0]);
             double end = Double.parseDouble(parts[1]);
 
-            return isPositive
-                ? tz >= start && tz < end
-                : tz > -end && tz <= -start;
+            if (isPositive) {
+                return tz >= start && tz < end;
+            } else {
+                // 例: selectedRange = "-3_6" → tz=-4 はマッチ
+                return tz > -end && tz <= -start;
+            }
         } catch (Exception e) {
-            return true;
+            return false;
         }
     }
 
