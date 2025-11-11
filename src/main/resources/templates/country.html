@@ -112,7 +112,10 @@
     </section>
 	
 	<div class="bottom-buttons">
-	    <a th:href="@{/flight/search(country=${country.name})}" class="footer-btn1" sec:authorize="hasRole('USER')">✈️ 航空券を探す</a>
+		<a th:href="@{/flight/search(countryId=${country.id})}" 
+		   class="footer-btn1" sec:authorize="hasRole('USER')">
+		  ✈️ 航空券を探す
+		</a>
 
 	    <form th:action="@{/favorites/add/{countryId}(countryId=${country.id})}"  method="post"
 	          sec:authorize="hasRole('USER')">

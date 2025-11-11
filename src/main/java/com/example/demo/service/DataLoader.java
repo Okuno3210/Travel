@@ -153,7 +153,7 @@ public class DataLoader implements ApplicationRunner {
             br.lines().skip(1).filter(line -> !line.trim().isEmpty())
                     .forEach(line -> {
                         String[] arr = line.split(",");
-                        if (arr.length < 9) return;
+                        if (arr.length < 10) return;
 
                         Region r = new Region();
                         r.setName(arr[2]);
@@ -277,12 +277,22 @@ public class DataLoader implements ApplicationRunner {
             br.lines().skip(1).filter(line -> !line.trim().isEmpty())
                     .forEach(line -> {
                         String[] arr = line.split(",");
-                        if (arr.length < 4) return;
+                        if (arr.length < 6) return;
 
                         Airport a = new Airport();
                         a.setName(arr[1].trim());
                         a.setCode(arr[2].trim());
-                        a.setCountry(arr[3].trim());
+                        
+                        Long regionId = Long.parseLong(arr[3].trim());
+                        Region region = regionRepo.findById(regionId).orElse(null);
+                        a.setRegion(region);
+                        
+                        Long countryId = Long.parseLong(arr[4].trim());
+                        Country country = countryRepo.findById(countryId).orElse(null);
+                        a.setCountry(country);
+                        
+                        a.setDescription(arr[5].trim());
+                        
                         airportRepo.save(a);
                     });
 

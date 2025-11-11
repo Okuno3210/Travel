@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Airport;
+import com.example.demo.entity.Country;
 import com.example.demo.entity.FlightBooking;
 import com.example.demo.entity.JpAirport;
 import com.example.demo.entity.Region;
 import com.example.demo.entity.TourEntity;
 import com.example.demo.entity.User;
 import com.example.demo.repository.AirportRepository;
+import com.example.demo.repository.CountryRepository;
 import com.example.demo.repository.FlightBookingRepository;
 import com.example.demo.repository.JpAirportRepository;
 import com.example.demo.repository.RegionAirportRepository;
@@ -47,6 +49,8 @@ public class FlightController {
     @Autowired private UserRepository userRepository;
     @Autowired private RegionRepository regionRepo;
     @Autowired private RegionAirportRepository regionAirportRepo;
+    @Autowired private CountryRepository countryRepo;
+
 
     // -----------------------------
     // ✈ 航空券検索画面
@@ -54,8 +58,7 @@ public class FlightController {
     @GetMapping("/search")
     public String showFlightSearch(
             @RequestParam(required = false) Long regionId,
-            @RequestParam(required = false) String country,
-            @RequestParam(required = false) String region,
+            @RequestParam(required = false) Long countryId,
             Model model) {
 
         List<Airport> airports;
@@ -63,15 +66,23 @@ public class FlightController {
 
         if (regionId != null) {
             airports = regionAirportRepo.findAirportsByRegionId(regionId);
-            Region regionEntity = regionRepo.findById(regionId).orElse(null);
-            model.addAttribute("selectedRegion", regionEntity != null ? regionEntity.getName() : "");
+            Region region = regionRepo.findById(regionId).orElse(null);
+            model.addAttribute("selectedRegion", region != null ? region.getName() : "地域未指定");
+        } else if (countryId != null) {
+            // ✅ 国名で空港を絞る（これが追加部分）
+        	 Country country = countryRepo.findById(countryId).orElse(null);
+        	    if (country != null) {
+        	        airports = airportRepo.findByCountry(country);
+        	        model.addAttribute("selectedRegion", country.getName());
+        	    } else {
+        	        airports = airportRepo.findAll();
+        	    }
         } else {
             airports = airportRepo.findAll();
+            model.addAttribute("selectedRegion", "全空港");
         }
 
         model.addAttribute("airports", airports);
-        model.addAttribute("country", country);
-        model.addAttribute("region", region);
         model.addAttribute("japanAirports", jpAirport);
 
         return "flight/flight-search";
