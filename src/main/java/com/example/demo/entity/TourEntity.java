@@ -26,8 +26,7 @@ public class TourEntity {
     private Long schedule;
     private String imageUrl;
     private String imageUrl2;
-    private String japanAirCode;
-    private String airCode;
+  
     
 //    @ManyToOne
 //    @JoinColumn(name = "country_id")
