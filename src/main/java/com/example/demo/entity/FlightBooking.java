@@ -45,6 +45,9 @@ public class FlightBooking {
     // 予約番号（例：FL-1730792012345）
     private String bookingNumber;
     
+    //region.csvのflight_time、空港検索結果の所要時間用
+    private String flightTime;
+    
     // ユーザー
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
