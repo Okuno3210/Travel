@@ -1,43 +1,12 @@
-id,countryId,countryName,title,description,base_price,schedule,imageUrl,imageUrl2,japanAirCode,airCode
-1,1,USA,アメリカンパリピツアー(7泊9日),日本→(飛行機10h)→ロサンゼルス(飛行機1.5h)→ラスベガス→(車4.5h)→アリゾナ州→(飛行機4.5h)→フロリダ州→(飛行機3h)→ニューヨーク→(列車2.5h)→ワシントンD.C.→(飛行機12.5h)→ハワイ→(飛行機8.5h)→日本(移動時間計47h),26,9,/images/region/001.jpg,/images/region/006.jpg,null,LAX
-2,1,USA,null,null,null,null,null,null,null,LAS
-3,1,USA,null,null,null,null,null,null,null,PHX
-4,1,USA,null,null,null,null,null,null,null,JFK
-5,1,USA,null,null,null,null,null,null,null,IAD
-6,1,USA,null,null,null,null,null,null,null,MIA
-7,1,USA,null,null,null,null,null,null,null,HNL
-8,2,Italy,シーザーと海辺を堪能イタリア南下ツアー(8泊10日),日本→(飛行機12h)→ミラノ→(列車2.5h)→ベネチア→(列車2.2h)→フィレンツェ→(列車1.5h)→ローマ・バチカン(列車1.2h)→ナポリ(車とフェリー1.2h)→アマルフィ海岸・カプリ島→(車とフェリー1.2h)→(ナポリに戻りフェリー1h)→シチリア島→(列車1.5h)→チンクエテッレ→(飛行機16h)→日本(移動時間計39h),27,10,/images/country/Italy.png,/images/tourist_spot/050.jpg,null,FCO
-9,2,Italy,null,null,null,null,null,null,null,FLR
-10,2,Italy,null,null,null,null,null,null,null,VCE
-11,2,Italy,null,null,null,null,null,null,null,MXP
-12,2,Italy,null,null,null,null,null,null,null,NAP
-13,2,Italy,null,null,null,null,null,null,null,CTA
-14,2,Italy,null,null,null,null,null,null,null,PSA
-15,3,France,芸術の国でワイン飲んだくれツアー(5泊7日),日本→(飛行機12h)→パリ→(列車4.5h)→モンサンミッシェル島→(列車3h)→ロワール地方→(列車3h)→リヨン→(列車4.7h)→ニース→(パリへ戻る、列車5.5h)→(飛行機12h)→日本(移動時間計45h),26,7,/images/tourist_spot/057.jpg,/images/region/018.jpg,null,CDG
-16,3,France,null,null,null,null,null,null,null,NCE
-17,4,Vietnam,ベトナム縦断ツアー(3泊4日),日本→(飛行機6h)→ハノイ→(飛行機1.5h)→ダナン→(バス1h)→ホイアン→(飛行機2h)→ホーチミン→(飛行機6h)→日本(移動時間計16.5h),21,4,/images/tourist_spot/077.jpg,/images/country/Vietnam.png,,HAN
-18,4,Vietnam,null,null,null,null,null,null,null,DAD
-19,4,Vietnam,null,null,null,null,null,null,null,SGN
-20,5,Switzerland,時計回りで行くスイス周遊(4泊6日),日本→(飛行機12h)→チューリッヒ→(電車1h)→ルツェルン→(電車2h)→ユングフラウ地方→(電車2.5h)→ツェルマット→(電車3.5h)→(チューリッヒに戻る、飛行機12h)→日本(移動時間計33h),39,6,/images/tourist_spot/100.jpeg,/images/country/Switzerland.png,null,ZRH
-21,6,Australia,国の紋章！年がら年中前のめりのカンガルーとオーストラリアを楽しむ前のめりツアー(4泊6日),日本→(飛行機7.5h)→ケアンズ→(飛行機4.5h)→ウルル→(飛行機3h)→メルボルン→(飛行機4h)→ロットネスト島→(飛行機1.5h)→(パースに戻る、飛行機4.5h)→シドニー→(飛行機9.5h)→日本(移動時間計34.5h),40,6,/images/tourist_spot/106.jpg,/images/country/Australia-k.png,null,CNS
-22,6,Australia,null,null,null,null,null,null,null,SYD
-23,7,null,null,null,null,null,null,null,null,BKK
-24,7,null,null,null,null,null,null,null,null,HKT
-25,8,Egypt,エジプト ナイル川下り(6泊8日),日本→(飛行機16h)→カイロ→(飛行機1h)→ルクソール→(船4day)→アスワン→(カイロに戻る、飛行機1.5h)→(飛行機16h)→日本(移動時間計44.5h),28,8,/images/tourist_spot/130.jpg,/images/region/040.jpg,null,CAI
-26,8,Egypt,null,null,null,null,null,null,null,LXR
-27,9,Iran,アッラーの足跡を辿るイラン巡礼ツアー(4泊6日),日本→(飛行機15h)→テヘラン→(飛行機1h)→イスファハン→(バス4h)→ヤズド→(バス6h)→シラーズ(飛行機1.5h)→(テヘランへ戻る、飛行機15h)→日本(移動時間計42.5h),22,6,/images/country/Iran.png,/images/tourist_spot/152.jpg,null,IKA
-28,10,India,インドで解脱しよう！ゴールデントライアングルツアー(3泊5日),日本→(飛行機8.5h)→デリー→(車4h)→アグラ→(車5h)→ジャイプール→(車6h)→(デリーへ戻る、飛行機8.5h)→日本(移動時間計32h),16,5,/images/country/India.png,/images/country/india_stupa.jpeg,null,DEL
-29,11,China,中華統一するよ！中国四千年ツアー(3泊4日),日本→(飛行機5.5h)→西安→(鉄道6h)→北京→(飛行機2.5h)→上海→(飛行機3h)→日本(移動時間計17h),21,4,/images/region/048.jpg,/images/country/China.jpg,null,PEK
-30,11,China,null,null,null,null,null,null,null,PVG
-31,12,null,null,null,null,null,null,null,null,LED
-32,12,null,null,null,null,null,null,null,null,SVO
-33,13,Korea,韓国のお餅おいしい　グルメ＆ショッピング＆整形ツアー(3泊4日),日本→(飛行機2.5h)→ソウル→(鉄道6h)→釜山→(飛行機1.3h)→済州島→(飛行機3h)→日本日本(移動時間計10.2h),13,4,/images/region/053.jpg,/images/tourist_spot/199.jpg,null,ICN
-34,13,Korea,null,null,null,null,null,null,null,PUS
-35,13,Korea,null,null,null,null,null,null,null,CJU
-36,null,null,null,null,null,null,null,null,NRT,null
-37,null,null,null,null,null,null,null,null,HND,null
-38,null,null,null,null,null,null,null,null,KIX,null
-39,null,null,null,null,null,null,null,null,NGO,null
-40,null,null,null,null,null,null,null,null,CTS,null
-41,null,null,null,null,null,null,null,null,FUK,null
-42,null,null,null,null,null,null,null,null,OKA,null
+id,countryId,countryName,title,description,base_price,schedule,imageUrl,imageUrl2
+1,1,USA,アメリカンパリピツアー(7泊9日),日本→(飛行機10h)→ロサンゼルス(飛行機1.5h)→ラスベガス→(車4.5h)→アリゾナ州→(飛行機4.5h)→フロリダ州→(飛行機3h)→ニューヨーク→(列車2.5h)→ワシントンD.C.→(飛行機12.5h)→ハワイ→(飛行機8.5h)→日本(移動時間計47h),26,9,/images/region/001.jpg,/images/region/006.jpg
+2,2,Italy,シーザーと海辺を堪能イタリア南下ツアー(8泊10日),日本→(飛行機12h)→ミラノ→(列車2.5h)→ベネチア→(列車2.2h)→フィレンツェ→(列車1.5h)→ローマ・バチカン(列車1.2h)→ナポリ(車とフェリー1.2h)→アマルフィ海岸・カプリ島→(車とフェリー1.2h)→(ナポリに戻りフェリー1h)→シチリア島→(列車1.5h)→チンクエテッレ→(飛行機16h)→日本(移動時間計39h),27,10,/images/country/Italy.png,/images/tourist_spot/050.jpg
+3,3,France,芸術の国でワイン飲んだくれツアー(5泊7日),日本→(飛行機12h)→パリ→(列車4.5h)→モンサンミッシェル島→(列車3h)→ロワール地方→(列車3h)→リヨン→(列車4.7h)→ニース→(パリへ戻る、列車5.5h)→(飛行機12h)→日本(移動時間計45h),26,7,/images/tourist_spot/057.jpg,/images/region/018.jpg
+4,4,Vietnam,ベトナム縦断ツアー(3泊4日),日本→(飛行機6h)→ハノイ→(飛行機1.5h)→ダナン→(バス1h)→ホイアン→(飛行機2h)→ホーチミン→(飛行機6h)→日本(移動時間計16.5h),21,4,/images/tourist_spot/077.jpg,/images/country/Vietnam.png
+5,5,Switzerland,時計回りで行くスイス周遊(4泊6日),日本→(飛行機12h)→チューリッヒ→(電車1h)→ルツェルン→(電車2h)→ユングフラウ地方→(電車2.5h)→ツェルマット→(電車3.5h)→(チューリッヒに戻る、飛行機12h)→日本(移動時間計33h),39,6,/images/tourist_spot/100.jpeg,/images/country/Switzerland.png
+6,6,Australia,国の紋章！年がら年中前のめりのカンガルーとオーストラリアを楽しむ前のめりツアー(4泊6日),日本→(飛行機7.5h)→ケアンズ→(飛行機4.5h)→ウルル→(飛行機3h)→メルボルン→(飛行機4h)→ロットネスト島→(飛行機1.5h)→(パースに戻る、飛行機4.5h)→シドニー→(飛行機9.5h)→日本(移動時間計34.5h),40,6,/images/tourist_spot/106.jpg,/images/country/Australia-k.png
+7,8,Egypt,エジプト ナイル川下り(6泊8日),日本→(飛行機16h)→カイロ→(飛行機1h)→ルクソール→(船4day)→アスワン→(カイロに戻る、飛行機1.5h)→(飛行機16h)→日本(移動時間計44.5h),28,8,/images/tourist_spot/130.jpg,/images/region/040.jpg
+8,9,Iran,アッラーの足跡を辿るイラン巡礼ツアー(4泊6日),日本→(飛行機15h)→テヘラン→(飛行機1h)→イスファハン→(バス4h)→ヤズド→(バス6h)→シラーズ(飛行機1.5h)→(テヘランへ戻る、飛行機15h)→日本(移動時間計42.5h),22,6,/images/country/Iran.png,/images/tourist_spot/152.jpg
+9,10,India,インドで解脱しよう！ゴールデントライアングルツアー(3泊5日),日本→(飛行機8.5h)→デリー→(車4h)→アグラ→(車5h)→ジャイプール→(車6h)→(デリーへ戻る、飛行機8.5h)→日本(移動時間計32h),16,5,/images/country/India.png,/images/country/india_stupa.jpeg
+10,11,China,中華統一するよ！中国四千年ツアー(3泊4日),日本→(飛行機5.5h)→西安→(鉄道6h)→北京→(飛行機2.5h)→上海→(飛行機3h)→日本(移動時間計17h),21,4,/images/region/048.jpg,/images/country/China.jpg
+11,13,Korea,韓国のお餅おいしい　グルメ＆ショッピング＆整形ツアー(3泊4日),日本→(飛行機2.5h)→ソウル→(鉄道6h)→釜山→(飛行機1.3h)→済州島→(飛行機3h)→日本日本(移動時間計10.2h),13,4,/images/region/053.jpg,/images/tourist_spot/199.jpg

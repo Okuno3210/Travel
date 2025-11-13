@@ -18,7 +18,7 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
     List<Airport> findByRegion(Region region);
     
     //↓ツアー一覧から空港検索画面遷移用
-    List<Airport> findByCodeIn(List<String> codes);
+    List<Airport> findByCountryId(Long countryId);
 
 
 

@@ -47,8 +47,7 @@ public class TourDataLoader implements ApplicationRunner {
 	                        to.setSchedule(parseLongOrNull(arr[6]));
 	                        to.setImageUrl(arr[7]);
 	                        to.setImageUrl2(arr[8]);
-	                        to.setJapanAirCode(arr[9]);
-	                        to.setAirCode(arr[10]);
+	                        
 	                        tourRepo.save(to);
 	                        
 	                    });System.out.println("✅ tour.csv 読み込み完了");
