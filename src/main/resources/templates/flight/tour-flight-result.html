@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--flight-result.htmlをコピー、最後から７行目の再検索ページの遷移先のみ変更-->
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券検索結果 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  
+  <style>
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 30px;
+	 }
+	 
+  main{
+  	padding-top: 100px;
+  }
+  </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
+  
+</head>
+<body>
+	
+	<header th:replace="fragments/header :: header"></header>
+ 
+    <h1>🛫 航空券検索結果</h1>
+  
+
+  <main class="flight-result">
+    <!-- 出発地・目的地 -->
+    <h2 th:text="'出発地: ' + ${departure.name} + '（' + ${departure.code} + '） → 目的地: ' + ${destination.name} + '（' + ${destination.code} + '）'"></h2>
+    <p th:text="'出発日: ' + ${date}"></p>
+    <p th:text="'人数: ' + ${passenger} + '名'"></p>
+
+    <!-- 結果カード -->
+    <div class="result-card">
+      <p th:text="'最安値: 約' + ${price} + '万円～'"></p>
+      <p>航空会社：ANA / JAL / United など</p>
+      <p>所要時間：およそ 10 時間</p>
+    </div>
+
+    <!-- ✅ 確認ページへ進むフォーム -->
+    <form th:action="@{/flight/confirm}" method="get" class="confirm-form">
+      <input type="hidden" name="departureCode" th:value="${departure.code}">
+      <input type="hidden" name="destinationCode" th:value="${destination.code}">
+      <input type="hidden" name="date" th:value="${date}">
+      <input type="hidden" name="passenger" th:value="${passenger}">
+      <input type="hidden" name="price" th:value="${price}">
+      <button type="submit" class="btn">この便を予約する</button>
+    </form>
+
+    <!-- 再検索ボタン ツアー一覧ページからのcountryIdを持ってる状態の検索画面
+		flight-search.html　に戻る-->
+    <a href="/tour/flight/search(countryId=${tour?.id})}" class="btn back-btn">
+		🔁 再検索する</a>
+	<a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
+  </main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

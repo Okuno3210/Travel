@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--flight-search.htmlをコピー、空港検索方法のみ変更-->
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>航空券検索 | TravelMap</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f7faff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 100px 20px 0 50px;
+    }
+
+    .search-form {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #00c6ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .back-btn {
+      background: #aaa;
+    }
+
+    .back-btn:hover {
+      background: #888;
+    }
+	
+	.google_translate_element{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	 }
+	 
+	 .translate-box {
+	   position: absolute;
+	   left: 350px;
+	   top: 30px;
+	 }
+  </style>
+  
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+    }
+  </script>
+  <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script defer th:src="@{/js/script.js}"></script>
+  
+</head>
+<body>
+	
+	<header th:replace="fragments/header :: header"></header>
+    <h1>✈️ 航空券検索</h1>
+  <main class="flight-search">
+    <form th:action="@{/flight/result}" method="get" class="search-form">
+		<input type="hidden" name="countryId" th:if="${tour}" th:value="${tour.id}" />
+		<!--検索ボタンを押した時countryIdがパラメータとして渡され、countryIdが
+		絡む空港のみ選択肢に出る-->
+	
+		<label>出発地:</label>
+		<select id="departure" name="departureCode" required>
+		  <option value="">選択してください</option>
+		  <option th:each="a : ${japanAirports}" 
+		          th:value="${a.code}" 
+		          th:text="${a.name + ' (' + a.code + ')'}">
+		  </option>
+		</select>
+		
+		<label>目的地:</label>
+		<select id="destination" name="destinationCode" required>
+		  <option value="">選択してください</option>
+		  <option th:each="a : ${airports}"
+		          th:value="${a.code}"
+		          th:text="${a.name + ' (' + a.code + ') - ' + a.country}">
+		  </option>
+		</select>
+      
+		<label>出発日:</label>
+      <input type="date" name="date" required>
+      <label>人数:</label>
+      <input type="number" name="passenger" min="1" value="1">
+	  <button type="button" onclick="swapSelects()">⟷ 出発地・目的地を入れ替え</button>
+      <button type="submit" class="btn">検索する</button>
+    </form>
+  </main>
+  
+  <div>
+    <a href="/" class="btn back-btn">🏠 トップへ戻る</a>
+	<a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
+  </div>
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<script>
+	function swapSelects() {
+	  const dep = document.getElementById('departure');
+	  const dest = document.getElementById('destination');
+
+	  // 選択状態を一時保存
+	  const depValue = dep.value;
+	  const destValue = dest.value;
+
+	  // innerHTMLを入れ替え
+	  const tempHTML = dep.innerHTML;
+	  dep.innerHTML = dest.innerHTML;
+	  dest.innerHTML = tempHTML;
+
+	  // valueを元に選択状態を再設定
+	  dep.value = destValue;
+	  dest.value = depValue;
+	}
+	</script>
+
+	
+</body>
+</html>
