@@ -104,11 +104,22 @@ public class TourFlightController {
             model.addAttribute("error", "出発地または目的地の空港情報が見つかりません。");
             return "flight/tour-flight-search";
         }
+        
+        //所要時間用
+        String flightTime = "不明"; // 初期値
+        // 目的地が海外空港 (Airport) の場合、そのRegionから所要時間を取得
+        if (destination instanceof Airport airDestination1) {
+            // Airport -> Region を辿って flightTime を取得
+            if (airDestination1.getRegion() != null) {
+                flightTime = airDestination1.getRegion().getFlightTime();
+            }
+        } //所要時間用ここまで
 
         model.addAttribute("departure", departure);
         model.addAttribute("destination", destination);
         model.addAttribute("date", date);
         model.addAttribute("passenger", passenger);
+        model.addAttribute("flightTime", flightTime); //所要時間用
         
         //価格計算
         FlightBooking booking = null;

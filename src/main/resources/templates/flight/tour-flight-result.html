@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--flight-result.htmlをコピー、最後から７行目の再検索ページの遷移先のみ変更-->
+<!--flight-result.htmlをコピー、最後から７行目の再検索ページの遷移先、所要時間部分変更-->
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -52,7 +52,7 @@
     <div class="result-card">
       <p th:text="'最安値: 約' + ${price} + '万円～'"></p>
       <p>航空会社：ANA / JAL / United など</p>
-      <p>所要時間：およそ 10 時間</p>
+      <p th:text="'所要時間：'+ ${flightTime}"></p>
     </div>
 
     <!-- ✅ 確認ページへ進むフォーム -->
