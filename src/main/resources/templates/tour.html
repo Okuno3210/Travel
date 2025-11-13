@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>ツアー特集</title>
 	<!--外部css-->
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<!--<link rel="stylesheet" th:href="@{/css/top.css}" /> 2つかいたら背景が二重になる-->
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 
@@ -50,12 +50,19 @@
 
 		h1 {
 			/* ページタイトル */
-			margin: -10px 0 10px;
+			margin: 0px 0 10px;
 			font-size: 48px;
 			font-weight: 800;
-			color: #00A2B8;
-			text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+			color: white;/*color: #00A2B8;*/
+			text-shadow: 
+			       /* -1px -1px 0 #FFF,   左上に白影 
+			         1px -1px 0 #FFF,   右上 
+			        -1px  1px 0 #FFF,   左下 
+			         1px  1px 0 #FFF,   右下 */
+			         
+					 2px 2px 5px rgba(0, 0, 0, 0.1);
 			letter-spacing: 0.05em;
+			
 		}
 
 		#tours table {
@@ -111,7 +118,7 @@
 			display: inline-block;
 			background-color: rgba(0, 0, 0, 0.5);
 			color: white;
-			width: 100%;
+			width: 90%;
 			/* 箱は丸画像の幅いっぱい */
 			margin: 8px 0 0 0;
 			/* 画像との間に少しスペース */
@@ -274,7 +281,7 @@
 			 }
 	</style>
 	
-	<script> //言語を選択用、左上にしか出ない
+	<script> //言語を選択用
 	   function googleTranslateElementInit() {
 	     new google.translate.TranslateElement({pageLanguage: 'ja'}, 
 		 'google_translate_element');
@@ -291,13 +298,13 @@
 	<!-- 共通ヘッダー-->
 	<header th:insert="fragments/header :: header"> </header>
 	
-	<!--言語を選択用　意図した位置に出ない
+	<!--言語を選択用　意図した位置に出ない→出てる
 		<header><div th:insert="fragments/header :: header"></div>
 		 <div class="gengosentaku">
 		<div id="google_translate_element"></div></div>-->
 	 
 	<main>
-		<h1><a href="/api/tour/plantrip">🌏 各国一周ツアー特集</a></h1>
+		<h1>🌏 各国一周ツアー特集</h1>
 		<h3>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</h3>
 
 		<!-- ツアー一覧（丸画像・国名）-->
@@ -345,7 +352,7 @@
 						<a th:href="@{/country/{id}/regions(id=${tour2.countryId})}" class="btn detail-btn">
 							🗺️ どんな国？ </a>
 
-						<a th:href="@{/flight/search(region=${tour2.countryId})}" class="btn next-btn">
+						<a th:href="@{/tour/flight/search(countryId=${tour2.countryId})}" class="btn next-btn">
 							✈️ <span th:text="|${tour2.countryName}への航空券を探す|">
 							</span></a>
 						<!-- 一応消しとく　<a class="btn favorite-btn">⭐️ お気に入り登録</a> -->

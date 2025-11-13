@@ -37,6 +37,8 @@ header {
 	transition: transform 0.2s, box-shadow 0.2s;
 	font-size: 16px;
 	cursor: pointer;
+	color: inherit;        /* 通常時、親要素の色を継承（クリックした後、文字が紫色にならない） */
+	text-decoration: none; /*「トップへ」リンクの下線なくす*/
 }
 
 .btn-map:hover {
