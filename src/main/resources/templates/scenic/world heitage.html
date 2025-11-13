@@ -114,14 +114,13 @@
            フッター＋戻るボタン
         ================================= */
 		footer {
-			position: relative;
+			/* bodyの背景に合わせたグラデーション */
 			background: linear-gradient(135deg, #4b2e1e, #6e3c25);
-			color: #f5e9d3;
+
+			color: white;
+			/* 文字色は白のまま */
+			padding: 15px;
 			text-align: center;
-			padding: 70px 0 30px 0;
-			font-size: 14px;
-			box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
-			border-top: 1px solid rgba(255, 255, 255, 0.2);
 		}
 
 		.back-button {
@@ -168,6 +167,10 @@
 				padding: 30px;
 			}
 		}
+
+		main {
+			margin: 100px;
+		}
 	</style>
 </head>
 
@@ -177,7 +180,7 @@
 
 	<!-- 本文 -->
 	<main>
-		<h1 class="page-title">🌍 世界遺産特集</h1>
+		<h1 class="page-title">🏛️ 世界遺産特集</h1>
 
 		<div class="grid-container">
 
@@ -191,7 +194,7 @@
 					<h2>アメリカの自由と民主主義の象徴として、100年以上にわたりニューヨーク港を見守る巨大な女神像。自由を求める移民たちの希望の光でもある。</h2>
 				</div>
 			</div>
-			
+
 			<!-- 2 -->
 			<div class="scenic-item">
 				<h3>フォロ・ロマーノ</h3>
@@ -202,7 +205,7 @@
 					<h2>かつて古代ローマの政治・商業の中心地として栄えた広場。神殿や記念碑が立ち並び、古代ローマ文明の息吹を感じられる場所。</h2>
 				</div>
 			</div>
-			
+
 			<!-- 3 -->
 			<div class="scenic-item">
 				<h3>凱旋門</h3>
@@ -254,7 +257,7 @@
 						ペルシャの歴史と美意識が凝縮された、壮大な空間を歩きましょう。</h2>
 				</div>
 			</div>
-			
+
 			<!-- 7 -->
 			<div class="scenic-item">
 				<h3>フマユーン廟</h3>
@@ -278,7 +281,7 @@
 					<h2>ムガル帝国第5代皇帝シャー・ジャハーンが愛する王妃のために建てた白大理石の霊廟。美と愛の象徴として世界的に有名。</h2>
 				</div>
 			</div>
-			
+
 			<!-- 9 -->
 			<div class="scenic-item">
 				<h3>万里の長城</h3>
@@ -286,7 +289,8 @@
 					<a th:href="@{/region/048}">
 						<img th:src="@{/images/tourist_spot/169.jpg}" alt="万里の長城">
 					</a>
-					<h2>紀元前から続く、中国歴代王朝が北方民族の侵入を防ぐために築いた世界最大の軍事防衛施設です。その全長は数千キロにも及び、ユネスコ世界遺産に登録されています。山々の尾根に沿って連なる壮大な城壁と望楼は圧巻で、人類史上最大規模の建造物として、悠久の歴史と自然の絶景を体感できます。</h2>
+					<h2>紀元前から続く、中国歴代王朝が北方民族の侵入を防ぐために築いた世界最大の軍事防衛施設です。その全長は数千キロにも及び、ユネスコ世界遺産に登録されています。山々の尾根に沿って連なる壮大な城壁と望楼は圧巻で、人類史上最大規模の建造物として、悠久の歴史と自然の絶景を体感できます。
+					</h2>
 				</div>
 			</div>
 
@@ -306,7 +310,8 @@
 	</main>
 
 	<!-- フッター -->
-	<footer>
+	<footer
+		style="background: linear-gradient(145deg, #ba8b02, #181818); color: #fff8dc; text-align: center; padding: 20px 0;">
 		<a href="javascript:history.back()" class="back-button">← 戻る</a>
 		<p>© 2025 TRAVEL POP!</p>
 	</footer>
