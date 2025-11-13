@@ -88,7 +88,7 @@
     transform: translateY(0);
   }
 
-  /* 戻るボタン */
+  /* 戻るボタン（右下固定・フッターに隠れない） */
   .back-button {
     display: inline-block;
     padding: 14px 40px;
@@ -101,13 +101,20 @@
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 12px rgba(0, 162, 184, 0.3);
+
+    /* 固定位置調整 */
+    position: fixed;
+    right: 20px;
+    bottom: 90px;  /* ← ここがポイント！フッターより上に出す */
+    z-index: 1000; /* ← 他の要素より前面に表示 */
   }
 
+  /* ホバー効果 */
   .back-button:hover {
-    background-color: #008A9C;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 162, 184, 0.4);
+    background-color: #008b9e;
+    transform: scale(1.05);
   }
+
 
   /* フッター感覚で配置 */
   .back-container {
