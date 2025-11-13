@@ -41,7 +41,7 @@ const FxRate = (function () {
   }
 
   /** 自動更新開始 */
-  function start(containerId, countryCode, intervalMs = 60000) {
+  function start(containerId, countryCode, intervalMs = 30000) {
     update(containerId, countryCode);
     setInterval(() => update(containerId, countryCode), intervalMs);
 
