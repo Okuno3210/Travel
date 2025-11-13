@@ -1,5 +1,5 @@
 footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   background-color: #A8E6CF;
@@ -17,7 +17,7 @@ header {
   align-items: center;
   padding: 15px 50px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 95%;

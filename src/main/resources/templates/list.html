@@ -41,6 +41,9 @@ header {
 
 /* --- メインコンテナ --- */
 main {
+  position: fixed;
+  left: 110px;
+  top: -30px;
   display: flex;
   justify-content: center;
   gap: 20px; /* 左右のボックス間の余白 */
@@ -50,7 +53,7 @@ main {
 /* --- 左縦長ボックス --- */
 #favorites-box {
   width: 300px;
-  height: 600px;
+  height: 690px;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -76,7 +79,7 @@ main {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   padding: 20px;
-  height: 270px;
+  height: 315px;
 }
 #bookings-box .scroll-area {
   max-height: 220px;
@@ -89,7 +92,7 @@ main {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   padding: 20px;
-  height: 270px;
+  height: 315px;
 }
 #other-box .scroll-area {
   max-height: 220px;
@@ -136,21 +139,6 @@ button {
 }
 button:hover { background-color: #c0392b; }
 
-/* --- トップリンク --- */
-.btn-map {
-  position: fixed;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 16px;
-  background-color: #3498db;
-  color: white;
-  border-radius: 6px;
-  font-weight: bold;
-  text-decoration: none;
-}
-.btn-map:hover { background-color: #217dbb; }
-
 /* --- フッター --- */
 footer {
   position: fixed;
@@ -163,6 +151,136 @@ footer {
   text-align: center;
   z-index: 1000;
 }
+
+footer .btn-map {
+  position: fixed;
+  right: 130px;
+  top: 885px;
+  display: inline-block;
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+footer .btn-map:hover {
+  background-color: #217dbb;
+}
+
+/* ---- クイズを縦レイアウトに変更 ---- */
+.quiz-card {
+  display: flex;
+  flex-direction: column; /* 横並び → 縦並び */
+  align-items: center;
+  gap: 20px;
+  height: auto; /* 固定高さを解除 */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 左右構成をやめ、中央寄せ */
+.quiz-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  gap: 15px;
+}
+
+/* ---- 画像・問題・説明を縦並びに ---- */
+.quiz-header {
+  display: flex;
+  flex-direction: column; /* 横並び → 縦並び */
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ---- 画像 ---- */
+.quiz-header img {
+  width: 220px;
+  height: 150px;              /* ← 高さを固定して統一表示 */
+  object-fit: cover;          /* ← トリミングして枠いっぱいに */
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  display: block;
+  margin: 0 auto;             /* ← 中央寄せ（任意） */
+}
+
+/* ---- 問題文 ---- */
+#question {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0;
+}
+
+/* ---- 選択肢を縦に整列（モバイルにも優しい） ---- */
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ---- 選択肢ボタン ---- */
+#options button {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+#options button:hover {
+  background-color: #cce4ff;
+  color: #202340;
+}
+
+/* ---- 結果・次の問題 ---- */
+.quiz-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+#next-btn {
+  position: fixed;
+  top: 800px;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 3px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+#next-btn:hover {
+  background-color: #4cae4c;
+}
+
+#explanation {
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* ← 最大3行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 </style>
 </head>
 <body>
@@ -184,19 +302,25 @@ footer {
 </header>
 
 <main>
-  <!-- 左縦長ボックス（お気に入り一覧） -->
+  <!-- 左縦長ボックス（クイズに変更） -->
   <div id="favorites-box">
-    <h2>お気に入り一覧</h2>
-    <div class="scroll-area">
-      <ul th:if="${favorites != null and !#lists.isEmpty(favorites)}">
-        <li th:each="fav : ${favorites}">
-          <a th:href="@{/country/{id}/regions(id=${fav.country.id})}" th:text="${fav.country.name}">日本</a>
-          <form th:action="@{/favorites/remove/{id}(id=${fav.id})}" method="post">
-            <button type="submit">削除</button>
-          </form>
-        </li>
-      </ul>
-      <p th:if="${favorites == null or #lists.isEmpty(favorites)}">お気に入りはありません。</p>
+    <h2>国クイズ</h2>
+    <div class="quiz-card">
+      <!-- 左: 画像＋問題文＋選択肢 -->
+      <div class="quiz-left">
+        <div class="quiz-header">
+          <img id="quiz-img" src="" alt="国の画像" style="display:none;">
+          <p id="question">読み込み中...</p>
+          <p id="description"></p>
+        </div>
+        <div id="options" class="options-row"></div>
+      </div>
+
+      <!-- 右: 結果＋次の問題ボタン -->
+      <div class="quiz-right">
+        <p id="result">ここに結果</p>
+        <button id="next-btn" style="display:none;">次の問題へ</button>
+      </div>
     </div>
   </div>
 
@@ -232,20 +356,111 @@ footer {
       </div>
     </div>
 
-    <!-- 右下横長ボックス（その他情報） -->
+    <!-- 右下横長ボックス（お気に入り一覧に変更） -->
     <div id="other-box">
-      <h2>その他情報</h2>
+      <h2>お気に入り一覧</h2>
       <div class="scroll-area">
-        <p>ここに他の情報を表示できます。</p>
+        <ul th:if="${favorites != null and !#lists.isEmpty(favorites)}">
+          <li th:each="fav : ${favorites}">
+            <a th:href="@{/country/{id}/regions(id=${fav.country.id})}" th:text="${fav.country.name}">日本</a>
+            <form th:action="@{/favorites/remove/{id}(id=${fav.id})}" method="post">
+              <button type="submit">削除</button>
+            </form>
+          </li>
+        </ul>
+        <p th:if="${favorites == null or #lists.isEmpty(favorites)}">お気に入りはありません。</p>
       </div>
     </div>
   </div>
 </main>
 
-<a th:href="@{/}" class="btn-map">トップへ</a>
-
 <footer>
+  <a th:href="@{/}" class="btn-map">トップへ</a>
   <p>© 2025 TRAVEL POP!</p>
 </footer>
+	
+<script>
+async function loadQuiz() {
+  // リセット
+  document.getElementById('result').textContent = '';
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('description').textContent = '';
+
+  // API取得
+  const res = await fetch('/api/quiz');
+  const quiz = await res.json();
+
+  // 問題文・説明文
+  document.getElementById('question').textContent = quiz.question;
+  document.getElementById('description').textContent = quiz.description || '';
+
+  // 画像
+  const img = document.getElementById('quiz-img');
+  if(quiz.imageUrl){
+    img.src = quiz.imageUrl;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+
+  // 選択肢
+  // 選択肢
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = '';
+
+  quiz.options.forEach(opt => {
+    // （…）の中身を削除（全角・半角対応）
+    const cleanOpt = opt.replace(/\(.*?\)|（.*?）/g, '').trim();
+
+    const btn = document.createElement('button');
+    btn.textContent = cleanOpt;
+    btn.style.padding = '5px 10px';
+    btn.style.cursor = 'pointer';
+    btn.onclick = () => checkAnswer(cleanOpt, quiz.answer.replace(/\(.*?\)|（.*?）/g, '').trim());
+    optionsDiv.appendChild(btn);
+  });
+
+}
+
+// 回答チェック
+// 回答チェック（ボタン色で判定）
+function checkAnswer(selected, correct) {
+  const buttons = document.querySelectorAll('#options button');
+
+  buttons.forEach(btn => {
+    btn.disabled = true; // 選択後はすべて無効化
+    btn.style.cursor = 'default';
+
+    // （…）を除去して判定
+    const cleanBtn = btn.textContent.replace(/\(.*?\)|（.*?）/g, '').trim();
+    const cleanCorrect = correct.replace(/\(.*?\)|（.*?）/g, '').trim();
+    const cleanSelected = selected.replace(/\(.*?\)|（.*?）/g, '').trim();
+
+    // 色付け判定
+    if (cleanBtn === cleanCorrect) {
+      btn.style.backgroundColor = '#4CAF50'; // 正解 → 緑
+      btn.style.color = 'white';
+    } else if (cleanBtn === cleanSelected) {
+      btn.style.backgroundColor = '#e74c3c'; // 不正解選択 → 赤
+      btn.style.color = 'white';
+    } else {
+      btn.style.opacity = 0.6; // その他 → 少し薄く
+    }
+  });
+
+  // 結果テキストは非表示のまま
+  document.getElementById('result').textContent = '';
+
+  // 「次の問題へ」ボタンを表示
+  document.getElementById('next-btn').style.display = 'inline';
+}
+
+// 次の問題ボタン
+document.getElementById('next-btn').addEventListener('click', loadQuiz);
+
+// 初回ロード
+loadQuiz();
+</script>
+
 </body>
 </html>

@@ -102,6 +102,60 @@
 	   top: 30px;
 	 }
 	 
+	 .fixed-nav {
+	 	position: fixed;
+	 	/* 画面に対して位置を固定する */
+	 	bottom: 25px;
+	 	/* 画面の下端から20px上に配置 */
+	 	right: 20px;
+	 	/* 画面の右端から20px左に配置 */
+	 	z-index: 1100;
+	 	/* ページのコンテンツに埋もれないように最前面に表示 */
+	 	/* ボタンを縦に並べる（初期設定のHTMLから変更がない場合） */
+	 	display: flex;
+	 	flex-direction: column;
+	 	gap: 10px;}/* ボタン間の間隔 */
+	 	.footer-spacer {height: 80px;}/*韓国がフッターに隠れたので上にあげる*/
+
+		/* 親コンテナは画面右下に固定 */
+		.button-container {
+		    position: fixed;
+		    bottom: 100px;
+		    right: 20px;
+		    width: 60px;
+		    height: 60px;
+		}
+
+		.fixed-btn {
+		    background: #fff;
+		    color: #333;
+		    width: 60px;
+		    height: 60px;
+		    border-radius: 50%;
+		    border: 1px solid #ccc;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: 700;
+		    text-decoration: none;
+		    position: fixed;
+		    bottom: 100px;
+		    right: 20px;
+		    opacity: 0.3;            /* 常に半透明 */
+		    transition: transform 0.3s ease, opacity 0.3s ease;
+		    cursor: pointer;
+		    z-index: 1100;
+		}
+
+		.fixed-btn:hover {
+		    transform: scale(1.2);   /* 拡大して目立たせる */
+		    opacity: 1;               /* 完全に表示 */
+		    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+		}
+
+
+
+	 
   </style>
   
   <script>
@@ -134,6 +188,13 @@
 	  </a>
 	</div>
 </div>
+</div>
+
+<!-- 固定ナビ style= で上へボタンを常に右下指定-->
+<div class="button-container">
+    <a href="#" class="fixed-btn">
+        🔼 上へ
+    </a>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
