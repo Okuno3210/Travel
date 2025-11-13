@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<html>
 
-<head>
-	<meta charset="UTF-8">
-	<!DOCTYPE html>
-	<!DOCTYPE html>
 	<html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
@@ -120,20 +115,22 @@
 				margin-top: 10px;
 				color: #fff4e8;
 			}
+			
+			main{
+				margin:100px;
+			}
 
 			/* ===============================
 	   フッター＋戻るボタン
 	================================ */
-			footer {
-				position: relative;
-				background: linear-gradient(135deg, #4b2e1e, #6e3c25);
-				color: #f5e9d3;
-				text-align: center;
-				padding: 70px 0 30px 0;
-				font-size: 14px;
-				box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
-				border-top: 1px solid rgba(255, 255, 255, 0.2);
-			}
+	footer {
+	  /* bodyの背景に合わせたグラデーション */
+	  background: linear-gradient(135deg, #007adf, #00ecbc);
+	  
+	  color: white;        /* 文字色は白のまま */
+	  padding: 15px;
+	  text-align: center;
+	}
 
 			/* 「戻る」ボタン（footer右下） */
 			.back-button {
@@ -304,36 +301,6 @@
 		<a href="javascript:history.back()" class="back-button">← 戻る</a>
 		<p>© 2025 TRAVEL POP!</p>
 	</footer>
-</body>
-
-</html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
-
-<body>
-	<h1></h1>
-	<div>
-		<button class="back-button" onclick="history.back()">← 前に戻る</button>
-		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
-	</div>
-
-</body>
-
-</html>
-<title>Insert title here</title>
-</head>
-
-<body>
-	<h1></h1>
-	<div>
-		<button class="back-button" onclick="history.back()">← 前に戻る</button>
-		<a th:href="@{/}" class="back-button" style="text-decoration:none;">🏠 トップに戻る</a>
-	</div>
-
 </body>
 
 </html>
