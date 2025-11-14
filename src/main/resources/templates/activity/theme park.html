@@ -114,7 +114,8 @@
 		}
 		
 		main{
-			margin:100px;
+			padding-bottom:100px;
+			padding-top: 50px;
 		}
 
 		/* ===============================
@@ -169,7 +170,24 @@ footer {
 			position: relative !important;
 			z-index: 10;
 		}
+		
+		#google_translate_element {
+		  position: absolute;
+		  right: 250px;
+		  top: 40px;
+		  z-index: 9999;
+		}
 	</style>
+	
+	<script>
+	   function googleTranslateElementInit() {
+	     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+	   }
+	 </script>
+
+	 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	 <script defer type="text/javascript" src="/js/script.js"></script>
+
 </head>
 
 <body>

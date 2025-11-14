@@ -10,7 +10,7 @@
   body {
     margin: 0;
     padding: 0;
-	padding-top: 130px;
+	padding-top: 60px;
     font-family: 'Noto Sans JP', sans-serif;
     background: linear-gradient(180deg, #E0F7FA 0%, #FFFFFF 100%);
     color: #333;
@@ -32,8 +32,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 40px; /* 画像の間隔を広くして高級感を */
-    margin-bottom: 60px;
-    padding: 0 40px;
+    padding: 100px 40px;
   }
 
   /* 各画像カード */
@@ -103,9 +102,9 @@
     box-shadow: 0 4px 12px rgba(0, 162, 184, 0.3);
 
     /* 固定位置調整 */
-    position: fixed;
+    position: absolute;
     right: 20px;
-    bottom: 90px;  /* ← ここがポイント！フッターより上に出す */
+    bottom: 110px;  /* ← ここがポイント！フッターより上に出す */
     z-index: 1000; /* ← 他の要素より前面に表示 */
   }
 
@@ -113,13 +112,6 @@
   .back-button:hover {
     background-color: #008b9e;
     transform: scale(1.05);
-  }
-
-
-  /* フッター感覚で配置 */
-  .back-container {
-    text-align: center;
-    margin-bottom: 60px;
   }
 
   /* レスポンシブ対応 */
@@ -137,7 +129,25 @@
       padding: 0 10px;
     }
   }
+  
+  #google_translate_element {
+    position: absolute;
+    right: 250px;
+    top: 40px;
+    z-index: 9999;
+  }
+   
 </style>
+
+<script>
+   function googleTranslateElementInit() {
+     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+   }
+ </script>
+
+ <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+ <script defer type="text/javascript" src="/js/script.js"></script>
+
 </head>
 <body>
 	<header th:replace="fragments/header :: header"></header>
