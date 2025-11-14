@@ -62,6 +62,45 @@
 		            border: none;
 		            cursor: pointer;
 		        }
+				
+				.login-btn:hover {
+									      transform: translateY(-2px);
+									      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+									    }
+				
+				.center-button-container {
+				    text-align: center;
+				    margin-top: 20px;  
+				    margin-bottom: 20px; 
+				}
+				
+				footer {
+					      background-color: #A8E6CF;
+					      display: flex;
+					      justify-content: center;
+					      gap: 30px;
+					      padding: 35px 0;
+					      flex-wrap: wrap;
+					    }
+
+					    .footer-btn {
+					      font-size: 18px;
+					      font-weight: bold;
+					      color: white;
+					      padding: 15px 40px;
+					      border-radius: 25px;
+					      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+					      transition: transform 0.2s, box-shadow 0.2s;
+					    }
+
+					    .footer-btn:hover {
+					      transform: translateY(-2px);
+					      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+					    }
+
+					    .gourmet-btn { background: #FF6B81; color: #202340;}
+					    .scenic-btn { background: #80C2FF; color: #202340;}
+					    .activity-btn { background: #FFC93C; color: #202340; }
 
 		        /* === メイン === */
 		        .main-container {
@@ -144,15 +183,18 @@
 		        }
 
 				.result-info p {
-				 
+				    line-height: 1.5em; 
+				    min-height: calc(1.5em * 3); /* 常に3行分の高さを確保 */
+				    max-height: calc(1.5em * 3); /* 3行を超えたら省略される */
+				    
 				    overflow: hidden;
 				    display: -webkit-box;
 				    -webkit-box-orient: vertical;
 				    -webkit-line-clamp: 3; /* 3行に制限 */
 				    text-overflow: ellipsis;
 				    white-space: normal;
-				    margin-bottom: 10px; /* 必要に応じて調整 */
-					padding:15px;
+				    margin-bottom: 10px;
+				    padding: 15px; 
 				}
 				
 				.result-info h3 {
@@ -266,6 +308,16 @@
 	        </div>
 	    </a>
 	</div>
+	
 	<br>
+
+	<div class="center-button-container"> <button type="button" class="fotter-btn login-btn" onclick="history.back()">← ひとつ前に戻る</button>
+	</div>
+	<footer>
+	  <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">🍴 グルメ旅</a>
+	  <a th:href="@{/scenic}" class="footer-btn scenic-btn">🏞 絶景スポット</a>
+	  <a th:href="@{/activity}" class="footer-btn activity-btn">🎡 アクティビティ体験</a>
+	
+	</footer>
 </body>
-</html>					
+</html>	
