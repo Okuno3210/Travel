@@ -69,7 +69,9 @@
 			/* 丸画像一覧部分、 <table> のCSSは<table>タグ自体に適用*/
 			border-collapse: separate;
 			border-spacing: 20px 0;
-			width: 95%;
+			/*width: 95%;*/
+			max-width: 1200px; /* ★★★ 最大幅を指定して安定させる ★★★ */
+			    width: 100%;
 			table-layout: fixed;
 			margin: 0 auto;
 			/* テーブル自体を中央寄せする場合 */
@@ -83,6 +85,9 @@
 		/* リンク全体をブロック要素にし、子要素（画像と国名）を縦に並べる */
 		#tours td a {
 			display: block;
+			margin-left: auto; /*この3行、丸画像と国名縦中心揃え*/
+			margin-right: auto;
+			width: fit-content;
 			text-decoration: none;
 			color: inherit;
 		}
@@ -120,13 +125,13 @@
 			color: white;
 			width: 90%;
 			/* 箱は丸画像の幅いっぱい */
-			margin: 8px 0 0 0;
+			margin: 8px auto auto 0;
 			/* 画像との間に少しスペース */
-			padding: 3px 8px;
+			padding: 2px 1px;
 			text-align: center;
 			border-radius: 5px;
 			/* 箱の角丸 */
-			font-size: 0.9em;
+			font-size: 0.8em;
 			font-weight: bold;
 			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 		}
@@ -143,6 +148,7 @@
 			align-items: center;
 			/* コンテンツの上端を揃える */
 			padding: 20px 0;
+			justify-content: flex-start;
 		}
 
 		.setumei-img {
@@ -163,20 +169,17 @@
 		.setumei-content {
 			width: 50%;
 			/* 残りの幅 (調整可能) */
+			max-width: 450px;
 			display: flex;
 			flex-direction: column;
 			/* 内部の要素 (タイトル、pタグ、ボタン群) を縦に並べる */
 			gap: 10px;
-			/* 縦方向の要素間の間隔 */
-			/*justify-content: center;*/
 		}
 
 		.button-group {
 			display: inline-block;
 			/*ボタン3つ中心揃え*/
 			gap: 3px;
-			/*ボタン同士の間隔*/
-			/*justify-content: flex-start; 左寄せ　いる？*/
 			margin-top: 8px;
 			/* 写真の下、タイトルとの間にスペースを空ける */
 			font-size: 85%;
@@ -202,12 +205,9 @@
 		}
 
 		.detail-btn {
-			background-color: #ffaa00;
-			/* オレンジ色 */
-			color: #fff;
-			/* テキストの色を白に（視認性のため） */
-			/* 他のボタン（.next-btn）と同じように白フチを付ける場合 */
-			border: 1px solid #fff;
+			background-color: #ffaa00; /* オレンジ色 */
+			color: #fff; /*文字白*/
+			border: 1px solid #fff; /*白枠*/
 		}
 
 		/* 説明文の上下の余白を削除、.setumei-content内の真ん中に配置したい */
@@ -223,9 +223,7 @@
 			margin-top: 2px;
 			margin-bottom: 2px;
 			text-align: center;
-		}
-
-		/* 説明コーナー　ここまで */
+		} /* 説明コーナー　ここまで */
 
 		/* ページ上部へボタン、fixed-nav: 画面右下に固定するコンテナ */
 		.fixed-nav {
@@ -237,36 +235,38 @@
 			/* 画面の右端から20px左に配置 */
 			z-index: 1100;
 			/* ページのコンテンツに埋もれないように最前面に表示 */
-			/* ボタンを縦に並べる（初期設定のHTMLから変更がない場合） */
 			display: flex;
 			flex-direction: column;
 			gap: 10px;}/* ボタン間の間隔 */
 			.footer-spacer {height: 80px;}/*韓国がフッターに隠れたので上にあげる*/
 
-			.fixed-btn {
-				background: #fff;
-				/* 背景白ベタにする */
-				color: #333;
-				/* テキストの色を見やすいように濃い色（例: 黒っぽい色）に設定 */
-				/* 他の.btnのスタイル（width: 80%やmargin: 0 auto;）が固定ボタンに不要であれば解除 */
-				font-size: 100%;
-				width: auto;
-				/* 幅をテキストに合わせて自動調整 */
-				margin: 0;
-				text-align: center;
-				/* テキストを中央寄せ */
-				border: 1px solid #ccc;
-				/* 白ベタで目立たせるため、薄い境界線を追加することも検討 */
-				padding: 7px 15px;
-				/* 角丸 */
-				border-radius: 20px;
-				font-weight: 700;
-				text-decoration: none;
-				transition: transform 0.2s ease, box-shadow 0.2s ease;
-				display: inline-block;
-				margin-left: 10px;
-			}
-		
+			.fixed-btn {/*上へボタン丸*/
+					    background: #fff;
+					    color: #333;
+					    width: 60px;
+					    height: 60px;
+					    border-radius: 50%;
+					    border: 1px solid #ccc;
+					    display: flex;
+					    align-items: center;
+					    justify-content: center;
+					    font-weight: 700;
+					    text-decoration: none;
+					    position: fixed;
+					    bottom: 100px;
+					    right: 20px;
+					    opacity: 0.6;            /* 常に半透明 */
+					    transition: transform 0.6s ease, opacity 0.6s ease;
+					    cursor: pointer;
+					    z-index: 1100;
+					}
+
+					.fixed-btn:hover {
+					    transform: scale(1.2);   /* 拡大して目立たせる */
+					    opacity: 1;               /* 完全に表示 */
+					    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+					}
+
 			.google_translate_element{
 			position: absolute;
 			left: 20px;
@@ -292,17 +292,11 @@
 	  <script defer type="text/javascript" src="/js/script.js"></script>
 
 </head>
-
 <body>
 	<a id="top"></a><!-- 「このページの最上部へ」の到達地点 -->
 	<!-- 共通ヘッダー-->
 	<header th:insert="fragments/header :: header"> </header>
 	
-	<!--言語を選択用　意図した位置に出ない→出てる
-		<header><div th:insert="fragments/header :: header"></div>
-		 <div class="gengosentaku">
-		<div id="google_translate_element"></div></div>-->
-	 
 	<main>
 		<h1>🌏 各国一周ツアー特集</h1>
 		<h3>人気の国を巡る特集ツアー。各国の魅力とおすすめコースを紹介します。</h3>
@@ -316,8 +310,8 @@
 							<div class="image-wrapper">
 								<img th:src="@{${tour2.imageUrl}}" `th:alt="|${tour2.countryName} の画像|" `>
 							</div>
-						</a>
-						<span class="countryName" th:text="${tour2.countryName}"></span>
+						
+						<span class="countryName" th:text="${tour2.countryName}"></span></a>
 					</td>
 				</tr>
 			</table>
@@ -336,51 +330,31 @@
 					<h4 th:utext="${tour2.description}"></h4>
 					<h4 th:text="|交通費（概算） ${tour2.basePrice} 万円～|"></h4>
 
-
-					<!--<div class="apply-wrap">-->
-					<!--<form th:action="@{/flight/flight-search.html}" method="get">
-		<input type="hidden" th:name="${tour2.countryId}" th:value="${tour2.Id}">
-		hidden＝画面に表示しない指定、
-		name＝サーバ側でこのデータを受け取るキー（変数名）
-	value＝サーバに送信したい値、主キー-->
-					<!--<button type="submit" class="apply-btn">このツアーを申し込む</button>
-		航空券ページに行くなら↑これ不要-->
-
 					<!-- どんな国？、航空券、お気に入りボタン -->
 					<div class="button-group">
-
 						<a th:href="@{/country/{id}/regions(id=${tour2.countryId})}" class="btn detail-btn">
 							🗺️ どんな国？ </a>
-
 						<a th:href="@{/tour/flight/search(countryId=${tour2.countryId})}" class="btn next-btn">
 							✈️ <span th:text="|${tour2.countryName}への航空券を探す|">
 							</span></a>
 						<!-- 一応消しとく　<a class="btn favorite-btn">⭐️ お気に入り登録</a> -->
 						<!--リンク先未設定 @PostMapping("/favorites/add/{countryId}") -->
 					</div>
-					<!-- <a th:href="@{/favorites/add/${tour2.countryId}}" class="btn favorite-btn">⭐️ お気に入り登録</a> -->
-					<!-- <form th:action="@{/favorites/add/{countryId}(countryId=${tour2.countryId})}" 
-					method="post" style="display: inline;">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"
-					th:if="${_csrf}" />
-					<button type="submit" class="btn favorite-b-->
-
-
 				</div>
 			</div>
 		</section>
 	</main>
 
-	<!-- 固定ナビ style= で上へボタンを常に右下指定-->
 	<div class="footer-spacer"></div> <!--韓国がフッターに隠れたので上にあげる-->
-	<div class="fixed-nav" role="navigation" aria-label="ページ内ナビ">
-		<a href="#top" id="btn-top" class="fixed-btn">🔼 このページの最上部へ</a>
-		<!--<a href="/" class="fixed-btn">🏠 トップページへ戻る</a> 「ヘッダーにトップへ」あるので不要-->
+	
+	<!-- 固定ナビ style= で上へ丸ボタンを常に右下指定-->
+	<div class="button-container">
+	    <a href="#" class="fixed-btn">
+	        🔼 上へ
+	    </a>
 	</div>
 
 	<!-- 共通フッター -->
 	<div th:replace="fragments/footer :: footer"></div>
-
 </body>
-
 </html>
