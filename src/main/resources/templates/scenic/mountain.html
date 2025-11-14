@@ -119,12 +119,13 @@
 ================================ */
 		footer {
 			/* bodyの背景に合わせたグラデーション */
-			background: linear-gradient(135deg, #4b2e1e, #6e3c25);
+			background: linear-gradient(145deg, #004e92, #000428);
 
 			color: white;
 			/* 文字色は白のまま */
 			padding: 15px;
 			text-align: center;
+			position: absolute;
 		}
 
 		/* 「戻る」ボタン（footer右下） */
@@ -166,9 +167,28 @@
 		}
 		
 		main{
-			margin:100px;
+			padding-bottom:100px;
+			padding-top: 50px;
 		}
+		
+		#google_translate_element {
+		  position: absolute;
+		  right: 250px;
+		  top: 40px;
+		  z-index: 9999;
+		}
+		 
 	</style>
+	
+	<script>
+	   function googleTranslateElementInit() {
+	     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+	   }
+	 </script>
+
+	 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	 <script defer type="text/javascript" src="/js/script.js"></script>
+
 </head>
 
 <body>
@@ -289,8 +309,7 @@
 	</main>
 
 	<!-- フッター -->
-	<footer
-		style="position: fixed; bottom: 0; width: 100%; background: linear-gradient(145deg, #004e92, #000428); color: white; text-align: center; padding: 20px 0; z-index: 999;">
+	<footer>
 		<a href="javascript:history.back()" class="back-button">← 戻る</a>
 		<p>© 2025 TRAVEL POP!</p>
 	</footer>

@@ -56,3 +56,23 @@ header {
     color: inherit;
     text-decoration: underline;
   }
+  
+  /* Google翻訳のメニュー iframe を完全に非表示 */
+  iframe.VIpgJd-ZVi9od-xI07Ob-OEVmcd,
+  .VIpgJd-ZVi9od-xI07Ob-OEVmcd {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+  }
+
+  /* 翻訳バー iframe も削除 */
+  .goog-te-banner-frame,
+  .goog-te-banner-frame.skiptranslate {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+  }
