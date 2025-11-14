@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--flight-search.htmlをコピー、空港検索方法のみ変更-->
+<!DOCTYPE html><!--flight-search.htmlをコピー、空港検索方法のみ変更-->
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -108,9 +107,9 @@
 	<header th:replace="fragments/header :: header"></header>
     <h1>✈️ 航空券検索</h1>
   <main class="flight-search">
-    <form th:action="@{/flight/result}" method="get" class="search-form">
-		<input type="hidden" name="countryId" th:if="${tour}" th:value="${tour.id}" />
-		<!--検索ボタンを押した時countryIdがパラメータとして渡され、countryIdが
+	<form th:action="@{/tour/flight/result}" method="get" class="search-form">
+	<input type="hidden" name="countryId" th:if="${tour}" th:value="${tour.id}" />
+	<!--検索ボタンを押した時countryIdがパラメータとして渡され、countryIdが
 		絡む空港のみ選択肢に出る-->
 	
 		<label>出発地:</label>

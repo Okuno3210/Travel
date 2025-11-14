@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--flight-result.htmlをコピー、最後から７行目の再検索ページの遷移先、所要時間部分変更-->
+<!DOCTYPE html><!--flight-result.htmlをコピー、再検索ページの遷移先変更-->
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -24,6 +23,32 @@
   main{
   	padding-top: 100px;
   }
+  .flight-result {
+    background: rgba(255, 255, 255, 0.8); /* 半透明白背景 */
+    padding: 30px 40px;
+    border-radius: 16px;
+    width: 80%;
+    max-width: 700px;
+    margin: 0 auto; /* 中央寄せ */
+    backdrop-filter: blur(6px); /* ぼかし効果 → 背景がさらに見やすくなる */
+  }
+  .flight-result h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+  }
+
+  .flight-result p {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .btn {
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+
   </style>
   
   <script>
@@ -65,9 +90,9 @@
       <button type="submit" class="btn">この便を予約する</button>
     </form>
 
-    <!-- 再検索ボタン ツアー一覧ページからのcountryIdを持ってる状態の検索画面
-		flight-search.html　に戻る-->
-    <a href="/tour/flight/search(countryId=${tour?.id})}" class="btn back-btn">
+    <!-- 再検索ボタン　ツアー一覧ページからのcountryIdを持ってる状態の検索画面
+		tour-flight-search.html　に戻る-->
+    <a th:href="@{/tour/flight/search(countryId=${tour?.id})}" class="btn back-btn">
 		🔁 再検索する</a>
 	<a onclick="history.back()" class="btn back-btn">一つ前に戻る</a>
   </main>
