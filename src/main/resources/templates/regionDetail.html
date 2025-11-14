@@ -59,6 +59,29 @@
 	   color: #333;
 	   text-align: center;
 	 }
+	 
+	 .info-card h2 { /*「渡航・基本情報」緑色からダークグレーに上書き*/
+	   color:#333;
+	   font-size: 32px;
+	   margin-bottom: 25px;
+	   text-shadow: 
+	   	 -1px -1px 0 #F8F8F8,   /*左上に白影 */
+	   	 1px -1px 0 #F8F8F8,   /*右上 */
+	   	 -1px  1px 0 #F8F8F8,   /*左下 */
+	   	1px  1px 0 #F8F8F8;   /*右下*/
+	 }
+	 
+	 .recommend-area h2, .food-area h2 { /*「おすすめ観光スポット」「グルメ」緑色からダークグレーに上書き */
+	   font-family: 'Montserrat', sans-serif;
+	   font-size: 32px;
+	   color:#333;
+	   margin: 40px 0 25px;
+	   text-shadow: 
+	   	   	 -1px -1px 0 #F8F8F8,   /*左上に白影 */
+	   	   	 1px -1px 0 #F8F8F8,   /*右上 */
+	   	   	 -1px  1px 0 #F8F8F8,   /*左下 */
+	   	   	1px  1px 0 #F8F8F8;   /*右下*/
+	 }
   </style>
   
   <script>
@@ -130,7 +153,7 @@
 
 	<!-- 観光スポット -->
 	<section class="recommend-area">
-	  <h2>🏝 おすすめ観光スポット</h2>
+	  <h2>🌴 おすすめ観光スポット</h2>
 	  <div class="spot-cards">
 	    <th:block th:each="spot : ${touristSpots}">
 	      <div class="spot-card">
