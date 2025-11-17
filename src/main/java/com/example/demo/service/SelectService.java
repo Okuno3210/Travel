@@ -317,36 +317,79 @@ public class SelectService {
         if (tzStr == null || tzStr.isEmpty()) return false;
 
         try {
-            // ✅ 数字部分だけ抽出（例: "UTC+9" → "9"、"GMT-3" → "-3"）
-            String cleaned = tzStr.replaceAll("[^0-9\\-\\.]", "");
-            if (cleaned.isEmpty()) return false;
+            // CSVの複雑な文字列から数値時差を抽出するヘルパーメソッド
+            double tz = parseTimezoneFromCsv(tzStr); 
+            // もしパース失敗したら、その地域はフィルタ対象外とする
+            if (Double.isNaN(tz)) return false; 
 
-            double tz = Double.parseDouble(cleaned);
-
-            // ✅ 特殊値対応
-            if (selectedRange.endsWith("_plus")) return tz >= 12;
-            if (selectedRange.endsWith("_minus")) return tz <= -12;
+            // ✅ 特殊値対応 (例: "+12_plus" は +12時間以上)
+            if (selectedRange.equals("+12_plus")) return tz >= 12;
+            if (selectedRange.equals("-12_minus")) return tz <= -12;
+            // "+0_3" のように範囲指定されるケース
 
             // ✅ 範囲値をパース
-            boolean isPositive = selectedRange.startsWith("+");
-            String[] parts = selectedRange.substring(1).split("_");
-            if (parts.length != 2) return true;
-
-            double start = Double.parseDouble(parts[0]);
-            double end = Double.parseDouble(parts[1]);
-
-            if (isPositive) {
-                return tz >= start && tz < end;
-            } else {
-                // 例: selectedRange = "-3_6" → tz=-4 はマッチ
-                return tz > -end && tz <= -start;
+            boolean isPositiveRange = selectedRange.startsWith("+");
+            String[] parts = selectedRange.substring(1).split("_"); // "+0_3" -> "0_3" -> ["0", "3"]
+            
+            if (parts.length != 2) {
+                 System.err.println("⚠️ 時差範囲の形式が不正です: " + selectedRange);
+                 return false; // または true でスキップ
             }
+
+            double startRange = Double.parseDouble(parts[0]);
+            double endRange = Double.parseDouble(parts[1]);
+
+            if (isPositiveRange) {
+                // 例: selectedRange = "+0_3" (0時間以上3時間未満)
+                // tzが0, 1, 2 はマッチ。3はマッチしない。
+                return tz >= startRange && tz < endRange;
+            } else {
+                // 例: selectedRange = "-0_3" (0時間以下-3時間超)
+                // tzが0, -1, -2 はマッチ。-3はマッチしない。
+                // 表現は `tz <= -startRange && tz > -endRange` とするとより直感的。
+                // 選択肢の表示と合わせるなら -0～-3 は 0 から -3 までの範囲を意図することが多い。
+                // ここでは tz > -endRange && tz <= -startRange と修正
+                return tz > -endRange && tz <= -startRange; 
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("❌ 時差の数値パース中にエラー: " + e.getMessage() + " (元の文字列: " + tzStr + ")");
+            return false;
         } catch (Exception e) {
+            System.err.println("❌ matchTimezoneで予期せぬエラー: " + e.getMessage());
             return false;
         }
     }
 
-  
+    /**
+     * CSVの時差文字列から代表的な数値時差を抽出するヘルパーメソッド。
+     * 例: "約-16時間（夏）～-17時間（標準)" -> -16.5
+     * 例: "約-7時間～-8時間" -> -7.5
+     */
+    private double parseTimezoneFromCsv(String csvTimezoneStr) {
+        // 全角数字を半角に変換
+        String halfWidthStr = csvTimezoneStr.replaceAll("約|時間|（夏）|（標準）|（乗継）", "")
+                                            .replaceAll("～", "-");
+        
+        // マイナス符号が連続する場合を考慮し、数値とハイフンのみを抽出
+        List<Double> numbers = new ArrayList<>();
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("(-?\\d+(\\.\\d+)?)").matcher(halfWidthStr);
+        while (m.find()) {
+            try {
+                numbers.add(Double.parseDouble(m.group()));
+            } catch (NumberFormatException e) {
+                // 無視 (念のため)
+            }
+        }
+
+        if (numbers.isEmpty()) {
+            return Double.NaN; // パースできなかった場合
+        } else if (numbers.size() == 1) {
+            return numbers.get(0); // 単一の数値の場合
+        } else {
+            // 複数ある場合は平均値を取る (例: -16と-17なら-16.5)
+            return numbers.stream().mapToDouble(Double::doubleValue).average().orElse(Double.NaN);
+        }
+    }
 
     // テンプレートエラー解消のためのヘルパーメソッド
     public static String getTimezoneStr(Region region) {
