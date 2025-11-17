@@ -333,7 +333,7 @@ footer .btn-map:hover {
         <table th:if="${bookings != null and !#lists.isEmpty(bookings)}">
           <thead>
             <tr>
-              <th>ID</th>
+<!--              <th>ID</th>-->
               <th>予約番号</th>
               <th>出発日</th>
               <th>出発地</th>
@@ -344,7 +344,7 @@ footer .btn-map:hover {
           </thead>
           <tbody>
             <tr th:each="b : ${bookings}">
-              <td th:text="${b.id}">1</td>
+<!--              <td th:text="${b.id}">1</td>-->
               <td th:text="${b.bookingNumber}">FL-1762401744774</td>
               <td th:text="${b.date}">2025-11-07</td>
               <td th:text="${b.departure}">東京</td>
