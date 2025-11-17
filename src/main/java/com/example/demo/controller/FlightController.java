@@ -325,11 +325,55 @@ public class FlightController {
     // 🛠 ヘルパー: 国名判定
     // -----------------------------
     private String getCountryByCode(String destinationCode, String departureCode) {
-        Map<String, String> map = Map.ofEntries(
-            Map.entry("LAX", "USA"), Map.entry("LAS", "USA"), Map.entry("JFK", "USA"), Map.entry("HNL", "USA"),
-            Map.entry("CDG", "France"), Map.entry("FCO", "Italy"), Map.entry("SYD", "Australia"),
-            Map.entry("CAI", "Egypt"), Map.entry("BJS", "China"), Map.entry("PEK", "China"), Map.entry("ICN", "Korea")
-        );
+    	Map<String, String> map = Map.ofEntries(
+    		    Map.entry("LAX", "USA"),
+    		    Map.entry("LAS", "USA"),
+    		    Map.entry("PHX", "USA"),
+    		    Map.entry("JFK", "USA"),
+    		    Map.entry("IAD", "USA"),
+    		    Map.entry("MIA", "USA"),
+    		    Map.entry("HNL", "USA"),
+
+    		    Map.entry("FCO", "Italy"),
+    		    Map.entry("FLR", "Italy"),
+    		    Map.entry("VCE", "Italy"),
+    		    Map.entry("MXP", "Italy"),
+    		    Map.entry("NAP", "Italy"),
+    		    Map.entry("CTA", "Italy"),
+    		    Map.entry("PSA", "Italy"),
+
+    		    Map.entry("CDG", "France"),
+    		    Map.entry("NCE", "France"),
+
+    		    Map.entry("ZRH", "Switzerland"),
+
+    		    Map.entry("CNS", "Australia"),
+    		    Map.entry("SYD", "Australia"),
+
+    		    Map.entry("BKK", "Thailand"),
+    		    Map.entry("HKT", "Thailand"),
+
+    		    Map.entry("CAI", "Egypt"),
+    		    Map.entry("LXR", "Egypt"),
+
+    		    Map.entry("IKA", "Iran"),
+
+    		    Map.entry("DEL", "India"),
+
+    		    Map.entry("PEK", "China"),
+    		    Map.entry("PVG", "China"),
+
+    		    Map.entry("ICN", "Korea"),
+    		    Map.entry("PUS", "Korea"),
+    		    Map.entry("CJU", "Korea"),
+
+    		    Map.entry("HAN", "Vietnam"),
+    		    Map.entry("DAD", "Vietnam"),
+    		    Map.entry("SGN", "Vietnam"),
+
+    		    Map.entry("LED", "Russia"),
+    		    Map.entry("SVO", "Russia")
+    		);
 
         String country = map.get(destinationCode);
         if (country == null) country = map.get(departureCode);
