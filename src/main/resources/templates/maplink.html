@@ -377,9 +377,9 @@
 
   <!-- 💛 ヘッダー -->
   <header>
-    <div>
+    <a th:href="@{/}"><div> <!--タイトルロゴにtopPageのリンク追加-->
       <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
-    </div>
+    </div></a>
 
     <div>
       <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn login-btn">Login</a>
@@ -422,9 +422,9 @@
 
   <!-- 🌸 フッター -->
   <footer>
-    <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">🍴 グルメ旅</a>
-    <a th:href="@{/scenic}" class="footer-btn scenic-btn">🏞 絶景スポット</a>
-    <a th:href="@{/activity}" class="footer-btn activity-btn">🎡 アクティビティ体験</a>
+    <a th:href="@{/gourmet}" class="footer-btn gourmet-btn">グルメ旅</a><!--topPageに合わせて絵文字消しました-->
+    <a th:href="@{/scenic}" class="footer-btn scenic-btn">絶景スポット</a>
+    <a th:href="@{/activity}" class="footer-btn activity-btn">アクティビティ体験</a>
 		<div class="bottom-buttons">
 		  <button type="button" class="btn back-btn" onclick="history.back()">← ひとつ前に戻る</button>
 		</div>
