@@ -1,195 +1,196 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>世界のアクティビティ特集</title>
-		<link rel="stylesheet" th:href="@{/css/common.css}">
+<head>
+	<meta charset="UTF-8">
+	<title>世界のアクティビティ特集</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 
-		<style>
-			/* ===============================
+	<style>
+		/* ===============================
 			   レジャー（濃いめ・自然・リゾート風）
 			================================ */
-			body {
-			  margin: 0;
-			  padding: 0;
-			  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-			  background: linear-gradient(135deg, #007adf, #00ecbc);
-			  background-attachment: fixed;
-			  color: #fff;
-			  position: relative;
-			}
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+			background: linear-gradient(135deg, #007adf, #00ecbc);
+			background-attachment: fixed;
+			color: #fff;
+			position: relative;
+		}
 
 
 
-			/* 背景光沢層 */
-			body::before {
-				content: "";
-				position: fixed;
-				inset: 0;
-				background:
-					radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
-					radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
-				mix-blend-mode: screen;
-				pointer-events: none;
-				z-index: 0;
-			}
+		/* 背景光沢層 */
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			background:
+				radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+				radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+			mix-blend-mode: screen;
+			pointer-events: none;
+			z-index: 0;
+		}
 
-			/* タイトル */
-			h1.page-title {
-				text-align: center;
-				font-size: 2.8em;
-				margin-top: 100px;
-				color: #fdf3e6;
-				text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-				position: relative;
-				z-index: 5;
-			}
+		/* タイトル */
+		h1.page-title {
+			text-align: center;
+			font-size: 2.8em;
+			margin-top: 100px;
+			color: #fdf3e6;
+			text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+			position: relative;
+			z-index: 5;
+		}
 
-			/* 画像グリッド */
-			.grid-container {
-				display: grid;
-				grid-template-columns: repeat(2, minmax(300px, 1fr));
-				/* 横2列固定・レスポンシブ対応 */
-				gap: 40px;
-				/* 各カード間の余白 */
-				padding: 60px;
-				justify-items: center;
-				align-items: start;
-				position: relative;
-				z-index: 5;
-			}
+		/* 画像グリッド */
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(300px, 1fr));
+			/* 横2列固定・レスポンシブ対応 */
+			gap: 40px;
+			/* 各カード間の余白 */
+			padding: 60px;
+			justify-items: center;
+			align-items: start;
+			position: relative;
+			z-index: 5;
+		}
 
-			/* 各絶景カード（透明ガラス調） */
-			.scenic-item {
-				background: rgba(255, 255, 255, 0.13);
-				border-radius: 18px;
-				box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
-				backdrop-filter: blur(8px) brightness(1.1);
-				transition: transform 0.3s ease, box-shadow 0.3s ease;
-				width: 100%;
-				max-width: 520px;
-				/* ★ 横2列でバランスよく配置 */
-				overflow: hidden;
-			}
+		/* 各絶景カード（透明ガラス調） */
+		.scenic-item {
+			background: rgba(255, 255, 255, 0.13);
+			border-radius: 18px;
+			box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(8px) brightness(1.1);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			width: 100%;
+			max-width: 520px;
+			/* ★ 横2列でバランスよく配置 */
+			overflow: hidden;
+		}
 
-			.scenic-item:hover {
-				transform: translateY(-6px);
-				box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
-			}
+		.scenic-item:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+		}
 
-			/* 画像調整 */
-			.scenic-content img {
-				width: 100%;
-				height: 350px;
-				/* ★ 高さを統一して整える */
-				object-fit: cover;
-				/* 画像の縦横比を保ちつつトリミング */
-				border-radius: 10px;
-			}
+		/* 画像調整 */
+		.scenic-content img {
+			width: 100%;
+			height: 350px;
+			/* ★ 高さを統一して整える */
+			object-fit: cover;
+			/* 画像の縦横比を保ちつつトリミング */
+			border-radius: 10px;
+		}
 
 
-			/* アクティビティタイトル */
-			.scenic-item h3 {
-				text-align: center;
-				margin-top: 15px;
-				font-size: 1.3em;
-				color: #ffeedd;
-			}
+		/* アクティビティタイトル */
+		.scenic-item h3 {
+			text-align: center;
+			margin-top: 15px;
+			font-size: 1.3em;
+			color: #ffeedd;
+		}
 
-			/* コンテンツ部分 */
-			.scenic-content {
-				text-align: center;
-				padding: 15px;
-			}
+		/* コンテンツ部分 */
+		.scenic-content {
+			text-align: center;
+			padding: 15px;
+		}
 
-			.scenic-content img {
-				width: 100%;
-				height: auto;
-				border-radius: 10px;
-			}
+		.scenic-content img {
+			width: 100%;
+			height: auto;
+			border-radius: 10px;
+		}
 
-			.scenic-content h2 {
-				font-size: 1.1em;
-				margin-top: 10px;
-				color: #fff4e8;
-			}
+		.scenic-content h2 {
+			font-size: 1.1em;
+			margin-top: 10px;
+			color: #fff4e8;
+		}
 
-			/* ===============================
+		/* ===============================
 	   フッター＋戻るボタン
 	================================ */
-			footer {
-				position: relative;
-				background: linear-gradient(135deg, #007adf, #00ecbc);
-				color: #f5e9d3;
-				text-align: center;
-				padding: 20px 0 30px 0;
-				font-size: 14px;
-				box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
-				border-top: 1px solid rgba(255, 255, 255, 0.2);
-			}
+		footer {
+			position: relative;
+			background: linear-gradient(135deg, #007adf, #00ecbc);
+			color: #f5e9d3;
+			text-align: center;
+			padding: 20px 0 30px 0;
+			font-size: 14px;
+			box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+			border-top: 1px solid rgba(255, 255, 255, 0.2);
+		}
 
-			/* 「戻る」ボタン（footer右下） */
-			.back-button {
-				position: absolute;
-				bottom: 25px;
-				right: 35px;
-				background: linear-gradient(145deg, #c08b55, #8b5a2b);
-				color: #fff8f0;
-				padding: 12px 26px;
-				border-radius: 30px;
-				text-decoration: none;
-				font-weight: bold;
-				font-size: 15px;
-				box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				transition: all 0.3s ease;
-				z-index: 10;
-			}
+		/* 「戻る」ボタン（footer右下） */
+		.back-button {
+			position: absolute;
+			bottom: 25px;
+			right: 35px;
+			background: linear-gradient(145deg, #c08b55, #8b5a2b);
+			color: #fff8f0;
+			padding: 12px 26px;
+			border-radius: 30px;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 15px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			transition: all 0.3s ease;
+			z-index: 10;
+		}
 
-			/* ホバー時の金属反射 */
-			.back-button:hover {
-				background: linear-gradient(145deg, #d9a66b, #9a6b3a);
-				color: #fff;
-				transform: translateY(-4px);
-				box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
-			}
+		/* ホバー時の金属反射 */
+		.back-button:hover {
+			background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+			color: #fff;
+			transform: translateY(-4px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+		}
 
-			/* 共通修正（common.css干渉防止） */
-			a {
-				text-decoration: none;
-				color: inherit;
-			}
+		/* 共通修正（common.css干渉防止） */
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
 
-			header[th\:replace],
-			div[th\:replace] {
-				position: relative !important;
-				z-index: 10;
-			}
-			
-			main{
-				padding-bottom:50px;
-				padding-top: 50px;
-			}
-			
-			#google_translate_element {
-			  position: absolute;
-			  right: 250px;
-			  top: 40px;
-			  z-index: 9999;
-			}
-		</style>
-		
-		<script>
-		   function googleTranslateElementInit() {
-		     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
-		   }
-		 </script>
+		header[th\:replace],
+		div[th\:replace] {
+			position: relative !important;
+			z-index: 10;
+		}
 
-		 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-		 <script defer type="text/javascript" src="/js/script.js"></script>
+		main {
+			padding-bottom: 50px;
+			padding-top: 50px;
+		}
 
-	</head>
+		#google_translate_element {
+			position: absolute;
+			right: 250px;
+			top: 40px;
+			z-index: 9999;
+		}
+	</style>
+
+	<script>
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+		}
+	</script>
+
+	<script defer type="text/javascript"
+		src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script defer type="text/javascript" src="/js/script.js"></script>
+
+</head>
 
 <body>
 	<!-- ヘッダー -->
@@ -286,7 +287,9 @@
 					<a th:href="@{/region/028}">
 						<img th:src="@{/images/tourist_spot/090.jpg}" alt="バーンホフ通り">
 					</a>
-					<h2>チューリッヒ中央駅からチューリッヒ湖まで続く、世界屈指の高級ショッピングストリート。 高級ブランド店や宝石店、時計店が軒を連ねる、エレガントな通りです。 路面電車が通り、ヨーロッパらしい落ち着いた雰囲気を持っています。 スイスの高品質な製品と、洗練された都会の雰囲気を味わえる場所。 買い物だけでなく、美しい街並みを散策するだけでも楽しめます。 世界的な金融都市チューリッヒのエレガンスを感じてみましょう。</h2>
+					<h2>チューリッヒ中央駅からチューリッヒ湖まで続く、世界屈指の高級ショッピングストリート。 高級ブランド店や宝石店、時計店が軒を連ねる、エレガントな通りです。
+						路面電車が通り、ヨーロッパらしい落ち着いた雰囲気を持っています。 スイスの高品質な製品と、洗練された都会の雰囲気を味わえる場所。 買い物だけでなく、美しい街並みを散策するだけでも楽しめます。
+						世界的な金融都市チューリッヒのエレガンスを感じてみましょう。</h2>
 				</div>
 			</div>
 
@@ -297,7 +300,9 @@
 					<a th:href="@{/region/034}">
 						<img th:src="@{/images/tourist_spot/116.jpg}" alt="フィリップ島">
 					</a>
-					<h2>メルボルン近郊にあり、野生のペンギンやコアラに出会える自然豊かな島。 夜になると、小さなフェアリーペンギンたちが海から戻ってくる「パレード」は感動的。 コアラを間近で見られる保護センターなど、野生動物との出会いが豊富です。 南極海から打ち寄せる波が荒々しい、自然の力強さも感じられます。 オーストラリアならではの、可愛らしい野生動物との触れ合いを体験。 自然と動物好きにはたまらない、メルボルンからの日帰りスポットです。</h2>
+					<h2>メルボルン近郊にあり、野生のペンギンやコアラに出会える自然豊かな島。 夜になると、小さなフェアリーペンギンたちが海から戻ってくる「パレード」は感動的。
+						コアラを間近で見られる保護センターなど、野生動物との出会いが豊富です。 南極海から打ち寄せる波が荒々しい、自然の力強さも感じられます。
+						オーストラリアならではの、可愛らしい野生動物との触れ合いを体験。 自然と動物好きにはたまらない、メルボルンからの日帰りスポットです。</h2>
 				</div>
 			</div>
 
@@ -308,23 +313,25 @@
 					<a th:href="@{/region/036}">
 						<img th:src="@{/images/tourist_spot/123.jpg}" alt="カオサン通り">
 					</a>
-					<h2>世界中のバックパッカーが集まる、自由で活気あふれるストリート。 安宿、屋台、バー、旅行会社などがひしめき合い、独特の雰囲気。 マッサージやヘナタトゥーなど、安価なサービスも楽しめます。 夜になるとネオンが輝き、音楽が鳴り響く、国際色豊かな賑わいを見せます。 タイのローカルな雰囲気と、世界中の旅人が交差する場所。 アジアの熱気と自由な空気を感じながら、賑わいを楽しみましょう。</h2>
+					<h2>世界中のバックパッカーが集まる、自由で活気あふれるストリート。 安宿、屋台、バー、旅行会社などがひしめき合い、独特の雰囲気。 マッサージやヘナタトゥーなど、安価なサービスも楽しめます。
+						夜になるとネオンが輝き、音楽が鳴り響く、国際色豊かな賑わいを見せます。 タイのローカルな雰囲気と、世界中の旅人が交差する場所。 アジアの熱気と自由な空気を感じながら、賑わいを楽しみましょう。
+					</h2>
 				</div>
 			</div>
 
 			<!-- 10 -->
 			<div class="scenic-item">
-			    <h3>ロッテワールド</h3>
-			    <div class="scenic-content">
-			        <!-- クリックで詳細ページに遷移 -->
-			        <a th:href="@{/region/53}">
-			            <!-- ロッテワールドの画像 -->
-			            <img th:src="@{/images/country/lotte.jpg}" alt="ロッテワールド">
-			        </a>
-			        <!-- ロッテワールドの説明 -->
-			        <h2>ソウル・蚕室にある韓国を代表するテーマパーク。世界最大級の室内テーマパークと屋外遊園地を併せ持ち、家族連れや観光客に人気のスポットです。</h2>
-			    </div>
-			</div>			
+				<h3>ロッテワールド</h3>
+				<div class="scenic-content">
+					<!-- クリックで詳細ページに遷移 -->
+					<a th:href="@{/region/53}">
+						<!-- ロッテワールドの画像 -->
+						<img th:src="@{/images/country/lotte.jpg}" alt="ロッテワールド">
+					</a>
+					<!-- ロッテワールドの説明 -->
+					<h2>ソウル・蚕室にある韓国を代表するテーマパーク。世界最大級の室内テーマパークと屋外遊園地を併せ持ち、家族連れや観光客に人気のスポットです。</h2>
+				</div>
+			</div>
 
 	</main>
 

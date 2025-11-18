@@ -165,28 +165,28 @@
 			z-index: 10;
 		}
 
-		main{
-			padding-bottom:100px;
+		main {
+			padding-bottom: 100px;
 			padding-top: 50px;
 		}
-		
-		#google_translate_element {
-		  position: absolute;
-		  right: 250px;
-		  top: 40px;
-		  z-index: 9999;
-		}
-		 
-	</style>
-	
-	<script>
-	   function googleTranslateElementInit() {
-	     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
-	   }
-	 </script>
 
-	 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-	 <script defer type="text/javascript" src="/js/script.js"></script>
+		#google_translate_element {
+			position: absolute;
+			right: 250px;
+			top: 40px;
+			z-index: 9999;
+		}
+	</style>
+
+	<script>
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+		}
+	</script>
+
+	<script defer type="text/javascript"
+		src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script defer type="text/javascript" src="/js/script.js"></script>
 
 </head>
 
@@ -228,18 +228,18 @@
 
 			<!-- 3 -->
 			<div class="scenic-item">
-			    <h3>コート・ダジュール</h3>
-			    <div class="scenic-content">
-			        <!-- クリックで詳細ページに遷移 -->
-			        <a th:href="@{/region/20}">
-			            <!-- コート・ダジュールの画像 -->
-			            <img th:src="@{/images/country/ko-to.jpg}" alt="コート・ダジュール">
-			        </a>
-			        <!-- コート・ダジュールの説明 -->
-			        <h2>フランス南東部の地中海沿岸に広がるリゾート地。ニースやカンヌ、モナコなどの高級リゾートが点在し、美しい青い海と温暖な気候が観光客に人気です。</h2>
-			    </div>
-			</div>			
-			
+				<h3>コート・ダジュール</h3>
+				<div class="scenic-content">
+					<!-- クリックで詳細ページに遷移 -->
+					<a th:href="@{/region/20}">
+						<!-- コート・ダジュールの画像 -->
+						<img th:src="@{/images/country/ko-to.jpg}" alt="コート・ダジュール">
+					</a>
+					<!-- コート・ダジュールの説明 -->
+					<h2>フランス南東部の地中海沿岸に広がるリゾート地。ニースやカンヌ、モナコなどの高級リゾートが点在し、美しい青い海と温暖な気候が観光客に人気です。</h2>
+				</div>
+			</div>
+
 			<!-- 4 -->
 			<div class="scenic-item">
 				<h3>グリーン島</h3>
@@ -305,7 +305,7 @@
 					</h2>
 				</div>
 			</div>
-			
+
 	</main>
 
 	<!-- フッター -->
