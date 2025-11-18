@@ -122,6 +122,29 @@
     color: #202340;
     z-index: 1000;
   }
+  
+  .pop-error {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff4d4d;
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      animation: popFade 3s forwards;
+  }
+
+  @keyframes popFade {
+      0% { opacity: 0; transform: translate(-50%, -20px); }
+      10% { opacity: 1; transform: translate(-50%, 0); }
+      90% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -20px); }
+  }
 </style>
 
 <script>
@@ -159,6 +182,14 @@
       <a th:href="@{/login}">ログインはこちら</a>
     </p>
   </div>
+  
+  <!-- ▼ ポップ通知（エラー用） -->
+  <div id="pop-message" 
+       th:if="${error}"
+       th:text="${error}"
+       class="pop-error">
+  </div>
+
 </main>
 
 <!-- フッター固定 -->

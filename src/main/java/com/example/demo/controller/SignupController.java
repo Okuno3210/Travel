@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.User;
@@ -27,10 +28,19 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String signupSubmit(User user) {
-        // パスワードを暗号化して保存
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public String signup(
+            @ModelAttribute("user") User user,
+            Model model) {
+
+        // ユーザー名の重複チェック
+        if (userRepository.existsByUsername(user.getUsername())) {
+            model.addAttribute("error", "このユーザー名は既に使われています");
+            return "signup"; // signup.html に戻る
+        }
+
         userRepository.save(user);
+
         return "redirect:/login";
     }
+
 }
