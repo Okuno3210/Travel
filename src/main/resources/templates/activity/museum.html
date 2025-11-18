@@ -1,194 +1,196 @@
 <!DOCTYPE html>
 
-	<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>世界のアクティビティ特集</title>
-		<link rel="stylesheet" th:href="@{/css/common.css}">
+<head>
+	<meta charset="UTF-8">
+	<title>世界のアクティビティ特集</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 
-		<style>
-			/* ===============================
+	<style>
+		/* ===============================
 			   ミュージアム（上品・アート系）
 			================================ */
-			body {
-			  margin: 0;
-			  padding: 0;
-			  font-family: "Segoe UI", "Hiragino Sans", sans-serif;
-			  background: linear-gradient(145deg, #3a1c71, #d76d77, #ffaf7b);
-			  background-attachment: fixed;
-			  color: #fff;
-			  position: relative;
-			}
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+			background: linear-gradient(145deg, #3a1c71, #d76d77, #ffaf7b);
+			background-attachment: fixed;
+			color: #fff;
+			position: relative;
+		}
 
 
-			/* 背景光沢層 */
-			body::before {
-				content: "";
-				position: fixed;
-				inset: 0;
-				background:
-					radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
-					radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
-				mix-blend-mode: screen;
-				pointer-events: none;
-				z-index: 0;
-			}
+		/* 背景光沢層 */
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			background:
+				radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent 60%),
+				radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.2), transparent 70%);
+			mix-blend-mode: screen;
+			pointer-events: none;
+			z-index: 0;
+		}
 
-			/* タイトル */
-			h1.page-title {
-				text-align: center;
-				font-size: 2.8em;
-				margin-top: 100px;
-				color: #fdf3e6;
-				text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-				position: relative;
-				z-index: 5;
-			}
+		/* タイトル */
+		h1.page-title {
+			text-align: center;
+			font-size: 2.8em;
+			margin-top: 100px;
+			color: #fdf3e6;
+			text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+			position: relative;
+			z-index: 5;
+		}
 
-			/* 画像グリッド */
-			.grid-container {
-				display: grid;
-				grid-template-columns: repeat(2, minmax(300px, 1fr));
-				/* 横2列固定・レスポンシブ対応 */
-				gap: 40px;
-				/* 各カード間の余白 */
-				padding: 60px;
-				justify-items: center;
-				align-items: start;
-				position: relative;
-				z-index: 5;
-			}
+		/* 画像グリッド */
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(300px, 1fr));
+			/* 横2列固定・レスポンシブ対応 */
+			gap: 40px;
+			/* 各カード間の余白 */
+			padding: 60px;
+			justify-items: center;
+			align-items: start;
+			position: relative;
+			z-index: 5;
+		}
 
-			/* 各絶景カード（透明ガラス調） */
-			.scenic-item {
-				background: rgba(255, 255, 255, 0.13);
-				border-radius: 18px;
-				box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
-				backdrop-filter: blur(8px) brightness(1.1);
-				transition: transform 0.3s ease, box-shadow 0.3s ease;
-				width: 100%;
-				max-width: 520px;
-				/* ★ 横2列でバランスよく配置 */
-				overflow: hidden;
-			}
+		/* 各絶景カード（透明ガラス調） */
+		.scenic-item {
+			background: rgba(255, 255, 255, 0.13);
+			border-radius: 18px;
+			box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+			backdrop-filter: blur(8px) brightness(1.1);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			width: 100%;
+			max-width: 520px;
+			/* ★ 横2列でバランスよく配置 */
+			overflow: hidden;
+		}
 
-			.scenic-item:hover {
-				transform: translateY(-6px);
-				box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
-			}
+		.scenic-item:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+		}
 
-			/* 画像調整 */
-			.scenic-content img {
-				width: 100%;
-				height: 350px;
-				/* ★ 高さを統一して整える */
-				object-fit: cover;
-				/* 画像の縦横比を保ちつつトリミング */
-				border-radius: 10px;
-			}
+		/* 画像調整 */
+		.scenic-content img {
+			width: 100%;
+			height: 350px;
+			/* ★ 高さを統一して整える */
+			object-fit: cover;
+			/* 画像の縦横比を保ちつつトリミング */
+			border-radius: 10px;
+		}
 
 
-			/* アクティビティタイトル */
-			.scenic-item h3 {
-				text-align: center;
-				margin-top: 15px;
-				font-size: 1.3em;
-				color: #ffeedd;
-			}
+		/* アクティビティタイトル */
+		.scenic-item h3 {
+			text-align: center;
+			margin-top: 15px;
+			font-size: 1.3em;
+			color: #ffeedd;
+		}
 
-			/* コンテンツ部分 */
-			.scenic-content {
-				text-align: center;
-				padding: 15px;
-			}
+		/* コンテンツ部分 */
+		.scenic-content {
+			text-align: center;
+			padding: 15px;
+		}
 
-			.scenic-content img {
-				width: 100%;
-				height: auto;
-				border-radius: 10px;
-			}
+		.scenic-content img {
+			width: 100%;
+			height: auto;
+			border-radius: 10px;
+		}
 
-			.scenic-content h2 {
-				font-size: 1.1em;
-				margin-top: 10px;
-				color: #fff4e8;
-			}
-			
-			main{
-				padding-bottom:100px;
-				padding-top: 50px;
-			}
+		.scenic-content h2 {
+			font-size: 1.1em;
+			margin-top: 10px;
+			color: #fff4e8;
+		}
 
-			/* ===============================
+		main {
+			padding-bottom: 100px;
+			padding-top: 50px;
+		}
+
+		/* ===============================
 	   戻るボタン
 	================================ */
-	footer {
-	  /* bodyの背景に合わせたグラデーション */
-	  background: linear-gradient(145deg, #3a1c71, #d76d77, #ffaf7b);
-	  
-	  color: white;        /* 文字色は白のまま */
-	  padding: 15px;
-	  text-align: center;
-	}
+		footer {
+			/* bodyの背景に合わせたグラデーション */
+			background: linear-gradient(145deg, #3a1c71, #d76d77, #ffaf7b);
 
-			/* 「戻る」ボタン（footer右下） */
-			.back-button {
-				position: absolute;
-				bottom: 25px;
-				right: 35px;
-				background: linear-gradient(145deg, #c08b55, #8b5a2b);
-				color: #fff8f0;
-				padding: 12px 26px;
-				border-radius: 30px;
-				text-decoration: none;
-				font-weight: bold;
-				font-size: 15px;
-				box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				transition: all 0.3s ease;
-				z-index: 10;
-			}
+			color: white;
+			/* 文字色は白のまま */
+			padding: 15px;
+			text-align: center;
+		}
 
-			/* ホバー時の金属反射 */
-			.back-button:hover {
-				background: linear-gradient(145deg, #d9a66b, #9a6b3a);
-				color: #fff;
-				transform: translateY(-4px);
-				box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
-			}
+		/* 「戻る」ボタン（footer右下） */
+		.back-button {
+			position: absolute;
+			bottom: 25px;
+			right: 35px;
+			background: linear-gradient(145deg, #c08b55, #8b5a2b);
+			color: #fff8f0;
+			padding: 12px 26px;
+			border-radius: 30px;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 15px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			transition: all 0.3s ease;
+			z-index: 10;
+		}
 
-			/* 共通修正（common.css干渉防止） */
-			a {
-				text-decoration: none;
-				color: inherit;
-			}
+		/* ホバー時の金属反射 */
+		.back-button:hover {
+			background: linear-gradient(145deg, #d9a66b, #9a6b3a);
+			color: #fff;
+			transform: translateY(-4px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+		}
 
-			header[th\:replace],
-			div[th\:replace] {
-				position: relative !important;
-				z-index: 10;
-			
-			}
-			
-			#google_translate_element {
-			  position: absolute;
-			  right: 250px;
-			  top: 40px;
-			  z-index: 9999;
-			}
-		</style>
-		
-		<script>
-		   function googleTranslateElementInit() {
-		     new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
-		   }
-		 </script>
+		/* 共通修正（common.css干渉防止） */
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
 
-		 <script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-		 <script defer type="text/javascript" src="/js/script.js"></script>
+		header[th\:replace],
+		div[th\:replace] {
+			position: relative !important;
+			z-index: 10;
 
-	</head>
+		}
+
+		#google_translate_element {
+			position: absolute;
+			right: 250px;
+			top: 40px;
+			z-index: 9999;
+		}
+	</style>
+
+	<script>
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+		}
+	</script>
+
+	<script defer type="text/javascript"
+		src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script defer type="text/javascript" src="/js/script.js"></script>
+
+</head>
 
 <body>
 	<!-- ヘッダー -->
@@ -243,6 +245,20 @@
 
 			<!-- 4 -->
 			<div class="scenic-item">
+			    <h3>オルセー美術館</h3>
+			    <div class="scenic-content">
+			        <!-- クリックで詳細ページに遷移 -->
+			        <a th:href="@{/region/018}">
+			            <!-- 美術館の画像 -->
+			            <img th:src="@{/images/country/oruse-.jpg}" alt="オルセー美術館">
+			        </a>
+			        <!-- 美術館の説明 -->
+			        <h2>19世紀のフランス美術を中心に、印象派やポスト印象派の名作を多数所蔵。パリ・セーヌ川沿いの旧駅舎を改装した美術館で、建物そのものも見どころです。</h2>
+			    </div>
+			</div>
+
+			<!-- 5 -->
+			<div class="scenic-item">
 				<h3>ギザのピラミッドとスフィンクス</h3>
 				<div class="scenic-content">
 					<a th:href="@{/region/038}">
@@ -254,7 +270,7 @@
 				</div>
 			</div>
 
-			<!-- 5 -->
+			<!-- 6 -->
 			<div class="scenic-item">
 				<h3>大エジプト博物館 (GEM)</h3>
 				<div class="scenic-content">
@@ -267,7 +283,7 @@
 				</div>
 			</div>
 
-			<!-- 6 -->
+			<!-- 7 -->
 			<div class="scenic-item">
 				<h3>上海博物館</h3>
 				<div class="scenic-content">
@@ -279,14 +295,15 @@
 				</div>
 			</div>
 
-			<!-- 7 -->
+			<!-- 8 -->
 			<div class="scenic-item">
 				<h3>エルミタージュ美術館</h3>
 				<div class="scenic-content">
 					<a th:href="@{/region/051}">
 						<img th:src="@{/images/tourist_spot/183.jpg}" alt="エルミタージュ美術館">
 					</a>
-					<h2>世界三大美術館の一つに数えられる、サンクトペテルブルクの至宝です。ロマノフ朝の歴代皇帝の宮殿だった冬の宮殿を本館とし、豪華絢爛な内装そのものが芸術作品となっています。エカテリーナ2世のコレクションを基に、レオナルド・ダ・ヴィンチやレンブラントなど、西洋美術の膨大な傑作を約300万点所蔵しています。</h2>
+					<h2>世界三大美術館の一つに数えられる、サンクトペテルブルクの至宝です。ロマノフ朝の歴代皇帝の宮殿だった冬の宮殿を本館とし、豪華絢爛な内装そのものが芸術作品となっています。エカテリーナ2世のコレクションを基に、レオナルド・ダ・ヴィンチやレンブラントなど、西洋美術の膨大な傑作を約300万点所蔵しています。
+					</h2>
 				</div>
 			</div>
 
