@@ -179,9 +179,10 @@ body {
   text-align: center;
   transition: transform 0.2s ease;
 }
-.info-item:hover {
-    transform: translateY(-5px);
-}
+/* .info-item:hover {
+    transform: translateY(-5px);} 
+	  regionDetail.html リンクがあると勘違いするのでホバーはやめた方がいいと思います */
+	
 .info-icon {
     font-size: 30px;
     display: block;
@@ -226,7 +227,8 @@ body {
   transition: transform 0.3s ease;
   text-align: left;
 }
-.spot-card:hover { transform: scale(1.03); }
+/* .spot-card:hover { transform: scale(1.03); }
+  regionDetail.html リンクがあると勘違いするのでホバーはやめた方がいいと思います */
 
 .spot-card img.spot-image {
   width: 100%;
@@ -266,7 +268,8 @@ body {
   transition: transform 0.3s ease;
   text-align: left;
 }
-.food-card:hover { transform: scale(1.03); }
+/*.food-card:hover { transform: scale(1.03); } 
+      regionDetail.html リンクがあると勘違いするのでホバーはやめた方がいいと思います*/
 
 .food-card img.food-image {
   width: 100%;
