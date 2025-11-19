@@ -37,7 +37,8 @@ public class SignupController {
             model.addAttribute("error", "このユーザー名は既に使われています");
             return "signup"; // signup.html に戻る
         }
-
+        
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         return "redirect:/login";
