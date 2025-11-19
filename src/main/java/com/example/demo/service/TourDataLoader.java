@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.TourEntity;
 import com.example.demo.repository.TourRepository;
 
 
 
-@Component
+//@Component
 public class TourDataLoader implements ApplicationRunner {
 	private final TourRepository tourRepo;
 	public TourDataLoader(
