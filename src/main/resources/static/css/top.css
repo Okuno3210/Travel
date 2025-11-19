@@ -135,7 +135,7 @@
 
  .banner-slide {
    display: flex;
-   width: calc(250px * 26); 
+   width: calc(250px * 18); 
    animation: scrollBanner 20s linear infinite;
  }
 
