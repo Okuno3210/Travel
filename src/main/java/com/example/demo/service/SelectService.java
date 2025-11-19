@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Concept;
@@ -20,8 +20,6 @@ import com.example.demo.entity.Country;
 import com.example.demo.entity.Region;
 
 @Service
-
-@Repository
 public class SelectService {
 	
 	private List<Country> countryData = new ArrayList<>();
@@ -230,15 +228,18 @@ public class SelectService {
     }
     
     // ✅ 全件取得
+  @Cacheable("regions")
   public List<Region> getAllRegions() {
     	
         return regionData;
     }
   
+  @Cacheable("countries")
   public List<Country> getAllCountries() {
 	    return countryData;
 	}
   
+  @Cacheable("concepts")
   public List<Concept> getAllConcepts() {
       return conceptData;
   }
