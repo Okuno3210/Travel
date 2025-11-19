@@ -6,7 +6,6 @@
 	<title>ツアー特集</title>
 	<!--外部css-->
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<!--<link rel="stylesheet" th:href="@{/css/top.css}" /> 2つかいたら背景が二重になる-->
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com"><!--説明文見出し用書体-->
@@ -28,9 +27,6 @@
 			  width: 95%;
 			  z-index: 10;
 			}
-			/*言語を選択用
-			.gengosentaku {  position: absolute;  left: 400px; top: 50px;}*/
-						 
 		
 		main {
 			/* 🗺️ 背景を2枚重ねる！ */
@@ -55,11 +51,6 @@
 			font-weight: 800;
 			color: white;/*color: #00A2B8;*/
 			text-shadow: 
-			       /* -1px -1px 0 #FFF,   左上に白影 
-			         1px -1px 0 #FFF,   右上 
-			        -1px  1px 0 #FFF,   左下 
-			         1px  1px 0 #FFF,   右下 */
-			         
 					 2px 2px 5px rgba(0, 0, 0, 0.1);
 			letter-spacing: 0.05em;
 			
@@ -294,8 +285,16 @@
 </head>
 <body>
 	<a id="top"></a><!-- 「このページの最上部へ」の到達地点 -->
-	<!-- 共通ヘッダー-->
-	<header th:insert="fragments/header :: header"> </header>
+	
+	<header th:fragment="header">
+		<a th:href="@{/}"> <!-- タイトルロゴクリックでtopPageへ -->
+			<div id="google_translate_element" class="translate-box"></div>
+			<img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img"></a>
+		<div> <!-- 右上ボタン ログイン前はLogion、ログイン後はMypage -->
+		      <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn login-btn">Login</a>
+		      <a sec:authorize="isAuthenticated()" th:href="@{/list}" class="btn mypage-btn">Mypage</a>
+		    </div>
+	</header>
 	
 	<main>
 		<h1>🌏 各国一周ツアー特集</h1>
@@ -337,8 +336,6 @@
 						<a th:href="@{/tour/flight/search(countryId=${tour2.countryId})}" class="btn next-btn">
 							✈️ <span th:text="|${tour2.countryName}への航空券を探す|">
 							</span></a>
-						<!-- 一応消しとく　<a class="btn favorite-btn">⭐️ お気に入り登録</a> -->
-						<!--リンク先未設定 @PostMapping("/favorites/add/{countryId}") -->
 					</div>
 				</div>
 			</div>
