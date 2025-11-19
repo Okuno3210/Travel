@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TravelPop - 一時的に利用できません</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+<body>
+<div class="error-container">
+    <img src="/images/travel_pop_logo.png" alt="TravelPop" class="logo">
+
+    <h1>503 - Service Unavailable</h1>
+    <p>現在サービスを利用できません。しばらくしてから再度お試しください。</p>
+
+    <a th:href="@{/}" class="btn">トップへ戻る</a>
+</div>
+</body>
+</html>
