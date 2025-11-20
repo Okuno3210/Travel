@@ -348,7 +348,7 @@ public class DataLoader implements ApplicationRunner {
 
                   try {
                 	  JpAirport a = new JpAirport();
-                      a.setId(Long.parseLong(arr[0].trim()));  // IDを指定
+                      //a.setId(Long.parseLong(arr[0].trim()));  // IDを指定 //エクリプスで起動時は無効にする
                       a.setName(arr[1].trim());
                       a.setCode(arr[2].trim());
                       a.setCountryId(Long.parseLong(arr[3].trim()));
