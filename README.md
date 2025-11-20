@@ -10,7 +10,7 @@ postgreSQLは主キーを自動生成しないので、エクリプスで起動�
 	runtimeOnly 'org.postgresql:postgresql:42.7.3' //rendaer.comで動かす時はpostgreSQLを有効にする
 	
 ●application.properties
-	# メモリ型DB、エクリプスで起動する時はH2を有効、render.comで起動する時はこの4行をコメントアウトする
+	# メモリ型DB、エクリプスで起動する時はH2を有効にするため下の4行を有効にする
 	spring.datasource.url=jdbc:h2:mem:testdb
 	spring.datasource.driverClassName=org.h2.Driver
 	spring.datasource.username=sa
@@ -33,7 +33,7 @@ postgreSQLは主キーを自動生成しないので、エクリプスで起動�
 	//to.setId(Long.parseLong(arr[0]));　主キーを読み込む部分はコメントアウトする
 	
 ●Entityの@GeneratedValue
-エクリプスで起動する時は8ヶ所有効にして主キーを自動生成する、render.comで起動する時はコメントアウトする
+エクリプスで起動する時は8ヶ所有効にして主キーを自動生成する
 	Airport.java
 	Country.java
 	Food.java
