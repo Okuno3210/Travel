@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Food {
 
     @Id
-    //@GeneratedValue
+    //@GeneratedValue //エクリプスで起動する時は有効にする
     private Long id;          // DB管理用PK
 
     @ManyToOne

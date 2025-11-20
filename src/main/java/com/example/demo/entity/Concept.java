@@ -25,7 +25,7 @@ public class Concept {
 
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;      // CSVのid（自動採番でもCSV値でもOK）
 
     private String name;  // 「美術」「グルメ」「絶景」など

@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "region")
 public class Region {
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;        // CSVのid、テーブル管理用一意ID自動生成
 
 	@ManyToOne(fetch = FetchType.LAZY)

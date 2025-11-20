@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "countries")
 public class Country {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;          // CSVのid（DB管理用PK）
 
     //private Long regionId;    // RegionとのJOIN用

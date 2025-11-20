@@ -17,7 +17,7 @@ import com.example.demo.repository.TourRepository;
 
 
 
-//@Component
+//@Component //エクリプスで起動する時は有効にする
 public class TourDataLoader implements ApplicationRunner {
 	private final TourRepository tourRepo;
 	public TourDataLoader(
@@ -38,6 +38,7 @@ public class TourDataLoader implements ApplicationRunner {
 	                        // if (arr.length < 7) return;
 
 	                        TourEntity to = new TourEntity();
+	                        to.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
 	                        to.setCountryId(parseLongOrNull(arr[1]));
 	                        to.setCountryName(arr[2]);
 	                        to.setTitle(arr[3]);

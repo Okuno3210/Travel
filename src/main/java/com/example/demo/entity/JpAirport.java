@@ -14,7 +14,7 @@ import lombok.Setter;
 public class JpAirport {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;
 
     private String name;

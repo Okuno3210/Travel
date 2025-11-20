@@ -14,7 +14,7 @@ import lombok.Data;
 @Table(name = "airports")
 public class Airport {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;
 
     private String name;   // 成田国際空港など

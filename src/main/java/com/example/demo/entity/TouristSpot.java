@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tourist_spots")
 public class TouristSpot {
     @Id
-    //@GeneratedValue
+    //@GeneratedValue //エクリプスで起動する時は有効にする
     private Long id;          // CSVのid（DB管理用PK）
     @ManyToOne
     @JoinColumn(name = "region_id")
