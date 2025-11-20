@@ -19,13 +19,13 @@ postgreSQLは主キーを自動生成しないので、エクリプスで起動�
 ●DataLoader.java
 	エクリプスで起動する時
 	@Componentを有効に
-	//c.setId(Long.parseLong(arr[0]));　主キーを読み込む部分6ヶ所コメントアウトする
+	//c.setId(Long.parseLong(arr[0]));　主キーを読み込む部分7ヶ所コメントアウトする
 	//r.setId(Long.parseLong(arr[0]));
 	//s.setId(Long.parseLong(arr[0]));
 	//f.setId(Long.parseLong(arr[0]));
 	//c.setId(Long.parseLong(arr[0]));
 	//a.setId(Long.parseLong(arr[0]));
-※private void loadJpAirports()のtry-catch文のa.setId(Long.parseLong(arr[0].trim()));は無関係
+private void loadJpAirports()のtry-catch文の //a.setId(Long.parseLong(arr[0].trim()));も無効にする
 
 ●TourDataLoader.java
 	エクリプスで起動する時
