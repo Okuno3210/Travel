@@ -217,6 +217,14 @@
 		            margin: 5px;
 		        }
 		    </style>
+			<script>
+			  function googleTranslateElementInit() {
+			    new google.translate.TranslateElement({pageLanguage: 'ja'}, 'google_translate_element');
+			  }
+			</script>
+			<script defer type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+			<script defer type="text/javascript" src="/js/script.js"></script>
+
 		</head>
 		<body>
 			
@@ -226,9 +234,11 @@
 			        <img th:src="@{/images/travel_pop_logo.png}" alt="TRAVEL POP!" class="logo-img">
 					</a>
 			    </div>
+				
 			    <nav>
 			       
 			    </nav>
+				<div id="google_translate_element" class="translate-box"></div>
 			    <a th:href="@{/login}" class="login-btn">Login</a>
 			</header>
     
@@ -261,8 +271,8 @@
                 <option value="+0_3" th:selected="${timezone == '+0_3'}">+0～3時間</option>
                 <option value="+3_6" th:selected="${timezone == '+3_6'}">+3～6時間</option>
                 <option value="+6_9" th:selected="${timezone == '+6_9'}">+6～9時間</option>
-                <option value="+9_12" th:selected="${timezone == '+9_12'}">+9～12時間</option>
-                <option value="+12_plus" th:selected="${timezone == '+12_plus'}">+12時間～</option>
+               
+ 
                 <option value="-0_3" th:selected="${timezone == '-0_3'}">-0～3時間</option>
                 <option value="-3_6" th:selected="${timezone == '-3_6'}">-3～6時間</option>
                 <option value="-6_9" th:selected="${timezone == '-6_9'}">-6～9時間</option>
