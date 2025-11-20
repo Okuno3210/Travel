@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Concept;
@@ -36,7 +37,7 @@ import com.example.demo.repository.TouristSpotRepository;
  * - 各CSVファイルからDBへ初期データをロード
  * - 既存データ削除→再読込
  */
-//@Component //エクリプスで起動する時は有効にする
+@Component //エクリプスで起動する時は有効にする
 public class DataLoader implements ApplicationRunner {
 
     // ===== Repository定義 =====
