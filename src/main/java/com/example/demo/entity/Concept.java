@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -25,7 +27,7 @@ public class Concept {
 
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //エクリプスで起動する時は有効にする
     private Long id;      // CSVのid（自動採番でもCSV値でもOK）
 
     private String name;  // 「美術」「グルメ」「絶景」など

@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.TourEntity;
 import com.example.demo.repository.TourRepository;
 
 
 
-//@Component
+@Component //エクリプスで起動する時は有効にする
 public class TourDataLoader implements ApplicationRunner {
 	private final TourRepository tourRepo;
 	public TourDataLoader(
@@ -38,6 +39,7 @@ public class TourDataLoader implements ApplicationRunner {
 	                        // if (arr.length < 7) return;
 
 	                        TourEntity to = new TourEntity();
+	                        //to.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
 	                        to.setCountryId(parseLongOrNull(arr[1]));
 	                        to.setCountryName(arr[2]);
 	                        to.setTitle(arr[3]);

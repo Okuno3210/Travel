@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Concept;
@@ -36,7 +37,7 @@ import com.example.demo.repository.TouristSpotRepository;
  * - 各CSVファイルからDBへ初期データをロード
  * - 既存データ削除→再読込
  */
-//@Component
+@Component //エクリプスで起動する時は有効にする
 public class DataLoader implements ApplicationRunner {
 
     // ===== Repository定義 =====
@@ -133,7 +134,7 @@ public class DataLoader implements ApplicationRunner {
                         if (arr.length < 5) return;
 
                         Country c = new Country();
-                        c.setId(Long.parseLong(arr[0])); 
+                        //c.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする 
                         c.setCode(arr[1]);
                         c.setName(arr[2]);
                         c.setDescription(arr[3]);
@@ -156,7 +157,7 @@ public class DataLoader implements ApplicationRunner {
                         if (arr.length < 10) return;
 
                         Region r = new Region();
-                        r.setId(Long.parseLong(arr[0]));
+                        //r.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
                         r.setName(arr[2]);
                         r.setBudget(arr[3]);
                         r.setFlightTime(arr[4]);
@@ -186,7 +187,7 @@ public class DataLoader implements ApplicationRunner {
                     .forEach(line -> {
                         String[] arr = line.split(",");
                         TouristSpot s = new TouristSpot();
-                        s.setId(Long.parseLong(arr[0]));
+                        //s.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
                         s.setName(arr[2]);
                         s.setDescription(arr[3]);
                         s.setImageUrl(arr[4]);
@@ -208,7 +209,7 @@ public class DataLoader implements ApplicationRunner {
                     .forEach(line -> {
                         String[] arr = line.split(",");
                         Food f = new Food();
-                        f.setId(Long.parseLong(arr[0]));
+                        //f.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
                         f.setName(arr[2]);
                         f.setDescription(arr.length > 3 ? arr[3] : "");
                         f.setImageUrl(arr.length > 4 ? arr[4] : "");
@@ -230,7 +231,7 @@ public class DataLoader implements ApplicationRunner {
                     .forEach(line -> {
                         String[] arr = line.split(",");
                         Concept c = new Concept();
-                        c.setId(Long.parseLong(arr[0]));
+                        //c.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
                         c.setName(arr[1].trim());
                         conceptRepo.save(c);
                     });
@@ -284,7 +285,7 @@ public class DataLoader implements ApplicationRunner {
                         if (arr.length < 6) return;
 
                         Airport a = new Airport();
-                        a.setId(Long.parseLong(arr[0]));
+                        //a.setId(Long.parseLong(arr[0])); //エクリプスで起動する時は無効にする
                         a.setName(arr[1].trim());
                         a.setCode(arr[2].trim());
                         
