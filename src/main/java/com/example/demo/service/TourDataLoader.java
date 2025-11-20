@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.TourEntity;
 import com.example.demo.repository.TourRepository;
 
 
 
-//@Component //エクリプスで起動する時は有効にする
+@Component //エクリプスで起動する時は有効にする
 public class TourDataLoader implements ApplicationRunner {
 	private final TourRepository tourRepo;
 	public TourDataLoader(
